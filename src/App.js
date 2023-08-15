@@ -9,6 +9,11 @@ import Users from "./pages/users";
 import Departments from "./pages/department";
 import Questionnaire from "./pages/questionnaire";
 import Evaluation from "./pages/evaluation";
+import ViewEvaluation from "./pages/evaluation/viewEval";
+import Survey from "./pages/survey";
+import StudentSurvey from "./pages/survey/studentSurvey";
+import Reports from "./pages/reports";
+import ReportDetails from "./pages/reports/reportDetails";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -16,7 +21,7 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
+        <CssBaseline enableColorScheme />
           <div className="app">
             <Sidebar />
             <main className="content">
@@ -28,6 +33,11 @@ function App() {
                 <Route path="/department" element={<Departments />} />
                 <Route path="/questionnaire" element={<Questionnaire />} />
                 <Route path="/evaluation" element={<Evaluation />} />
+                <Route path="/evaluation/viewEval" element={<ViewEvaluation />} />
+                <Route path="/survey" element={<Survey />} />
+                <Route path="/survey/studentSurvey" element={<StudentSurvey />} />
+                <Route path="/reports" element={<Reports />} />
+                <Route path="/reports/reportDetails" element={<ReportDetails />} />
               </Routes>
             </main>
             {/* <Sidebar /> */}

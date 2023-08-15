@@ -1517,3 +1517,207 @@ export const dummyEvaluation = [
     status: "Ongoing"
   },
 ];
+
+export const dummyViewEval = [
+  {
+    id: 1,
+    faculty: "CCS Dept Head",
+    schoolID: "CCS01",
+    supervisor: "Completed",
+    peer: "Pending",
+    self: "Completed",
+    student: "Pending"
+  },
+  {
+    id: 2,
+    faculty: "CCS Teacher A",
+    schoolID: "CCS02",
+    supervisor: "Completed",
+    peer: "Pending",
+    self: "Completed",
+    student: "Completed"
+  },
+  {
+    id: 3,
+    faculty: "CCS Teacher B",
+    schoolID: "CCS03",
+    supervisor: "Completed",
+    peer: "Pending",
+    self: "Completed",
+    student: "Completed"
+  },
+  {
+    id: 4,
+    faculty: "CCS Teacher C",
+    schoolID: "CCS04",
+    supervisor: "Completed",
+    peer: "Pending",
+    self: "Completed",
+    student: "Completed"
+  },
+];
+
+export const dummyEvalResult = [
+  {
+    id: 1,
+    department: "College of Computer Science",
+    academicYear: "SY 2022-2023 1st Semester",
+    status: "Ongoing"
+  },
+  {
+    id: 2,
+    department: "College of Business and Accountancy",
+    academicYear: "SY 2022-2023 1st Semester",
+    status: "Ongoing"
+  },
+  {
+    id: 3,
+    department: "College of Arts and Sciences",
+    academicYear: "SY 2022-2023 1st Semester",
+    status: "Ongoing"
+  },
+  {
+    id: 4,
+    department: "College of Engineering",
+    academicYear: "SY 2022-2023 1st Semester",
+    status: "Ongoing"
+  },
+];
+
+export const dummyreportDeets = [
+  {
+    id: 1,
+    faculty: "CCS Dept Head",
+    schoolID: "CCS01",
+    student: "4.03",
+    supervisor: "0.00",
+    peer: "4.65",
+    self: "5.00",
+    sentiment: "0.50",
+    rating: "2.90"
+  },
+  {
+    id: 2,
+    faculty: "CCS Teacher A",
+    schoolID: "CCS02",
+    student: "4.21",
+    supervisor: "4.92",
+    peer: "4.45",
+    self: "4.38",
+    sentiment: "0.57",
+    rating: "4.44"
+  },
+  {
+    id: 3,
+    faculty: "CCS Teacher B",
+    schoolID: "CCS03",
+    student: "3.45",
+    supervisor: "3.98",
+    peer: "2.66",
+    self: "4.82",
+    sentiment: "0.29",
+    rating: "3.64"
+  },
+  {
+    id: 4,
+    faculty: "CCS Teacher C",
+    schoolID: "CCS04",
+    student: "3.88",
+    supervisor: "4.50",
+    peer: "4.31",
+    self: "3.56",
+    sentiment: "0.43",
+    rating: "4.07"
+  },
+  {
+    id: 5,
+    faculty: "JARDENIL",
+    schoolID: "DLCMH",
+    student: "4.64",
+    supervisor: "0.00",
+    peer: "0.00",
+    self: "0.00",
+    sentiment: "0.45",
+    rating: "2.78"
+  },
+  {
+    id: 6,
+    faculty: "DUMAM AG",
+    schoolID: "ENG",
+    student: "4.06",
+    supervisor: "0.00",
+    peer: "0.00",
+    self: "0.00",
+    sentiment: "0.26",
+    rating: "2.44"
+  },
+  {
+    id: 7,
+    faculty: "JORNADAL",
+    schoolID: "SHS",
+    student: "4.59",
+    supervisor: "0.00",
+    peer: "0.00",
+    self: "0.00",
+    sentiment: "0.74",
+    rating: "2.75"
+  },
+];
+
+export const mockBarData = [
+  {
+    category: "PROFESSIONAL RESPONSIBILITIES",
+    student: 4.43,
+    studentColor: "hsl(229, 70%, 50%)",
+    supervisor: 4.36,
+    supervisorColor: "hsl(296, 70%, 50%)",
+    peer: 4.92,
+    peerColor: "hsl(97, 70%, 50%)",
+    self: 5.00,
+    selfColor: "hsl(340, 70%, 50%)",
+  },
+  {
+    category: "PLANNING AND PREPARATION",
+    student: 4.28,
+    studentColor: "hsl(229, 70%, 50%)",
+    supervisor: 4.92,
+    supervisorColor: "hsl(296, 70%, 50%)",
+    peer: 4.45,
+    peerColor: "hsl(97, 70%, 50%)",
+    self: 4.38,
+    selfColor: "hsl(340, 70%, 50%)",
+  },
+  {
+    category: "DELIVERY OF INSTRUCTION",
+    student: 3.75,
+    studentColor: "hsl(229, 70%, 50%)",
+    supervisor: 3.32,
+    supervisorColor: "hsl(296, 70%, 50%)",
+    peer: 2.66,
+    peerColor: "hsl(97, 70%, 50%)",
+    self: 4.82,
+    selfColor: "hsl(340, 70%, 50%)",
+  },
+  {
+    category: "ASSESSMENT",
+    student: 3.91,
+    studentColor: "hsl(229, 70%, 50%)",
+    supervisor: 3.5,
+    supervisorColor: "hsl(296, 70%, 50%)",
+    peer: 4.31,
+    peerColor: "hsl(97, 70%, 50%)",
+    self: 3.56,
+    selfColor: "hsl(340, 70%, 50%)",
+  },
+  {
+    category: "CLASSROOM MANAGEMENT",
+    student: 3.9,
+    studentColor: "hsl(229, 70%, 50%)",
+    supervisor: 3.3,
+    supervisorColor: "hsl(296, 70%, 50%)",
+    peer: 4.28,
+    peerColor: "hsl(97, 70%, 50%)",
+    self: 5.00,
+    selfColor: "hsl(340, 70%, 50%)",
+  },
+];

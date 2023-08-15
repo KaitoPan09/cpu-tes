@@ -27,8 +27,10 @@ import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import Header from "../../components/Header";
 import { useTheme } from "@emotion/react";
+import { Link } from "react-router-dom";
 
 const CustomToolbar = () => {
 
@@ -121,7 +123,7 @@ const Evaluation = () => {
         { 
             field: "id", 
             headerName: "ID",
-            flex: .1
+            flex: .1,
         },
         {
             field: "department",
@@ -133,58 +135,81 @@ const Evaluation = () => {
             field: "startDate", 
             headerName: "Start Date", 
             flex: .5,
+            type: 'date',
+            valueGetter: (params) => {
+                return new Date(params.row.startDate);
+              },
+              valueFormatter: (params) => {
+                const startDate = new Date(params.value);
+                return startDate.toLocaleDateString();
+              },
             editable: true,
+            cellClassName: "startCell" 
         },
         { 
             field: "endDate", 
             headerName: "End Date", 
             flex: .5,
+            type: 'date',
+            valueGetter: (params) => {
+                return new Date(params.row.startDate);
+              },
+              valueFormatter: (params) => {
+                const startDate = new Date(params.value);
+                return startDate.toLocaleDateString();
+              },
             editable: true,
         },
         { 
             field: "status", 
             headerName: "Status", 
             flex: .5,
-            editable: true,
         },
         {
             field: 'actions',
             type: 'actions',
-            headerName: 'Edit/Delete',
-            width: 100,
+            headerName: 'Manage',
+            flex: .5,
+            // width: 100,
             cellClassName: 'actions',
             getActions: ({ id }) => {
               const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
       
                 if (isInEditMode) {
                     return [
-                    <GridActionsCellItem
-                        icon={<SaveOutlinedIcon />}
-                        label="Save"
-                        sx={{
-                        color: colors.yellowAccent[300],
-                        }}
-                        onClick={handleSaveClick(id)}
-                    />,
-                    <GridActionsCellItem
-                        icon={<CancelOutlinedIcon />}
-                        label="Cancel"
-                        onClick={handleCancelClick(id)}
-                    />,
+                        <GridActionsCellItem
+                            icon={<SaveOutlinedIcon />}
+                            label="Save"
+                            sx={{
+                                color: colors.yellowAccent[300],
+                                }}
+                            onClick={handleSaveClick(id)}
+                        />,
+                        <GridActionsCellItem
+                            icon={<CancelOutlinedIcon />}
+                            label="Cancel"
+                            onClick={handleCancelClick(id)}
+                        />,
                     ];
                 }
       
                 return [
-                    <GridActionsCellItem
-                    icon={<BorderColorOutlinedIcon />}
-                    label="Edit"
-                    onClick={handleEditClick(id)}
-                    />,
-                    <GridActionsCellItem
-                    icon={<DeleteOutlineOutlinedIcon />}
-                    label="Delete"
-                    onClick={handleDeleteClick(id)}
-                    />,
+                        <Link to="/evaluation/viewEval">
+                            <GridActionsCellItem
+                                icon={<VisibilityOutlinedIcon />}
+                                label="View"
+                            />
+                        </Link>,
+                        <GridActionsCellItem
+                            icon={<BorderColorOutlinedIcon />}
+                            label="Edit"
+                            onClick={handleEditClick(id)}
+                            />,
+                        <GridActionsCellItem
+                            icon={<DeleteOutlineOutlinedIcon />}
+                            label="Delete"
+                            onClick={handleDeleteClick(id)}
+                            />,
                 ];
                 },
             },
@@ -222,6 +247,9 @@ const Evaluation = () => {
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                         color: `${colors.grey[100]} !important`,
                     },
+                    // "& .MuiInputBase-root": {
+                    //     color: `${colors.yellowAccent[200]} !important`,
+                    // },
                 }}
                 >
                 <DataGrid
