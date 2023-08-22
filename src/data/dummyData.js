@@ -1664,7 +1664,7 @@ export const dummyreportDeets = [
   },
 ];
 
-export const mockBarData = [
+export const dummyBarData = [
   {
     category: "PROFESSIONAL RESPONSIBILITIES",
     student: 4.43,
@@ -1719,5 +1719,64 @@ export const mockBarData = [
     peerColor: "hsl(97, 70%, 50%)",
     self: 5.00,
     selfColor: "hsl(340, 70%, 50%)",
+  },
+];
+
+export const dummyUpdates = [
+  {
+    txId: "01e4dsa",
+    name: "Teacher A",
+    type: "Teacher",
+    stubCode: "stub 101",
+    score: "4.4",
+  },
+  {
+    txId: "0315dsaa",
+    name: "Teacher B",
+    type: "Teacher",
+    stubCode: "stub 102",
+    score: "4.19",
+  },
+  {
+    txId: "01e4dsa",
+    name: "Teacher C",
+    type: "Teacher",
+    stubCode: "stub 103",
+    score: "4.2",
+  },
+  {
+    txId: "51034szv",
+    name: "Teacher D",
+    type: "Teacher",
+    stubCode: "stub 104",
+    score: "2.01",
+  },
+  {
+    txId: "0a123sb",
+    name: "Teacher E",
+    type: "Teacher",
+    stubCode: "stub 105",
+    score: "1.36",
+  },
+  {
+    txId: "01e4dsa",
+    name: "Teacher F",
+    type: "Teacher",
+    stubCode: "stub 106",
+    score: "4.4",
+  },
+  {
+    txId: "120s51a",
+    name: "Teacher G",
+    type: "Teacher",
+    stubCode: "stub 107",
+    score: "2.42",
+  },
+  {
+    txId: "0315dsaa",
+    name: "Teacher H",
+    type: "Teacher",
+    stubCode: "stub 108",
+    score: "1.33",
   },
 ];

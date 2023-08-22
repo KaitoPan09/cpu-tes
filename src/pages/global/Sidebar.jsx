@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import React, { useState } from "react";
+import { ProSidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
 import 'react-pro-sidebar/dist/css/styles.css'
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme} from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
+
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
@@ -38,6 +39,7 @@ const Sidebar = () => {
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [selected, setSelected] = useState("Dashboard");
+    // const { collapseSidebar, toggleSidebar, collapsed, broken } = useProSidebar();
     
     return (
         <Box
@@ -51,6 +53,8 @@ const Sidebar = () => {
                 // "& .pro-menu-item.active": {color:"#6870fa !important",},
                 }}
             >
+            {/* <ProSidebar collapsed={isCollapsed}> */}
+            {/* <ProSidebar collapsed={toggled || isCollapsed}> */}
             <ProSidebar collapsed={isCollapsed}>
                 <Menu iconShape="square">
                     <MenuItem

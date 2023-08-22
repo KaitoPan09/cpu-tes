@@ -1,5 +1,12 @@
-import React from 'react'; 
-import { Box, Button } from "@mui/material";
+import React, { useState } from 'react'; 
+import { 
+    Box, 
+    Button,
+    Dialog,
+    DialogActions,
+    DialogTitle,  
+    DialogContent
+} from "@mui/material";
 import { 
     DataGrid, 
     GridToolbarContainer, 
@@ -15,6 +22,7 @@ import Header from "../../components/Header";
 import { useTheme } from "@emotion/react";
 import { Link } from "react-router-dom";
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
+import BarGraph from "../../components/BarGraph";
 
 const CustomToolbar = () => {
 
@@ -23,7 +31,7 @@ const CustomToolbar = () => {
             <GridToolbarColumnsButton />
             <GridToolbarFilterButton />
             <GridToolbarDensitySelector />
-            <Link to="/evaluation">
+            <Link to="/reports">
                 <Button 
                     color="primary" 
                     startIcon={<ArrowBackOutlinedIcon />}
@@ -42,6 +50,14 @@ const CustomToolbar = () => {
 const Details = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    const [open, setOpen] = useState(false);
+    const handleOpenDialog = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+      };
 
     const columns = [
         {
@@ -100,12 +116,18 @@ const Details = () => {
             cellClassName: 'actions',
             getActions: () => {
                 return [
-                        <Link to="/reports/reportDetails">
-                            <GridActionsCellItem
-                                icon={<FactCheckOutlinedIcon />}
-                                label="Graphs"
-                            />
-                        </Link>
+                    // <Link to="../../components/BarGraph">
+                    // <GridActionsCellItem
+                    //         icon={<FactCheckOutlinedIcon />}
+                    //         label="Graphs"
+                    //         onClick={handleOpenDialog}
+                    //     />
+                    // </Link>
+                        <GridActionsCellItem
+                            icon={<FactCheckOutlinedIcon />}
+                            label="Graphs"
+                            onClick={handleOpenDialog}
+                        />
                 ];
                 },
             },
@@ -170,6 +192,45 @@ const Details = () => {
                         },
                     }}
                     />
+                <Dialog 
+                    open={open} 
+                    onClose={handleClose} 
+                    TransitionProps={{ timeout: 0 }}
+                    PaperProps={{
+                        style: {
+                          maxWidth: "80%",
+                          width: "100%",
+                          animation: "none", 
+                        },
+                      }}
+                    // sx={{
+                    //     "& .MuiDialog-paper": {
+                    //         maxWidth: "80%", 
+                    //         // maxHeight: "100%", 
+                    //     }
+                    // }}
+                    >
+                    <DialogTitle>Evaluation Results for CCS Dept Head</DialogTitle>
+                    <DialogContent 
+                        sx={{
+                            height: "1000px",
+                            width: "100%"
+                        }}
+                    >
+                        <BarGraph />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button 
+                            variant='outlined'
+                            sx={{
+                                color: colors.yellowAccent[500]
+                            }}
+                            onClick={handleClose}
+                        >
+                            Close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
         </Box>
     )

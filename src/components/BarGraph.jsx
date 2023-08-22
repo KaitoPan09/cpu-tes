@@ -1,15 +1,24 @@
 import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
-import { mockBarData as data } from "../data/dummyData";
+import { dummyBarData as data } from "../data/dummyData";
 
 const BarGraph = ({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const modifiedData = data.map(item => ({
+    ...item,
+    student: (item.student * 0.6).toFixed(2),
+    supervisor: (item.supervisor * 0.3).toFixed(2),
+    peer: (item.peer * 0.05).toFixed(2),
+    self: (item.self * 0.05).toFixed(2)
+  }));
+
   return (
     <ResponsiveBar
-        data={data}
+        // data={data}
+        data={modifiedData}
         theme={{
             axis: {
                 domain: {
