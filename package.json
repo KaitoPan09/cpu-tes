@@ -2,10 +2,12 @@
   "name": "cpu-tes",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://127.0.0.1:5000",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.13.7",
+    "@mui/lab": "^5.0.0-alpha.140",
     "@mui/material": "^5.13.7",
     "@mui/x-data-grid": "^6.9.2",
     "@nivo/bar": "^0.83.0",

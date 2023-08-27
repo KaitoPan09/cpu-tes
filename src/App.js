@@ -1,11 +1,11 @@
-import React from 'react';  
+import React from "react";
 import { ColorModeContext, useMode } from "./theme";
-import { CssBaseline, ThemeProvider} from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 // import { useState } from "react";
-import Topbar from "./pages/global/Topbar"
+// import Topbar from "./pages/global/Topbar";
 import Dashboard from "./pages/dashboard";
-import Sidebar from "./pages/global/Sidebar";
+// import Sidebar from "./pages/global/Sidebar";
 // import Sidebar from "./pages/global/sidebar/Sidebar";
 import AcademicYear from "./pages/academicyear";
 import Users from "./pages/users";
@@ -17,6 +17,9 @@ import Survey from "./pages/survey";
 import StudentSurvey from "./pages/survey/studentSurvey";
 import Reports from "./pages/reports";
 import ReportDetails from "./pages/reports/reportDetails";
+import Login from "./pages/login";
+import Layout from "./components/Layout";
+import RequireAuth from "./wrappers/requireAuth";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -28,9 +31,12 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline enableColorScheme />
-          <div className="app">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Layout />}>
+            {/* <div className="app"> */}
             {/* {isMediumBreakpoint ? null : <Sidebar />} */}
-            <Sidebar />
+            {/* <Sidebar /> */}
             {/* {isMediumBreakpoint ? (
               <Sidebar
                 onBackdropClick={() => setToggled(true)}
@@ -39,25 +45,51 @@ function App() {
             ) : (
               <Sidebar />
             )} */}
-            <main className="content">
-              <Topbar />
-              {/* <Topbar onSidebarToggle={() => setToggled(!toggled)} /> */}
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/academicyear" element={<AcademicYear />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/department" element={<Departments />} />
-                <Route path="/questionnaire" element={<Questionnaire />} />
-                <Route path="/evaluation" element={<Evaluation />} />
-                <Route path="/evaluation/viewEval" element={<ViewEvaluation />} />
-                <Route path="/survey" element={<Survey />} />
-                <Route path="/survey/studentSurvey" element={<StudentSurvey />} />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/reports/reportDetails" element={<ReportDetails />} />
-              </Routes>
-            </main>
+            {/* <main className="content"> */}
+            {/* <Topbar /> */}
+            {/* <Topbar onSidebarToggle={() => setToggled(!toggled)} /> */}
+            <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
+              <Route path="/academicyear" element={<AcademicYear />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/questionnaire" element={<Questionnaire />} />
+            </Route>
+            <Route
+              element={
+                <RequireAuth allowedRoles={["Admin", "Department Head"]} />
+              }
+            >
+              <Route path="/department" element={<Departments />} />
+
+              <Route path="/evaluation" element={<Evaluation />} />
+              <Route path="/evaluation/viewEval" element={<ViewEvaluation />} />
+              <Route path="/reports" element={<Reports />} />
+              <Route
+                path="/reports/reportDetails"
+                element={<ReportDetails />}
+              />
+            </Route>
+            <Route
+              element={
+                <RequireAuth
+                  allowedRoles={[
+                    "Admin",
+                    "Department Head",
+                    "Teacher",
+                    "Student",
+                  ]}
+                />
+              }
+            >
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/survey" element={<Survey />} />
+              <Route path="/survey/studentSurvey" element={<StudentSurvey />} />
+            </Route>
+
+            {/* </main> */}
             {/* <Sidebar /> */}
-          </div>
+            {/* </div> */}
+          </Route>
+        </Routes>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
