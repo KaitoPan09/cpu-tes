@@ -45,7 +45,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ toggle, setToggle }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -75,7 +75,7 @@ const Sidebar = () => {
     >
       {/* <ProSidebar collapsed={isCollapsed}> */}
       {/* <ProSidebar collapsed={toggled || isCollapsed}> */}
-      <ProSidebar collapsed={isCollapsed} breakPoint="md">
+      <ProSidebar collapsed={isCollapsed} toggled={toggle} breakPoint="sm">
         <Menu iconShape="square">
           {isCollapsed && (
             <MenuItem
@@ -97,17 +97,25 @@ const Sidebar = () => {
             display={isCollapsed ? "none" : "flex"}
           >
             <Grid item container justifyContent={"flex-end"}>
-              <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+              <IconButton
+                onClick={() => {
+                  isSmallScreen
+                    ? setToggle(!toggle)
+                    : setIsCollapsed(!isCollapsed);
+                }}
+              >
                 <ChevronLeftOutlined
                   sx={{
-                    display: isLargeScreen ? "none" : "block",
+                    display: {
+                      sm: "none",
+                      md: "block",
+                      lg: "none",
+                    },
                   }}
                 />
               </IconButton>
             </Grid>
             <Grid item>
-              {isLargeScreen ? "True" : "False"}
-              {isCollapsed ? "True" : "False"}
               <Avatar
                 src={`../../assets/cpu-logo.png`}
                 sx={{
@@ -150,7 +158,7 @@ const Sidebar = () => {
           )} */}
           <Divider />
           {/* MENU ITEMS */}
-          <Box mt={"10px"} paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box mt={"10px"} paddingLeft={isCollapsed? undefined : "10%"}>
             <Item
               title="Dashboard"
               to="/"

@@ -16,14 +16,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
-import { toggleSidebar } from "react-pro-sidebar";
-const Topbar = ({ onSidebarToggle }) => {
+const Topbar = ({ toggle, setToggle }) => {
   const theme = useTheme();
   // const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
   const isScreenSmall = useMediaQuery(theme.breakpoints.down("sm"));
-
   //popup
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -40,8 +38,6 @@ const Topbar = ({ onSidebarToggle }) => {
     navigate("/");
   };
   const colors = tokens(theme.palette.mode);
-
-
   return (
     <Box
       // position="relative"
@@ -51,7 +47,12 @@ const Topbar = ({ onSidebarToggle }) => {
     >
       {/* SEARCH BAR */}
       <Box display="flex">
-        <IconButton onClick={() => toggleSidebar()}>
+        <IconButton
+          onClick={() => setToggle(!toggle)}
+          sx={{
+            display: { sm: "block", md: "none", lg: "none" },
+          }}
+        >
           <MenuOutlinedIcon />
         </IconButton>
         {/* <Box

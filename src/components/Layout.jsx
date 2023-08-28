@@ -7,6 +7,7 @@ import Sidebar from "../pages/global/Sidebar";
 
 export default function Layout() {
   const { auth } = useAuth();
+  const [toggle, setToggle] = React.useState(false);
   return !auth ? (
     <Backdrop
       sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -16,9 +17,9 @@ export default function Layout() {
     </Backdrop>
   ) : (
     <div className="app">
-      <Sidebar />
+      <Sidebar toggle={toggle} setToggle={setToggle} />
       <main className="content">
-        <Topbar />
+        <Topbar toggle={toggle} setToggle={setToggle} />
         <Outlet />
       </main>
     </div>
