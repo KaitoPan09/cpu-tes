@@ -156,11 +156,11 @@ const Login = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    fontWeight: { xs: "700", lg: "700" },
-                    fontSize: { xs: "0.6rem", lg: "0.8rem" },
-                    letterSpacing: ".1rem",
+                    fontWeight: { xs: "500", lg: "700" },
+                    fontSize: { xs: "0.8rem", lg: "1rem" },
+                    letterSpacing: "0.1rem",
                     color: "#685990",
-                    justifyContent: "space-between",
+                    justifyContent: "space-around",
                   }}
                 >
                   <Typography variant="body">{"TEACHER'S"}</Typography>

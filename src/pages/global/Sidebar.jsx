@@ -55,6 +55,56 @@ const Sidebar = ({ toggle, setToggle }) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const sideBarList = [
+    {
+      access: ["Admin", "Department Head", "Teacher", "Student"],
+      name: "Dashboard",
+      path: "/",
+      icon: <HomeOutlinedIcon />,
+    },
+    {
+      access: ["Admin"],
+      name: "Academic Year",
+      path: "acad_years",
+      icon: <SchoolOutlinedIcon />,
+    },
+    {
+      access: ["Admin"],
+      name: "Users",
+      path: "users",
+      icon: <PeopleOutlineOutlinedIcon />,
+    },
+    {
+      access: ["Admin", "Department Head"],
+      name: "Departments",
+      path: "departments",
+      icon: <CorporateFareOutlinedIcon />,
+    },
+    {
+      access: ["Admin"],
+      name: "Questionnaire",
+      path: "questionnaire",
+      icon: <QuizOutlinedIcon />,
+    },
+    {
+      access: ["Admin", "Department Head"],
+      name: "Evaluation",
+      path: "evaluation",
+      icon: <PollOutlinedIcon />,
+    },
+    {
+      access: ["Admin", "Department Head", "Teacher", "Student"],
+      name: "Survey",
+      path: "survey",
+      icon: <BallotOutlinedIcon />,
+    },
+    {
+      access: ["Admin", "Department Head"],
+      name: "Reports",
+      path: "reports",
+      icon: <TimelineOutlinedIcon />,
+    },
+  ];
   return (
     <Box
       sx={{
@@ -158,8 +208,28 @@ const Sidebar = ({ toggle, setToggle }) => {
           )} */}
           <Divider />
           {/* MENU ITEMS */}
-          <Box mt={"10px"} paddingLeft={isCollapsed? undefined : "10%"}>
-            <Item
+          <Box mt={"10px"} paddingLeft={isCollapsed ? undefined : "10%"}>
+            {sideBarList.map((sideBar) =>
+              sideBar.access.includes(auth.role) ? (
+                <Item
+                  key={sideBar.name}
+                  title={sideBar.name}
+                  to={sideBar.path}
+                  icon={sideBar.icon}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              ) : // <ListItem key={sideBar.name} disablePadding>
+              //   <ListItemButton onClick={() => navigate(sideBar.path)}>
+              //     <ListItemIcon sx={{ color: "#1565c0" }}>
+              //       {sideBar.icon}
+              //     </ListItemIcon>
+              //     <ListItemText primary={sideBar.name} />
+              //   </ListItemButton>
+              // </ListItem>
+              null
+            )}
+            {/* <Item
               title="Dashboard"
               to="/"
               icon={<HomeOutlinedIcon />}
@@ -187,13 +257,6 @@ const Sidebar = ({ toggle, setToggle }) => {
               selected={selected}
               setSelected={setSelected}
             />
-
-            {/* <Typography
-                                variant="h6"
-                                color={colors.gray[300]}
-                                sx={{ m: "15px 0 5px 20px" }}>
-                                Pages
-                            </Typography> */}
             <Item
               title="Questionnaire"
               to="/questionnaire"
@@ -215,13 +278,6 @@ const Sidebar = ({ toggle, setToggle }) => {
               selected={selected}
               setSelected={setSelected}
             />
-
-            {/* <Typography
-                                variant="h6"
-                                color={colors.gray[300]}
-                                sx={{ m: "15px 0 5px 20px" }}>
-                                Charts
-                            </Typography> */}
             <Item
               title="Reports"
               to="/reports"
@@ -235,37 +291,8 @@ const Sidebar = ({ toggle, setToggle }) => {
               icon={<InfoOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-            {/* <Item
-                                title="Line Chart"
-                                to="/line"
-                                icon={<TimelineOutlinedIcon />}
-                                selected={selected}
-                                setSelected={setSelected}
-                                />
-                            <Item
-                                title="Geography Chart"
-                                to="/geography"
-                                icon={<MapOutlinedIcon />}
-                                selected={selected}
-                                setSelected={setSelected}
-                                /> */}
+            /> */}    
           </Box>
-          {/* <Box
-                            paddingLeft={isCollapsed ? undefined : "10%"}
-                            // paddingBottom={isCollapsed ? undefined : "10%"}
-                            // display="flex"
-                            bottom="0"
-                            position="sticky"
-                            >
-                            <Item
-                                title="About"
-                                to="/about"
-                                icon={<InfoOutlinedIcon />}
-                                selected={selected}
-                                setSelected={setSelected}
-                                />
-                        </Box> */}
         </Menu>
       </ProSidebar>
     </Box>

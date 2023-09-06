@@ -49,7 +49,7 @@ function App() {
             {/* <Topbar /> */}
             {/* <Topbar onSidebarToggle={() => setToggled(!toggled)} /> */}
             <Route element={<RequireAuth allowedRoles={["Admin"]} />}>
-              <Route path="/academicyear" element={<AcademicYear />} />
+              <Route path="/acad_years" element={<AcademicYear />} />
               <Route path="/users" element={<Users />} />
               <Route path="/questionnaire" element={<Questionnaire />} />
             </Route>
@@ -58,10 +58,10 @@ function App() {
                 <RequireAuth allowedRoles={["Admin", "Department Head"]} />
               }
             >
-              <Route path="/department" element={<Departments />} />
+              <Route path="/departments" element={<Departments />} />
 
               <Route path="/evaluation" element={<Evaluation />} />
-              <Route path="/evaluation/viewEval" element={<ViewEvaluation />} />
+              <Route path="/evaluations/viewEval" element={<ViewEvaluation />} />
               <Route path="/reports" element={<Reports />} />
               <Route
                 path="/reports/reportDetails"
