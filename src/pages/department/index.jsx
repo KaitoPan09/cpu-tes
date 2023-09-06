@@ -62,7 +62,7 @@ const Departments = () => {
 
     const handleRowEditStop = (params, event) => {
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-          event.defaultMuiPrevented = true;
+        event.defaultMuiPrevented = true;
         }
     };
     
@@ -135,8 +135,8 @@ const Departments = () => {
             width: 100,
             cellClassName: 'actions',
             getActions: ({ id }) => {
-              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-      
+            const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+    
                 if (isInEditMode) {
                     return [
                     <GridActionsCellItem
@@ -154,7 +154,7 @@ const Departments = () => {
                     />,
                     ];
                 }
-      
+    
                 return [
                     <GridActionsCellItem
                     icon={<BorderColorOutlinedIcon />}
@@ -260,22 +260,22 @@ const Departments = () => {
                     components={{ Toolbar: CustomToolbar }}
                     slotProps={{
                         toolbar: { setRows, setRowModesModel },
-                        panel: {
-                            sx: {
-                                "& .MuiFormLabel-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiInput-underline:after": {
-                                    borderBottom: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiButtonBase-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .Mui-checked+ .MuiSwitch-track": {
-                                    backgroundColor: `${colors.yellowAccent[300]}`,
-                                }
-                            }
-                        }
+                        // panel: {
+                        //     sx: {
+                        //         "& .MuiFormLabel-root": {
+                        //             color: `${colors.yellowAccent[300]}`,
+                        //         },
+                        //         "& .MuiInput-underline:after": {
+                        //             borderBottom: `${colors.yellowAccent[300]}`,
+                        //         },
+                        //         "& .MuiButtonBase-root": {
+                        //             color: `${colors.yellowAccent[300]}`,
+                        //         },
+                        //         "& .Mui-checked+ .MuiSwitch-track": {
+                        //             backgroundColor: `${colors.yellowAccent[300]}`,
+                        //         }
+                        //     }
+                        // }
                     }}
                     />
                     {/* delete confirmation dialog box render */}

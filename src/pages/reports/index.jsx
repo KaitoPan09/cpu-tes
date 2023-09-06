@@ -64,7 +64,7 @@ const Reports = () => {
                 ];
                 },
             },
-       
+    
     ]
 
     return(
@@ -106,22 +106,22 @@ const Reports = () => {
 
                     slots={{ toolbar: CustomToolbar }}
                     slotProps={{
-                        panel: {
-                            sx: {
-                                "& .MuiFormLabel-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiInput-underline:after": {
-                                    borderBottom: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiButtonBase-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .Mui-checked+ .MuiSwitch-track": {
-                                    backgroundColor: `${colors.yellowAccent[300]}`,
-                                }
-                            }
-                        },
+                        // panel: {
+                        //     sx: {
+                        //         "& .MuiFormLabel-root": {
+                        //             color: `${colors.yellowAccent[300]}`,
+                        //         },
+                        //         "& .MuiInput-underline:after": {
+                        //             borderBottom: `${colors.yellowAccent[300]}`,
+                        //         },
+                        //         "& .MuiButtonBase-root": {
+                        //             color: `${colors.yellowAccent[300]}`,
+                        //         },
+                        //         "& .Mui-checked+ .MuiSwitch-track": {
+                        //             backgroundColor: `${colors.yellowAccent[300]}`,
+                        //         }
+                        //     }
+                        // },
                     }}
                     />
             </Box>

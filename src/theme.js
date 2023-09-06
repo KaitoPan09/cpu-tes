@@ -177,7 +177,8 @@ export const themeSetting = (mode) => {
             ...(mode === 'dark'
                 ? {
                     primary: {
-                        main: colors.primary[500],
+                        // main: colors.primary[500],
+                        main: colors.yellowAccent[500],
                     },
                     secondary: {
                         main: colors.yellowAccent[500],

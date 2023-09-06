@@ -194,8 +194,8 @@ const Questionnaire = () => {
             width: 100,
             cellClassName: 'actions',
             getActions: ({ id }) => {
-              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-      
+            const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+    
                 if (isInEditMode) {
                     return [
                     <GridActionsCellItem
@@ -213,7 +213,7 @@ const Questionnaire = () => {
                     />,
                     ];
                 }
-      
+    
                 return [
                     <GridActionsCellItem
                     icon={<BorderColorOutlinedIcon />}
@@ -267,7 +267,7 @@ const Questionnaire = () => {
                 } else {
                   return params.value; // Display the regular text value when not in edit mode
                 }
-              },
+            },
         },
         {
             field: 'actions',
@@ -276,8 +276,8 @@ const Questionnaire = () => {
             width: 100,
             cellClassName: 'actions',
             getActions: ({ id }) => {
-              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-      
+            const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+    
                 if (isInEditMode) {
                     return [
                     <GridActionsCellItem
@@ -295,7 +295,7 @@ const Questionnaire = () => {
                     />,
                     ];
                 }
-      
+    
                 return [
                     <GridActionsCellItem
                     icon={<BorderColorOutlinedIcon />}
@@ -362,22 +362,22 @@ const Questionnaire = () => {
                     components={{ Toolbar: CategoryToolbar }}
                     slotProps={{
                         toolbar: { setRows, setRowModesModel },
-                        panel: {
-                            sx: {
-                                "& .MuiFormLabel-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiInput-underline:after": {
-                                    borderBottom: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiButtonBase-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .Mui-checked+ .MuiSwitch-track": {
-                                    backgroundColor: `${colors.yellowAccent[300]}`,
-                                }
-                            }
-                        }
+                        // panel: {
+                        //     sx: {
+                        //         "& .MuiFormLabel-root": {
+                        //             color: `${colors.yellowAccent[300]}`,
+                        //         },
+                        //         "& .MuiInput-underline:after": {
+                        //             borderBottom: `${colors.yellowAccent[300]}`,
+                        //         },
+                        //         "& .MuiButtonBase-root": {
+                        //             color: `${colors.yellowAccent[300]}`,
+                        //         },
+                        //         "& .Mui-checked+ .MuiSwitch-track": {
+                        //             backgroundColor: `${colors.yellowAccent[300]}`,
+                        //         }
+                        //     }
+                        // }
                     }}
                     />            
             </Box>
@@ -422,22 +422,22 @@ const Questionnaire = () => {
                             components={{ Toolbar: QuestionToolbar }}
                             slotProps={{
                                 toolbar: { setRows, setRowModesModel },
-                                panel: {
-                                    sx: {
-                                        "& .MuiFormLabel-root": {
-                                            color: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .MuiInput-underline:after": {
-                                            borderBottom: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .MuiButtonBase-root": {
-                                            color: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .Mui-checked+ .MuiSwitch-track": {
-                                            backgroundColor: `${colors.yellowAccent[300]}`,
-                                        }
-                                    }
-                                }
+                                // panel: {
+                                //     sx: {
+                                //         "& .MuiFormLabel-root": {
+                                //             color: `${colors.yellowAccent[300]}`,
+                                //         },
+                                //         "& .MuiInput-underline:after": {
+                                //             borderBottom: `${colors.yellowAccent[300]}`,
+                                //         },
+                                //         "& .MuiButtonBase-root": {
+                                //             color: `${colors.yellowAccent[300]}`,
+                                //         },
+                                //         "& .Mui-checked+ .MuiSwitch-track": {
+                                //             backgroundColor: `${colors.yellowAccent[300]}`,
+                                //         }
+                                //     }
+                                // }
                             }}
                             />
                     ) : (
@@ -455,22 +455,22 @@ const Questionnaire = () => {
                             components={{ Toolbar: QuestionToolbar }}
                             slotProps={{
                                 toolbar: { setRows, setRowModesModel },
-                                panel: {
-                                    sx: {
-                                        "& .MuiFormLabel-root": {
-                                            color: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .MuiInput-underline:after": {
-                                            borderBottom: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .MuiButtonBase-root": {
-                                            color: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .Mui-checked+ .MuiSwitch-track": {
-                                            backgroundColor: `${colors.yellowAccent[300]}`,
-                                        }
-                                    }
-                                }
+                                // panel: {
+                                //     sx: {
+                                //         "& .MuiFormLabel-root": {
+                                //             color: `${colors.yellowAccent[300]}`,
+                                //         },
+                                //         "& .MuiInput-underline:after": {
+                                //             borderBottom: `${colors.yellowAccent[300]}`,
+                                //         },
+                                //         "& .MuiButtonBase-root": {
+                                //             color: `${colors.yellowAccent[300]}`,
+                                //         },
+                                //         "& .Mui-checked+ .MuiSwitch-track": {
+                                //             backgroundColor: `${colors.yellowAccent[300]}`,
+                                //         }
+                                //     }
+                                // }
                             }}
                             />
                     )}

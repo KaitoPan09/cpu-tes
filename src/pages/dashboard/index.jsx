@@ -218,7 +218,7 @@ const Dashboard = () => {
                                                     variant="contained"
                                                     sx={{
                                                         backgroundColor:
-                                                         colors.greenAccent[500]
+                                                        colors.greenAccent[500]
                                                     }}
                                                     onClick={handleApplyFilter}>
                                                         Apply
@@ -226,7 +226,7 @@ const Dashboard = () => {
                                                     <Button
                                                         sx={{
                                                             backgroundColor:
-                                                             colors.greenAccent[500],
+                                                            colors.greenAccent[500],
                                                             color: colors.grey[100],
                                                             ml: "15px"
                                                         }}
