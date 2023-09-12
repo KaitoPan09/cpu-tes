@@ -1,0 +1,19 @@
+.my-survey-title {
+    font-size: 24px;
+    color: #161616 !important;
+}
+
+.container {
+    margin-bottom: 2;
+    background: #f0f2ff;
+}
+
+body {
+    --primary: #1976d2;
+    --background: #ffffff;
+    --background-dim: #f3f3f3;
+    --background-dim-light: #bcb4b448;
+    --primary-foreground: #ffffff;
+    --foreground: #161616;
+
+}

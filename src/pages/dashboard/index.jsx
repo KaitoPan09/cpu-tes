@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import SurveyBox from "../../components/SurveyBox";
 import BarGraph from "../../components/BarGraph";
 import { dummyUpdates } from "../../data/dummyData";
 import { Link } from "react-router-dom";

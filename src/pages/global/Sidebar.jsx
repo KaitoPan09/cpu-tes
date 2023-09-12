@@ -28,7 +28,7 @@ import { useAuth } from "../../context/AuthContext";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { ChevronLeftOutlined } from "@mui/icons-material";
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon, selected, setSelected, setToggle }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -36,7 +36,10 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     <MenuItem
       active={selected === title}
       style={{ color: colors.grey[100] }}
-      onClick={() => setSelected(title)}
+      onClick={() => {
+        setSelected(title);
+        setToggle(false);
+      }}
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -218,6 +221,7 @@ const Sidebar = ({ toggle, setToggle }) => {
                   icon={sideBar.icon}
                   selected={selected}
                   setSelected={setSelected}
+                  setToggle={setToggle}
                 />
               ) : // <ListItem key={sideBar.name} disablePadding>
               //   <ListItemButton onClick={() => navigate(sideBar.path)}>
@@ -291,7 +295,7 @@ const Sidebar = ({ toggle, setToggle }) => {
               icon={<InfoOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            /> */}    
+            /> */}
           </Box>
         </Menu>
       </ProSidebar>

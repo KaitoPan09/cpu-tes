@@ -14,12 +14,12 @@ import Questionnaire from "./pages/questionnaire";
 import Evaluation from "./pages/evaluation";
 import ViewEvaluation from "./pages/evaluation/viewEval";
 import Survey from "./pages/survey";
-import StudentSurvey from "./pages/survey/studentSurvey";
 import Reports from "./pages/reports";
 import ReportDetails from "./pages/reports/reportDetails";
 import Login from "./pages/login";
 import Layout from "./components/Layout";
 import RequireAuth from "./wrappers/requireAuth";
+import SurveyForm from "./pages/survey/surveyForm";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -82,7 +82,7 @@ function App() {
             >
               <Route path="/" element={<Dashboard />} />
               <Route path="/survey" element={<Survey />} />
-              <Route path="/survey/studentSurvey" element={<StudentSurvey />} />
+              <Route path="/survey/surveyForm" element={<SurveyForm />} />
             </Route>
 
             {/* </main> */}
