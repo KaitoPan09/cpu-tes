@@ -187,7 +187,7 @@ const Login = () => {
               />
               <TextField
                 fullWidth
-                autoFocus
+                // autoFocus
                 margin="normal"
                 required
                 label="Password"

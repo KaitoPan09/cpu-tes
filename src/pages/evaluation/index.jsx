@@ -173,8 +173,8 @@ const Evaluation = () => {
             // width: 100,
             cellClassName: 'actions',
             getActions: ({ id }) => {
-              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-      
+            const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+    
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
@@ -192,7 +192,7 @@ const Evaluation = () => {
                         />,
                     ];
                 }
-      
+    
                 return [
                         <Link to="/evaluation/viewEval">
                             <GridActionsCellItem
@@ -247,9 +247,6 @@ const Evaluation = () => {
                     "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                         color: `${colors.grey[100]} !important`,
                     },
-                    // "& .MuiInputBase-root": {
-                    //     color: `${colors.yellowAccent[200]} !important`,
-                    // },
                 }}
                 >
                 <DataGrid

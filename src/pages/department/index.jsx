@@ -135,8 +135,8 @@ const Departments = () => {
             width: 100,
             cellClassName: 'actions',
             getActions: ({ id }) => {
-              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-      
+            const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+    
                 if (isInEditMode) {
                     return [
                     <GridActionsCellItem
@@ -154,7 +154,7 @@ const Departments = () => {
                     />,
                     ];
                 }
-      
+    
                 return [
                     <GridActionsCellItem
                     icon={<BorderColorOutlinedIcon />}

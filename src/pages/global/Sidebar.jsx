@@ -58,6 +58,7 @@ const Sidebar = ({ toggle, setToggle }) => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("md"));
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+
   const sideBarList = [
     {
       access: ["Admin", "Department Head", "Teacher", "Student"],
@@ -128,9 +129,10 @@ const Sidebar = ({ toggle, setToggle }) => {
     >
       {/* <ProSidebar collapsed={isCollapsed}> */}
       {/* <ProSidebar collapsed={toggled || isCollapsed}> */}
-      <ProSidebar collapsed={isCollapsed} toggled={toggle} breakPoint="sm">
+      <ProSidebar collapsed={isCollapsed} toggled={toggle} breakPoint="md">
+      {/* <ProSidebar toggled={toggle} breakPoint="md"> */}
         <Menu iconShape="square">
-          {isCollapsed && (
+          {/* {isCollapsed && (
             <MenuItem
               onClick={() => setIsCollapsed(!isCollapsed)}
               icon={<MenuOutlinedIcon />}
@@ -139,7 +141,7 @@ const Sidebar = ({ toggle, setToggle }) => {
                 color: colors.grey[100],
               }}
             />
-          )}
+          )} */}
           <Grid
             container
             mb={"15px"}
@@ -147,20 +149,23 @@ const Sidebar = ({ toggle, setToggle }) => {
             justifyContent="flex-start"
             alignItems="center"
             direction={"column"}
-            display={isCollapsed ? "none" : "flex"}
+            display={isCollapsed ? "none" : "flex"} 
           >
             <Grid item container justifyContent={"flex-end"}>
               <IconButton
+                // onClick={() => {
+                //   isSmallScreen
+                //     ? setToggle(!toggle)
+                //     : setIsCollapsed(!isCollapsed);
+                // }}
                 onClick={() => {
-                  isSmallScreen
-                    ? setToggle(!toggle)
-                    : setIsCollapsed(!isCollapsed);
+                  setToggle(!toggle)
                 }}
               >
                 <ChevronLeftOutlined
                   sx={{
                     display: {
-                      sm: "none",
+                      sm: "block",
                       md: "block",
                       lg: "none",
                     },

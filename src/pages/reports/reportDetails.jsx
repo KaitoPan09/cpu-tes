@@ -57,7 +57,7 @@ const Details = () => {
     };
     const handleClose = () => {
         setOpen(false);
-      };
+    };
 
     const columns = [
         {
@@ -198,11 +198,11 @@ const Details = () => {
                     TransitionProps={{ timeout: 0 }}
                     PaperProps={{
                         style: {
-                          maxWidth: "80%",
-                          width: "100%",
-                          animation: "none", 
+                        maxWidth: "80%",
+                        width: "100%",
+                        animation: "none", 
                         },
-                      }}
+                    }}
                     // sx={{
                     //     "& .MuiDialog-paper": {
                     //         maxWidth: "80%", 
