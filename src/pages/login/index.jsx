@@ -25,30 +25,21 @@ const loginTheme = createTheme({
   },
 });
 const Login = () => {
-  const { setAuth, login } = useAuth();
-  //const { setAcadYear } = useAppContext();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState({
-    school_id: "",
-    password: "",
-  });
-  const [showPassword, setShowPassword] = React.useState(false);
-  const userLogin = async (e) => {
-    e.preventDefault();
+  const userLogin = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
     setLoading(true);
-    let response = await login(values);
+    let response = await login({
+      school_id: data.get("schoolID"),
+      password: data.get("password"),
+    });
     setLoading(false);
     if (response?.isValid) {
-      //setAcadYear(response.acad_year);
-      setValues({
-        ...values,
-        school_id: "",
-        password: "",
-        showPass: false,
-      });
       navigate(from, { replace: true });
     } else {
       setError(true);
@@ -96,11 +87,6 @@ const Login = () => {
           sx={{
             backgroundColor: "#fff",
           }}
-          // sx={{
-          //   backgroundColor: "rgba(255, 255, 255, 0.2)", // 20% transparent white as the background color
-          //   boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)", // Optional: Adding a subtle shadow effect
-          //   backdropFilter: "blur(16px)",
-          // }}
         >
           <Box
             sx={{
@@ -133,7 +119,6 @@ const Login = () => {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  //alignItems: "center",
                 }}
               >
                 <Box
@@ -174,45 +159,23 @@ const Login = () => {
             </Typography>
             <Box component="form" onSubmit={userLogin} sx={{ mt: 2 }}>
               <TextField
+                required
                 fullWidth
                 autoFocus
                 margin="normal"
-                required
+                id="schoolID"
                 label="School ID"
-                variant="outlined"
-                color="secondary"
-                onChange={(e) =>
-                  setValues({ ...values, school_id: e.target.value })
-                }
+                name="schoolID"
               />
               <TextField
+                //required
                 fullWidth
-                autoFocus
                 margin="normal"
-                required
+                name="password"
                 label="Password"
-                variant="outlined"
-                type={showPassword ? "text" : "password"}
-                onChange={(e) =>
-                  setValues({ ...values, password: e.target.value })
-                }
-                // InputProps={{
-                //   endAdornment: (
-                //     <InputAdornment position="end">
-                //       <IconButton
-                //         onClick={handlePassVisibilty}
-                //         aria-label="toggle password"
-                //         edge="end"
-                //       >
-                //         {values.showPass ? (
-                //           <VisibilityOffIcon />
-                //         ) : (
-                //           <VisibilityIcon />
-                //         )}
-                //       </IconButton>
-                //     </InputAdornment>
-                //   ),
-                // }}
+                type="password"
+                id="password"
+                autoComplete="password"
               />
               <FormHelperText error={error}>{errorMsg}</FormHelperText>
               <LoadingButton

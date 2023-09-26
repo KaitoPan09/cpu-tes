@@ -16,7 +16,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
-const Topbar = ({ toggle, setToggle }) => {
+import { useProSidebar } from "react-pro-sidebar";
+const Topbar = () => {
   const theme = useTheme();
   // const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -38,6 +39,7 @@ const Topbar = ({ toggle, setToggle }) => {
     navigate("/");
   };
   const colors = tokens(theme.palette.mode);
+  const { toggleSidebar, broken } = useProSidebar();
   return (
     <Box
       // position="relative"
@@ -48,9 +50,9 @@ const Topbar = ({ toggle, setToggle }) => {
       {/* SEARCH BAR */}
       <Box display="flex">
         <IconButton
-          onClick={() => setToggle(!toggle)}
+          onClick={() => toggleSidebar()}
           sx={{
-            display: { sm: "block", md: "none", lg: "none" },
+            display: broken ? "block" : "none",
           }}
         >
           <MenuOutlinedIcon />

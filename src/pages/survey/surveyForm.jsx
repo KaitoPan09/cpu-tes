@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import { useAuth } from "../../context/AuthContext/useAuth";
+
 import { useLocation } from "react-router";
 import { useTheme } from "@emotion/react";
 import { Model } from "survey-core";
@@ -11,6 +11,7 @@ import "survey-core/defaultV2.min.css";
 import "./SurveyForm.css";
 import { useNavigate } from "react-router";
 import { themeJson } from "./surveyTheme";
+import { useAuth } from "../../context/AuthContext";
 const SurveyForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);

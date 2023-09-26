@@ -2,6 +2,9 @@ import { createContext, useState, useEffect } from "react";
 import { saveState, loadState } from "../../utils/LocalStorage";
 import { useContext } from "react";
 export const AuthContext = createContext({});
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(loadState("authState"));
@@ -106,6 +109,7 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+export default AuthContext;
 // export const useAuthContext = () => {
 //   const context = useContext(AuthContext);
 //   if (!context) {

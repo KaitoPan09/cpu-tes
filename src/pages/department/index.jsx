@@ -1,314 +1,186 @@
-import React, { useState } from 'react'; 
-import { 
-    Box, 
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,  
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
-import { 
-    DataGrid, 
-    GridToolbarContainer, 
-    GridToolbarColumnsButton, 
-    GridToolbarFilterButton, 
-    GridToolbarDensitySelector,
-    GridRowModes,
-    GridActionsCellItem,
-    GridRowEditStopReasons,
-    } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector,
+  GridRowModes,
+  GridActionsCellItem,
+  GridRowEditStopReasons,
+} from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { dummyDeptData } from "../../data/dummyData";
-import AddIcon from '@mui/icons-material/Add';
-import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import AddIcon from "@mui/icons-material/Add";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Header from "../../components/Header";
 import { useTheme } from "@emotion/react";
-
-const CustomToolbar = () => {
-    return (
-        <GridToolbarContainer>
-            <Button 
-                // color="primary" 
-                startIcon={<AddIcon />}
-                sx={{
-                    padding: "4px 5px",
-                    fontSize: "0.6964285714285714rem"
-                }}
-                >
-                ADD USER
-            </Button>
-            <GridToolbarColumnsButton />
-            <GridToolbarFilterButton />
-            <GridToolbarDensitySelector />
-        </GridToolbarContainer>
-    )
-}
-
+import { CustomToolbar } from "../../components/CustomToolbar";
+import { ConfirmDeleteDialog } from "../../components/ConfirmDeleteDialog";
+import CustomDataGrid from "../../components/CustomDatagrid";
+import useFetch from "../../hooks/useFetch";
+import { useAppContext } from "../../context/AppContext";
+import useData from "../../hooks/useData";
+import { AddDeptDialog } from "./addDeptDialog";
 const Departments = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+  const { postData } = useFetch();
+  const { showLoader, hideLoader, showSnackbar } = useAppContext();
+  const [rows, setRows] = useData("/api/departments/");
 
-    //edit rows
-    const [rows, setRows] = React.useState(dummyDeptData);
-    const [rowModesModel, setRowModesModel] = React.useState({});
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
 
-    //delete rows
-    const [deleteId, setDeleteId] = useState(null);
-    const [open, setOpen] = React.useState(false);
+  const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] =
+    React.useState(false);
+  const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
 
-    const handleRowEditStop = (params, event) => {
-        if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-          event.defaultMuiPrevented = true;
-        }
-    };
-    
-    const handleEditClick = (id) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-    };
-    
-    const handleSaveClick = (id) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-    };
-    
-    const handleDeleteClick = (id) => () => {
-        setDeleteId(id);
-        setOpen(true);
-    };
+  const handleAdd = () => {
+    setOpenAddDialog(true);
+  };
+  const handleUpdate = (row) => {
+    setSelectedDepartment(row);
+  };
+  const handleDelete = (row) => {
+    setSelectedDepartment(row);
+    setOpenConfirmDeleteDialog(true);
+  };
+  const handleDeleteCancel = () => {
+    setOpenConfirmDeleteDialog(false);
+  };
+  const handleDeleteConfirm = async () => {
+    showLoader();
+    const response = await postData(
+      `/api/users/${selectedDepartment.id}/delete`
+    );
+    setRows(response ? response : []);
+    hideLoader();
+    setOpenConfirmDeleteDialog(false);
+    showSnackbar("Department deleted successfully", "success");
+  };
+  const handleRowDoubleClick = (params) => {
+    setSelectedDepartment(params.row);
+    setOpenUpdateDialog(true);
+  };
+  const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 80,
+    },
+    {
+      field: "department",
+      headerName: "Department",
+      flex: 2,
+      minWidth: 180,
+      editable: true,
+    },
+    {
+      field: "dept_head",
+      headerName: "Department Head",
+      flex: 2,
+      minWidth: 180,
+    },
+    {
+      field: "dept_code",
+      headerName: "Department Code",
+      flex: 1,
+      minWidth: 100,
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Edit/Delete",
+      width: 80,
+      renderCell: ({ row }) => {
+        return [
+          <GridActionsCellItem
+            icon={<BorderColorOutlinedIcon />}
+            label="Edit"
+            onClick={() => handleUpdate(row)}
+          />,
+          <GridActionsCellItem
+            icon={<DeleteOutlineOutlinedIcon />}
+            label="Delete"
+            onClick={() => {
+              handleDelete(row);
+            }}
+          />,
+        ];
+      },
+      // cellClassName: "actions",
+      // getActions: ({ id }) => {
+      //   const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
-    const handleDeleteConfirm = () => {
-        setRows(rows.filter((row) => row.id !== deleteId));
-        setOpen(false);
-    }
+      //   if (isInEditMode) {
+      //     return [
+      //       <GridActionsCellItem
+      //         icon={<SaveOutlinedIcon />}
+      //         label="Save"
+      //         sx={{
+      //           color: colors.yellowAccent[300],
+      //         }}
+      //         onClick={handleSaveClick(id)}
+      //       />,
+      //       <GridActionsCellItem
+      //         icon={<CancelOutlinedIcon />}
+      //         label="Cancel"
+      //         onClick={handleCancelClick(id)}
+      //       />,
+      //     ];
+      //   }
 
-    const handleDeleteCancel =() => {
-        setOpen(false);
-    }
-    
-    const handleCancelClick = (id) => () => {
-        setRowModesModel({
-          ...rowModesModel,
-         [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-    
-    const editedRow = rows.find((row) => row.id === id);
-        if (editedRow.isNew) {
-          setRows(rows.filter((row) => row.id !== id));
-        }
-    };
-    
-    const processRowUpdate = (newRow) => {
-        const updatedRow = { ...newRow, isNew: false };
-        setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-        return updatedRow;
-    };
-    
-    const handleRowModesModelChange = (newRowModesModel) => {
-        setRowModesModel(newRowModesModel);
-    };
+      //   return [
+      //     <GridActionsCellItem
+      //       icon={<BorderColorOutlinedIcon />}
+      //       label="Edit"
+      //       onClick={handleEditClick(id)}
+      //     />,
+      //     <GridActionsCellItem
+      //       icon={<DeleteOutlineOutlinedIcon />}
+      //       label="Delete"
+      //       onClick={handleDeleteClick(id)}
+      //     />,
+      //   ];
+      // },
+    },
+  ];
 
-    const columns = [
-        { 
-            field: "id", 
-            headerName: "ID",
-            // flex: .5,
-        },
-        {
-            field: "department",
-            headerName: "Department",
-            flex: 1,
-            editable: true,
-        },
-        { 
-            field: "deptHead", 
-            headerName: "Department Head", 
-            flex: 1, 
-            editable: true,
-        },
-        {
-            field: 'actions',
-            type: 'actions',
-            headerName: 'Edit/Delete',
-            width: 100,
-            cellClassName: 'actions',
-            getActions: ({ id }) => {
-              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-      
-                if (isInEditMode) {
-                    return [
-                    <GridActionsCellItem
-                        icon={<SaveOutlinedIcon />}
-                        label="Save"
-                        sx={{
-                        color: colors.yellowAccent[300],
-                        }}
-                        onClick={handleSaveClick(id)}
-                    />,
-                    <GridActionsCellItem
-                        icon={<CancelOutlinedIcon />}
-                        label="Cancel"
-                        onClick={handleCancelClick(id)}
-                    />,
-                    ];
-                }
-      
-                return [
-                    <GridActionsCellItem
-                    icon={<BorderColorOutlinedIcon />}
-                    label="Edit"
-                    onClick={handleEditClick(id)}
-                    />,
-                    <GridActionsCellItem
-                    icon={<DeleteOutlineOutlinedIcon />}
-                    label="Delete"
-                    onClick={handleDeleteClick(id)}
-                    />,
-                ];
-                },
-            },
-    ]
-
-    return(
-        <Box m="20px">
-            <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                >
-                <Header title="DEPARTMENTS" 
-                subtitle="List of Departments and their Department Heads" />
-
-                {/* Buttons */}
-                {/* <Box
-                    p="0"
-                    >
-                    <Button
-                        sx={{ backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                            m: "2px"
-                        }}
-                        >
-                        <CreateOutlinedIcon sx={{ mr: "10px" }} />
-                        ADD DEPARTMENT
-                    </Button>
-                    <Button
-                        sx={{ backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                            m: "2px"
-                        }}
-                        >
-                        <UpdateOutlinedIcon sx={{ mr: "10px" }} />
-                        UPDATE
-                    </Button>
-                    <Button
-                        sx={{ backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                            m: "2px"
-                        }}
-                        >
-                        <DeleteOutlineOutlinedIcon sx={{ mr: "10px" }} />
-                        DELETE
-                    </Button>
-                </Box> */}
-            </Box>
-            <Box
-                // mt="25px"
-                height="70vh"
-                sx={{
-                    "& .MuiDataGrid-root": { border: "none" },
-                    "& .MuiDataGrid-cell": { borderBottom: "none" },
-                    "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: colors.blueAccent[700],
-                        borderBottom: "none"
-                    },
-                    "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: colors.darkBlue[400]
-                    },
-                    "& .MuiDataGrid-footerContainer": {
-                        borderTop: "none",
-                        backgroundColor: colors.blueAccent[700]
-                    },
-                    "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                        color: `${colors.grey[100]} !important`,
-                    },
-                }}
-                >
-                <DataGrid
-                    // rows={dummyDeptData}
-                    rows={rows}
-                    columns={columns}
-
-                    // edit row
-                    editMode="row"
-                    rowModesModel={rowModesModel}
-                    onRowModesModelChange={handleRowModesModelChange}
-                    onRowEditStop={handleRowEditStop}
-                    processRowUpdate={processRowUpdate}
-
-                    components={{ Toolbar: CustomToolbar }}
-                    slotProps={{
-                        toolbar: { setRows, setRowModesModel },
-                        panel: {
-                            sx: {
-                                "& .MuiFormLabel-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiInput-underline:after": {
-                                    borderBottom: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiButtonBase-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .Mui-checked+ .MuiSwitch-track": {
-                                    backgroundColor: `${colors.yellowAccent[300]}`,
-                                }
-                            }
-                        }
-                    }}
-                    />
-                    {/* delete confirmation dialog box render */}
-                    <Dialog open={open} onClose={handleDeleteCancel}>
-                        <DialogTitle>Confirm Deletion</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                            Are you sure you want to delete this?
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button 
-                                onClick={handleDeleteCancel} 
-                                sx={{
-                                    color: colors.yellowAccent[300],
-                                    }}
-                                >
-                            Cancel
-                            </Button>
-                            <Button 
-                                onClick={handleDeleteConfirm} 
-                                sx={{
-                                    color: colors.redAccent[400],
-                                    }}
-                                autoFocus>
-                            Delete
-                            </Button>
-                        </DialogActions>
-                        </Dialog>
-            </Box>
-        </Box>
-    )
-}
+  return (
+    <Box m="20px">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header
+          title="DEPARTMENTS"
+          subtitle="List of Departments and their Department Heads"
+        />
+      </Box>
+      <CustomDataGrid
+        rows={rows}
+        columns={columns}
+        handleAdd={handleAdd}
+        handleRowDoubleClick={handleRowDoubleClick}
+        btnText={"ADD NEW DEPARTMENT"}
+      />
+      <AddDeptDialog open={openAddDialog} setOpen={setOpenAddDialog} />
+      <ConfirmDeleteDialog
+        open={openConfirmDeleteDialog}
+        setOpen={setOpenConfirmDeleteDialog}
+        handleConfirm={handleDeleteConfirm}
+        handleCancel={handleDeleteCancel}
+      />
+    </Box>
+  );
+};
 
 export default Departments;
-

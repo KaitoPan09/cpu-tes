@@ -26,9 +26,9 @@ export const CustomToolbar = ({handleAdd, btnText}) => {
                 <AddIcon/>
                 ADD NEW USER
             </IconButton> */}
-      <GridToolbarColumnsButton />
+      {/* <GridToolbarColumnsButton /> */}
       <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
+      {/* <GridToolbarDensitySelector /> */}
     </GridToolbarContainer>
   );
 };

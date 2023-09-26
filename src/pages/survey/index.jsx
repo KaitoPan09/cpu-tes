@@ -14,7 +14,7 @@ import NewReleasesOutlinedIcon from "@mui/icons-material/NewReleasesOutlined";
 import Header from "../../components/Header";
 import { useTheme } from "@emotion/react";
 import SurveyBox from "../../components/SurveyBox";
-import { useAuth } from "../../context/AuthContext/useAuth";
+import { useAuth } from "../../context/AuthContext";
 import { SurveyCard } from "./surveyCard";
 import { useNavigate } from "react-router";
 
@@ -102,93 +102,6 @@ const Survey = () => {
         </Grid>
       )}
 
-      {/* <Box
-            display="grid"
-            gridTemplateColumns="repeat(12, 1fr)"
-            gridAutoRows="140px"
-            gap="20px"
-            >
-            <Box 
-                gridColumn="span 3" 
-                backgroundColor={colors.darkBlue[400]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                >
-                    <SurveyBox
-                        title="CCS Dept Head"
-                        subtitle="College of Computer Studies"
-                        surveyType="Supervisor Evaluation"
-                        icon={
-                            <NewReleasesOutlinedIcon 
-                            sx={{ 
-                                color: colors.yellowAccent[300], 
-                                fontSize: "26px"}} 
-                            />
-                        }
-                        />
-            </Box>
-            <Box 
-                gridColumn="span 3" 
-                backgroundColor={colors.darkBlue[400]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                >
-                    <SurveyBox
-                        title="CBA Dept Head"
-                        subtitle="College of Business and Accounting"
-                        surveyType="Supervisor Evaluation"
-                        icon={
-                            <NewReleasesOutlinedIcon 
-                            sx={{ 
-                                color: colors.yellowAccent[600], 
-                                fontSize: "26px"}} 
-                            />
-                        }
-                        />
-            </Box>
-            <Box 
-                gridColumn="span 3" 
-                backgroundColor={colors.darkBlue[400]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                >
-                    <SurveyBox
-                        title="CAS Dept Head"
-                        subtitle="College of Arts and Sciences"
-                        surveyType="Supervisor Evaluation"
-                        icon={
-                            <NewReleasesOutlinedIcon 
-                            sx={{ 
-                                color: colors.yellowAccent[600], 
-                                fontSize: "26px"}} 
-                            />
-                        }
-                        />
-            </Box>
-            <Box 
-                gridColumn="span 3" 
-                backgroundColor={colors.darkBlue[400]}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                >
-                    <SurveyBox
-                        title="Joshua Nguyen"
-                        subtitle="College of Engineering"
-                        surveyType="Supervisor Evaluation"
-                        icon={
-                            <NewReleasesOutlinedIcon 
-                            sx={{ 
-                                color: colors.yellowAccent[600], 
-                                fontSize: "26px"}} 
-                            />
-                        }
-                        />
-            </Box>
-        </Box> */}
     </Box>
   );
 };
