@@ -15,10 +15,24 @@ const modifiedData = data.map(item => ({
     self: (item.self * 0.05).toFixed(2)
 }));
 
+const customTooltip = ({ id, value, color }) => (
+    <div
+        style={{
+        padding: 12,
+        color,
+        background: "#222222",
+    }}
+    >
+        <strong>
+        {id}: {value}
+        </strong>
+    </div>
+);
+
 return (
     <ResponsiveBar
-        data={data}
-        // data={modifiedData}
+        // data={data}
+        data={modifiedData}
         theme={{
             axis: {
                 domain: {
@@ -160,6 +174,7 @@ return (
         role="application"
         ariaLabel="Nivo bar chart demo"
         barAriaLabel={e=>e.id+": "+e.formattedValue+" in country: "+e.indexValue}
+        tooltip={customTooltip}
     />
 );
 };
