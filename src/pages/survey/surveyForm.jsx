@@ -8,7 +8,6 @@ import { useTheme } from "@emotion/react";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import "survey-core/defaultV2.min.css";
-import "./SurveyForm.css";
 import { useNavigate } from "react-router";
 import { themeJson } from "./surveyTheme";
 import { useAuth } from "../../context/AuthContext";
@@ -16,7 +15,7 @@ const SurveyForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
-  const { auth } = useAuth();
+  const { auth, userInfo } = useAuth();
   // const [questionCategories, setQuestionCategories] = React.useState([]);
   const location = useLocation();
   const faculty = location.state.faculty;
@@ -30,12 +29,6 @@ const SurveyForm = () => {
     setPageChangeCounter(pageChangeCounter + 1);
   });
   const [pageChangeCounter, setPageChangeCounter] = useState(0);
-  var myCss = {
-    header: "my-survey-title",
-    body: "body",
-    container: "container",
-  };
-  survey.css = myCss;
   survey.showNavigationButtons = false;
   survey.applyTheme(themeJson);
   const prevPageFunc = () => {
@@ -65,7 +58,14 @@ const SurveyForm = () => {
           });
         }
       }
-      console.log(feedbackAnswers);
+      console.log({
+        user_id: userInfo.id,
+        eval_type: faculty.eval_type,
+        faculty_id: faculty.faculty_id,
+        class_id: faculty.class_id,
+        question_ratings: questionRatings,
+        feedback_answer: feedbackAnswers,
+      });
       // let response = await apiFetch(
       //   `/api/evaluations/${surveyInfo.dept_id}/submit_evaluation`,
       //   {
@@ -171,24 +171,24 @@ const SurveyForm = () => {
       />
       <Grid container direction={"column"} spacing={2}>
         <Grid item container spacing={2}>
-          <Grid item>
+          <Grid item xs={4} md={2}>
             <Typography variant="h5" color="text.secondary">
               Faculty:
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item xs={8} md={10}>
             <Typography variant="h5" sx={{ color: colors.yellowAccent[300] }}>
               {faculty.faculty}
             </Typography>
           </Grid>
           {!faculty.eval_type ? (
             <>
-              <Grid item>
+              <Grid item xs={4} md={2}>
                 <Typography variant="h5" color="text.secondary">
                   Subject:
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={8} md={10}>
                 <Typography
                   variant="h5"
                   sx={{ color: colors.yellowAccent[300] }}
@@ -196,12 +196,12 @@ const SurveyForm = () => {
                   {faculty.subject}
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={4} md={2}>
                 <Typography variant="h5" color="text.secondary">
                   Class Time:
                 </Typography>
               </Grid>
-              <Grid item>
+              <Grid item xs={8} md={10}>
                 <Typography
                   variant="h5"
                   sx={{ color: colors.yellowAccent[300] }}
@@ -213,7 +213,7 @@ const SurveyForm = () => {
           ) : null}
         </Grid>
         {survey && (
-          <Grid item>
+          <Grid item container>
             <Survey model={survey} />
           </Grid>
         )}
@@ -241,8 +241,9 @@ const getSurveyModel = (questionCategories) => {
   const feedbackSection = questionCategories.feedback_section;
   const surveyModel = {
     showQuestionNumbers: "off",
-    showProgressBar: "both",
-    widthMode: "responsive",
+    showProgressBar: "top",
+    widthMode: "auto",
+    fitToContainer: true,
     showTitle: false,
     pages: [],
   };
@@ -276,9 +277,9 @@ const getSurveyModel = (questionCategories) => {
             text: "1-VERY LOW EXTENT",
           },
         ],
-        rows: category.questions.map((question) => ({
+        rows: category.questions.map((question, index) => ({
           value: question.id.toString(),
-          text: question.question,
+          text: index + 1 + ". " + question.question,
         })),
         ///alternateRows: true,
         isAllRowRequired: true,

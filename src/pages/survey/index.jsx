@@ -17,11 +17,12 @@ import SurveyBox from "../../components/SurveyBox";
 import { useAuth } from "../../context/AuthContext";
 import { SurveyCard } from "./surveyCard";
 import { useNavigate } from "react-router";
-
+import useFetch from "../../hooks/useFetch";
 const Survey = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { auth, userInfo } = useAuth();
+  const { request } = useFetch();
   const [faculties, setFaculties] = React.useState([]);
   const [questionCategories, setQuestionCategories] = React.useState([]);
   useEffect(() => {
@@ -31,56 +32,22 @@ const Survey = () => {
       console.log(auth);
       let faculties = null;
       if (auth.role === "Student") {
-        faculties = await fetch(
-          `/api/evaluations/students/evaluate?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&dept_id=${userInfo.dept_id}`,
-          {
-            methods: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        ).then((res) => res.json());
+        faculties = await request(
+          `/api/evaluations/students/evaluate?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&dept_id=${userInfo.dept_id}`
+        );
       } else if (auth.role === "Admin") {
-        faculties = await fetch(
-          `/api/evaluations/dept_heads/evaluate?user_id=${userInfo.user_id}`,
-          {
-            methods: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        ).then((res) => res.json());
+        faculties = await request(
+          `/api/evaluations/dept_heads/evaluate?user_id=${userInfo.user_id}`
+        );
       } else {
         faculties = await fetch(
-          `/api/evaluations/faculties/evaluate?user_id=${auth.user_id}&role=${auth.role}&dept_id=${auth.dept_id}`,
-          {
-            methods: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        ).then((res) => res.json());
+          `/api/evaluations/faculties/evaluate?user_id=${auth.user_id}&role=${auth.role}&dept_id=${auth.dept_id}`
+        );
       }
       setFaculties(faculties);
-      //   setSurveyInfo({
-      //     ...surveyInfo,
-      //     user_id: auth.user_id,
-      //     dept_id: auth.dept_id,
-      //   });
-      //   setLoading(false);
-      let questionCategories = await fetch(
-        `/api/questionnaires/survey?role=${auth.role}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      ).then((res) => res.json());
+      let questionCategories = await request(
+        `/api/questionnaires/survey?role=${auth.role}`
+      );
       setQuestionCategories(questionCategories);
     })();
   }, []);
@@ -92,16 +59,18 @@ const Survey = () => {
       </Box>
 
       {/* GRID & CHARTS */}
-      {faculties && (
+      {faculties && questionCategories && (
         <Grid container spacing={2} display="flex">
           {faculties.map((faculty) => (
-            <Grid item sm={12} md={8} xl={4}>
-              <SurveyCard faculty={faculty} questionCategories={questionCategories} />
+            <Grid item sm={12} md={6}>
+              <SurveyCard
+                faculty={faculty}
+                questionCategories={questionCategories}
+              />
             </Grid>
           ))}
         </Grid>
       )}
-
     </Box>
   );
 };
