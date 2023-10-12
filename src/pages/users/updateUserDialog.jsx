@@ -10,17 +10,19 @@ import {
   DialogTitle,
   FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
 import Cookies from "js-cookie";
 import useFetch from "../../hooks/useFetch";
-
-import { useAppContext } from "../../context/AppContext";
 import { LoadingButton } from "@mui/lab";
+import { useAppContext } from "../../context/AppContext";
 
-export const AddUserDialog = ({ open, setOpen, setUsers }) => {
+export const UpdateUserDialog = ({ open, setOpen, setUsers, selectedUser }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const handleClose = () => {
@@ -30,24 +32,32 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
   const { showSnackbar } = useAppContext();
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const data = new FormData(event.currentTarget);
-    let response = await postData("/api/users/add_admin_user", {
+    // console.log({
+    //   email: data.get("email"),
+    //   new_password: data.get("new_password"),
+    //   name: data.get("fullName"),
+    //   school_id: data.get("schoolID"),
+    //   access_level: data.get("accessLevel") || selectedUser?.access_level,
+    // });
+    // console.log(`/api/users/${selectedUser.id}`);
+    let response = await postData(`/api/users/${selectedUser.id}/update`, {
       email: data.get("email"),
-      password: data.get("password"),
+      new_password: data.get("new_password"),
       name: data.get("fullName"),
       school_id: data.get("schoolID"),
     });
-    setUsers(response ? response : []);
+    // console.log(response);
+    setUsers(response);
     setOpen(false);
-    showSnackbar("User added successfully", "success");
+    showSnackbar("User updated successfully", "success");
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Add User</DialogTitle>
+      <DialogTitle>Update User</DialogTitle>
       <DialogContent>
-        <DialogContentText>Add a new user with admin access</DialogContentText>
+        <DialogContentText>Update user information</DialogContentText>
         <Box
           id="userForm"
           component="form"
@@ -65,6 +75,7 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
                 id="fullName"
                 label="Full Name"
                 autoFocus
+                defaultValue={selectedUser?.name}
               />
             </Grid>
             <Grid item xs={12}>
@@ -74,6 +85,7 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
                 id="schoolID"
                 label="School ID"
                 name="schoolID"
+                defaultValue={selectedUser?.school_id}
               />
             </Grid>
             <Grid item xs={12}>
@@ -84,27 +96,53 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                defaultValue={selectedUser?.email}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                required
+                //required
                 fullWidth
-                name="password"
-                label="Password"
+                name="new_password"
+                label="New Password"
                 type="password"
                 id="password"
                 autoComplete="new-password"
               />
             </Grid>
-          </Grid>
-          <Grid item xs={12} mt={2}>
-            <Alert severity="info">
-              Accounts for students and faculties are automatically created when
-              their information are imported into the system
-            </Alert>
+            {/* <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">
+                  Access level
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="accessLevel"
+                  defaultValue={selectedUser?.access_level}
+                  label="Access Level"
+                  //onChange={handleChange}
+                  disabled={
+                    selectedUser?.access_level === 1 ||
+                    selectedUser?.access_level === 4
+                  }
+                >
+                  {selectedUser?.access_level === 1 && (
+                    <MenuItem value={1}>Admin</MenuItem>
+                  )}
+                  <MenuItem value={2}>Department Head</MenuItem>
+                  <MenuItem value={3}>Teacher</MenuItem>
+                  {selectedUser?.access_level === 4 && (
+                    <MenuItem value={4}>Student</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </Grid> */}
+            <Grid item xs={12}></Grid>
           </Grid>
         </Box>
+        <Alert severity="info">
+          Access levels for teachers and students are automatically assigned on data import. Department heads can be assigned in the departments page.
+        </Alert>
       </DialogContent>
       <DialogActions>
         <LoadingButton
@@ -116,13 +154,14 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
           loading={loading}
           disabled={loading}
         >
-          Add User
+          Update User
         </LoadingButton>
         <Button
           onClick={handleClose}
           sx={{
             color: colors.grey[100],
           }}
+          disabled={loading}
         >
           Cancel
         </Button>

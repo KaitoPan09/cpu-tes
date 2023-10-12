@@ -88,5 +88,5 @@ export const themeJson = {
     "--sjs-article-font-default-paragraphIndent": "0px",
     "--sjs-article-font-default-textCase": "none",
   },
-  isPanelless: false,
+  isPanelless: true,
 };

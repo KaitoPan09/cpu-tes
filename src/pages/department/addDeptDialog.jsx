@@ -20,7 +20,7 @@ import useFetch from "../../hooks/useFetch";
 import { useAppContext } from "../../context/AppContext";
 import { LoadingButton } from "@mui/lab";
 
-export const AddUserDialog = ({ open, setOpen, setUsers }) => {
+export const AddDeptDialog = ({ open, setOpen, setDepartments }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const handleClose = () => {
@@ -31,23 +31,24 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const data = new FormData(event.currentTarget);
-    let response = await postData("/api/users/add_admin_user", {
-      email: data.get("email"),
-      password: data.get("password"),
-      name: data.get("fullName"),
-      school_id: data.get("schoolID"),
-    });
-    setUsers(response ? response : []);
+      const data = new FormData(event.currentTarget);
+      console.log(data)
+    // let response = await postData("/api/departments/add", {
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    //   name: data.get("fullName"),
+    //   school_id: data.get("schoolID"),
+    // });
+    // setDepartments(response ? response : []);
     setOpen(false);
     showSnackbar("User added successfully", "success");
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Add User</DialogTitle>
+      <DialogTitle>Add Department</DialogTitle>
       <DialogContent>
-        <DialogContentText>Add a new user with admin access</DialogContentText>
+        <DialogContentText>Add a new department</DialogContentText>
         <Box
           id="userForm"
           component="form"
@@ -58,12 +59,11 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                autoComplete="given-name"
-                name="fullName"
+                name="dept"
                 required
                 fullWidth
-                id="fullName"
-                label="Full Name"
+                id="dept"
+                label="Department Name"
                 autoFocus
               />
             </Grid>
@@ -71,37 +71,15 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
               <TextField
                 required
                 fullWidth
-                id="schoolID"
-                label="School ID"
-                name="schoolID"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
+                id="deptCode"
+                label="Department Code"
+                name="deptCode"
               />
             </Grid>
           </Grid>
           <Grid item xs={12} mt={2}>
             <Alert severity="info">
-              Accounts for students and faculties are automatically created when
-              their information are imported into the system
+              Department heads can be assigned after creating a new department and adding teachers into the newly created department.
             </Alert>
           </Grid>
         </Box>
@@ -116,7 +94,7 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
           loading={loading}
           disabled={loading}
         >
-          Add User
+          Add Department
         </LoadingButton>
         <Button
           onClick={handleClose}

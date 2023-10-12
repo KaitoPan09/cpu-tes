@@ -1,383 +1,152 @@
-// import * as React from 'react';
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
-// import {
-//     DataGrid,
-//     // GridToolbar,
-//     GridToolbarContainer,
-//     GridToolbarColumnsButton,
-//     GridToolbarFilterButton,
-//     GridToolbarDensitySelector,
-//     } from "@mui/x-data-grid";
-import {
-  DataGrid,
-  GridToolbarContainer,
-  GridToolbarColumnsButton,
-  GridToolbarFilterButton,
-  GridToolbarDensitySelector,
-  GridRowModes,
-  GridActionsCellItem,
-  GridRowEditStopReasons,
-} from "@mui/x-data-grid";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { tokens } from "../../theme";
-import { dummyUserData } from "../../data/dummyData";
-import AddIcon from "@mui/icons-material/Add";
+import React, { useState } from "react";
+import { Box } from "@mui/material";
+import { GridActionsCellItem } from "@mui/x-data-grid";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import Header from "../../components/Header";
-import { useTheme } from "@emotion/react";
-import { CustomToolbar } from "../../components/CustomToolbar";
 import { ConfirmDeleteDialog } from "../../components/ConfirmDeleteDialog";
 import { AddUserDialog } from "./addUserDialog";
-// import { AddUserDialog } from "./addUserDialog";
+import useFetch from "../../hooks/useFetch";
+import { UpdateUserDialog } from "./updateUserDialog";
+import { useAppContext } from "../../context/AppContext";
+import CustomDataGrid from "../../components/CustomDatagrid";
+import useData from "../../hooks/useData";
+import { useAuth } from "../../context/AuthContext";
 
-// const CustomToolbar = ({ handleAddUser, btnText }) => {
-//   return (
-//     <GridToolbarContainer>
-//       <Button
-//         color="primary"
-//         startIcon={<AddIcon />}
-//         onClick={handleAddUser}
-//         sx={{
-//           padding: "4px 5px",
-//           fontSize: "0.6964285714285714rem",
-//         }}
-//       >
-//         {btnText}
-//       </Button>
-//       {/* <IconButton size="small">
-//                 <AddIcon/>
-//                 ADD NEW USER
-//             </IconButton> */}
-//       <GridToolbarColumnsButton />
-//       <GridToolbarFilterButton />
-//       <GridToolbarDensitySelector />
-//     </GridToolbarContainer>
-//   );
-// };
+const userLevel = ["Admin", "DeptHead", "Teacher", "Student"];
 
 const Users = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const [users, setUsers] = useState([]);
-  // const [students, setStudents] = useState([]);
-  // const [faculties, setFaculties] = useState([]);
-  useEffect(() => {
-    (async () => {
-      // setLoading(true);
-      let users = await fetch(`/api/users/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }).then((response) => response.json());
-      setUsers(users ? users : []);
-      // setLoading(false);
-    })();
-  }, []);
-  //edit rows
-  const [rows, setRows] = React.useState(dummyUserData);
-  const [rowModesModel, setRowModesModel] = React.useState({});
-
-  //delete rows
-  const [deleteId, setDeleteId] = useState(null);
-  const [open, setOpen] = React.useState(false);
-
-  const handleRowEditStop = (params, event) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
-
-  //userLevel combobox
-  const userLevel = ["Admin", "DeptHead", "Teacher", "Student"];
-
-  const handleEditClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
-
-  const handleSaveClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const handleDeleteClick = (id) => () => {
-    // setRows(rows.filter((row) => row.id !== id));
-    setDeleteId(id);
-    setOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
-    setRows(rows.filter((row) => row.id !== deleteId));
-    setOpen(false);
-  };
+  const { postData } = useFetch();
+  const { showLoader, hideLoader, showSnackbar } = useAppContext();
+  const { auth } = useAuth();
+  const [rows, setRows] = useData("/api/users/");
+  const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false);
+  const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const handleDeleteCancel = () => {
-    setOpen(false);
+    setOpenConfirmDeleteDialog(false);
   };
 
-  const handleCancelClick = (id) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
-    }
+  const handleAdd = () => {
+    setOpenAddDialog(true);
   };
 
-  const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
+  const handleUpdate = (user) => {
+    setSelectedUser(user);
+    setOpenUpdateDialog(true);
   };
 
-  const handleRowModesModelChange = (newRowModesModel) => {
-    setRowModesModel(newRowModesModel);
+  const handleRowDoubleClick = (params) => {
+    setSelectedUser(params.row);
+    setOpenUpdateDialog(true);
   };
-  const handleAddUser = () => {
-    setOpenAddUserDialog(true);
+
+  const handleDelete = (user) => {
+    setSelectedUser(user);
+    setOpenConfirmDeleteDialog(true);
   };
+
+  const handleDeleteConfirm = async () => {
+    showLoader();
+    const response = await postData(`/api/users/${selectedUser.id}/delete`);
+    setRows(response ? response : []);
+    hideLoader();
+    setOpenConfirmDeleteDialog(false);
+    showSnackbar("User deleted successfully", "success");
+  };
+
   const columns = [
     {
       field: "id",
       headerName: "ID",
-      width: 80,
+      minWidth: 80,
     },
     {
       field: "school_id",
       headerName: "School ID",
-      width: 100,
-      editable: true,
+      flex: 1,
+      minWidth: 120,
     },
     {
       field: "access_level",
       headerName: "Access Level",
-      width: 80,
+      flex: 1,
+      minWidth: 120,
       renderCell: (params) => {
-        const isInEditMode =
-          rowModesModel[params.id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return (
-            <Select
-              value={params.value}
-              onChange={(event) => {
-                const newValue = event.target.value;
-                const row = params.row;
-                const updatedRows = rows.map((r) =>
-                  r.id === row.id ? { ...r, role: newValue } : r
-                );
-                setRows(updatedRows);
-              }}
-            >
-              {userLevel.map((role) => (
-                <MenuItem key={role} value={role}>
-                  {role}
-                </MenuItem>
-              ))}
-            </Select>
-          );
-        } else {
-          return params.value; // Display the regular text value when not in edit mode
-        }
+        return userLevel[params.value - 1];
       },
-      // editable: true,
-      // type: 'singleSelect',
-      // valueOptions: ['Admin', 'DeptHead', 'Teacher', 'Student'],
     },
     {
       field: "name",
       headerName: "Name",
-      flex: 1,
+      flex: 2,
       minWidth: 200,
-      cellClassName: "nameCell",
-      editable: true,
     },
     {
       field: "email",
       headerName: "Email",
-      flex: 1,
-      minWidth: 200,
-      editable: true,
+      flex: 2,
+      minWidth: 180,
     },
     {
       field: "actions",
       type: "actions",
       headerName: "Edit/Delete",
       width: 80,
-      cellClassName: "actions",
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveOutlinedIcon />}
-              label="Save"
-              sx={{
-                color: colors.yellowAccent[300],
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelOutlinedIcon />}
-              label="Cancel"
-              // className="textPrimary"
-              onClick={handleCancelClick(id)}
-              // color="inherit"
-            />,
-          ];
-        }
-
+      renderCell: ({ row }) => {
         return [
           <GridActionsCellItem
             icon={<BorderColorOutlinedIcon />}
             label="Edit"
-            //   className="textPrimary"
-            onClick={handleEditClick(id)}
-            //   color="inherit"
+            onClick={() => handleUpdate(row)}
           />,
           <GridActionsCellItem
             icon={<DeleteOutlineOutlinedIcon />}
             label="Delete"
-            onClick={handleDeleteClick(id)}
-            //   color="inherit"
+            onClick={() => {
+              if (row.school_id === auth.school_id) {
+                window.alert("You cannot delete yourself");
+                return;
+              }
+              handleDelete(row);
+            }}
           />,
         ];
       },
     },
   ];
-  const [openAddUserDialog, setOpenAddUserDialog] = useState(false);
+
   return (
-    <Box m="20px">
+    <Box mx="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="USERS" subtitle="List of Users and their Access Level" />
-
-        {/* Buttons */}
-        {/* <Box p="0" > */}
-        {/* <Button
-                        sx={{ backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                            m: "2px"
-                        }}
-                        >
-                        <CreateOutlinedIcon sx={{ mr: "10px" }} />
-                        ADD USER
-                    </Button> */}
-        {/* <Button
-                        sx={{ backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                            m: "2px"
-                        }}
-                        >
-                        <UpdateOutlinedIcon sx={{ mr: "10px" }} />
-                        UPDATE
-                    </Button>
-                    <Button
-                        sx={{ backgroundColor: colors.blueAccent[700],
-                            color: colors.grey[100],
-                            fontSize: "14px",
-                            fontWeight: "bold",
-                            padding: "10px 20px",
-                            m: "2px"
-                        }}
-                        >
-                        <DeleteOutlineOutlinedIcon sx={{ mr: "10px" }} />
-                        DELETE
-                    </Button> */}
-        {/* </Box> */}
       </Box>
-      <Box
-        // mt="25px"
-        height="70vh"
-        sx={{
-          "& .MuiDataGrid-root": { border: "none" },
-          "& .MuiDataGrid-cell": { borderBottom: "none" },
-          // "& .nameCell": { color: colors.yellowAccent[300] },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.darkBlue[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${colors.grey[100]} !important`,
-          },
-        }}
-      >
-        <DataGrid
-          // rows={dummyUserData}
-          rows={users}
-          columns={columns}
-          // components={{ Toolbar: CustomToolbar }}
-
-          // edit row
-          editMode="row"
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
-          onRowEditStop={handleRowEditStop}
-          processRowUpdate={processRowUpdate}
-          slots={{ toolbar: CustomToolbar }}
-          slotProps={{
-            //
-            toolbar: { handleAdd: handleAddUser, btnText: "ADD USER" },
-            //
-            panel: {
-              sx: {
-                "& .MuiFormLabel-root": {
-                  color: `${colors.yellowAccent[300]}`,
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottom: `${colors.yellowAccent[300]}`,
-                },
-                "& .MuiButtonBase-root": {
-                  color: `${colors.yellowAccent[300]}`,
-                },
-                "& .Mui-checked+ .MuiSwitch-track": {
-                  backgroundColor: `${colors.yellowAccent[300]}`,
-                },
-              },
-            },
-          }}
-        />
-        {/* delete confirmation dialog box render */}
-        <AddUserDialog
-          open={openAddUserDialog}
-          setOpen={setOpenAddUserDialog}
-        />
-        <ConfirmDeleteDialog
-          open={open}
-          setOpen={setOpen}
-          handleConfirm={handleDeleteConfirm}
-          handleCancel={handleDeleteCancel}
-        />
-      </Box>
+      <CustomDataGrid
+        rows={rows}
+        columns={columns}
+        handleAdd={handleAdd}
+        handleRowDoubleClick={handleRowDoubleClick}
+        btnText="ADD NEW USER"
+      />
+      <AddUserDialog
+        open={openAddDialog}
+        setOpen={setOpenAddDialog}
+        setUsers={setRows}
+      />
+      <UpdateUserDialog
+        open={openUpdateDialog}
+        setOpen={setOpenUpdateDialog}
+        setUsers={setRows}
+        selectedUser={selectedUser}
+      />
+      <ConfirmDeleteDialog
+        open={openConfirmDeleteDialog}
+        setOpen={setOpenConfirmDeleteDialog}
+        handleConfirm={handleDeleteConfirm}
+        handleCancel={handleDeleteCancel}
+      />
     </Box>
   );
 };

@@ -32,7 +32,7 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
         variant="elevation"
         sx={{
           minWidth: 340,
-          maxWidth: 600,
+          maxWidth: 580,
           backgroundColor: colors.darkBlue[400],
         }}
       >
