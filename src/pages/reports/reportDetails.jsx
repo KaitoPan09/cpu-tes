@@ -198,9 +198,10 @@ const Details = () => {
                     TransitionProps={{ timeout: 0 }}
                     PaperProps={{
                         style: {
-                        maxWidth: "80%",
+                        maxWidth: "100%",
                         width: "100%",
                         animation: "none", 
+                        // display: "flex", //flex
                         },
                     }}
                     // sx={{
@@ -214,10 +215,26 @@ const Details = () => {
                     <DialogContent 
                         sx={{
                             height: "1000px",
-                            width: "100%"
+                            width: "100%",
+                            // flex: 1, //flex
+                            // display: "flex",
+                            // alignItems: "center",
                         }}
                     >
-                        <BarGraph />
+                        <div className="details-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Space</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <BarGraph reportDetails={true}/>
                     </DialogContent>
                     <DialogActions>
                         <Button 
