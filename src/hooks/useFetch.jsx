@@ -73,7 +73,49 @@ const useFetch = () => {
     setLoading(false);
     return response;
   };
-  return { request, postData, loading, open, setOpen };
+  const deleteData = async (url) => {
+    setLoading(true);
+    let response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": Cookies.get("csrf_access_token"),
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          if (res.status === 401) {
+            showDialogBox(
+              "Session Expired",
+              "Your session has expired. Please log in again."
+            );
+          } else if (res.status === 409) {
+            showDialogBox(
+              "Delete failed",
+              // message for not deleting
+              "Cannot delete record. It is linked to other records."
+            );
+          } else {
+            throw new Error(`HTTP Status: ${res.status}`);
+          }
+        }
+        return res.json();
+      })
+      // .then((res) => {
+      //   console.log(res)
+      //   return res.json();
+      // })
+      .catch((err) => {
+        console.log(err);
+        showSnackbar(`Something went wrong. (${err.message})`, "error");
+        setLoading(false);
+      });
+    setLoading(false);
+    console.log(response);
+    return response;
+  };
+  return { request, postData, deleteData, loading, open, setOpen };
   //
 
   // const fetchData = async (url, options = {}) => {

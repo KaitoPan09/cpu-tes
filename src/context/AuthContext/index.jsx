@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { saveState, loadState } from "../../utils/LocalStorage";
 import { useContext } from "react";
+import dayjs from "dayjs";
 export const AuthContext = createContext({});
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -8,7 +9,9 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(loadState("authState"));
+  const [academicYear, setAcademicYear] = useState(loadState("academicYear"));
   const [userInfo, setUserInfo] = useState({});
+  console.log(academicYear.start_date);
   // useEffect(() => {
   //   saveState(auth, "authState");
   // }, [auth]);
@@ -29,13 +32,15 @@ export const AuthProvider = ({ children }) => {
         setUserInfo(json);
       } else {
         setAuth({});
+        setAcademicYear({});
       }
     };
     if (auth?.isAuthenticated) {
       fetchUserInfo();
     }
     saveState(auth, "authState");
-  }, [auth]);
+    saveState(academicYear, "academicYear");
+  }, [auth, academicYear]);
   const login = async (credentials) => {
     const response = await fetch(`/api/auth/login`, {
       method: "POST",
@@ -63,7 +68,15 @@ export const AuthProvider = ({ children }) => {
         school_id: response.school_id,
         isAuthenticated: true,
       };
+      const academicYear = {
+        id: response.acad_year.id,
+        semester: response.acad_year.semester,
+        start_date: dayjs(response.acad_year.start_date).format("MM-DD-YYYY"),
+        end_date: dayjs(response.acad_year.end_date).format("MM-DD-YYYY"),
+        year: response.acad_year.year,
+      };
       setAuth(auth);
+      setAcademicYear(academicYear);
       // setAuth({
       //   name: response.name,
       //   department: response.department,
@@ -103,7 +116,16 @@ export const AuthProvider = ({ children }) => {
   };
   return (
     <AuthContext.Provider
-      value={{ auth, setAuth, userInfo, login, logout, validateAuth }}
+      value={{
+        auth,
+        setAuth,
+        academicYear,
+        setAcademicYear,
+        userInfo,
+        login,
+        logout,
+        validateAuth,
+      }}
     >
       {children}
     </AuthContext.Provider>

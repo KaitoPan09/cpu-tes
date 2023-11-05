@@ -76,10 +76,16 @@ const ProSidebar = () => {
     },
     {
       access: ["Admin", "Department Head"],
-      name: "Departments",
-      path: "/departments",
+      name: "Colleges",
+      path: "/colleges",
       icon: <CorporateFareOutlinedIcon />,
     },
+    // {
+    //   access: ["Admin", "Department Head"],
+    //   name: "Departments",
+    //   path: "/departments",
+    //   icon: <CorporateFareOutlinedIcon />,
+    // },
     {
       access: ["Admin"],
       name: "Questionnaire",

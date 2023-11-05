@@ -7,6 +7,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import {
   DataGrid,
@@ -34,10 +36,23 @@ import useFetch from "../../hooks/useFetch";
 import { useAppContext } from "../../context/AppContext";
 import useData from "../../hooks/useData";
 import { AddDeptDialog } from "./addDeptDialog";
+import UpdDeptDialog from "./updDeptDialog";
+import {
+  Details,
+  DetailsTwoTone,
+  ManageSearch,
+  ManageSearchOutlined,
+} from "@mui/icons-material";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import FormDialog from "../../components/FormDialog";
+import { ImportCSV } from "./importCSV";
 const Departments = () => {
-  const { postData } = useFetch();
+  const college = useLocation().state;
+  const { collegeId } = useParams();
+  const navigate = useNavigate();
+  const { postData, deleteData } = useFetch();
   const { showLoader, hideLoader, showSnackbar } = useAppContext();
-  const [rows, setRows] = useData("/api/departments/");
+  const [rows, setRows] = useData(`/api/departments?college_id=${collegeId}`);
 
   const [selectedDepartment, setSelectedDepartment] = useState(null);
 
@@ -49,8 +64,17 @@ const Departments = () => {
   const handleAdd = () => {
     setOpenAddDialog(true);
   };
+  const submit = async (data) => {
+    console.log(data);
+    let response = await postData("/api/departments/add", {
+      department: data.dept,
+      dept_code: data.deptCode,
+    });
+    return response;
+  };
   const handleUpdate = (row) => {
     setSelectedDepartment(row);
+    setOpenUpdateDialog(true);
   };
   const handleDelete = (row) => {
     setSelectedDepartment(row);
@@ -61,13 +85,39 @@ const Departments = () => {
   };
   const handleDeleteConfirm = async () => {
     showLoader();
-    const response = await postData(
-      `/api/users/${selectedDepartment.id}/delete`
+    const response = await deleteData(
+      `/api/departments/${selectedDepartment.id}/delete`
     );
-    setRows(response ? response : []);
+    if (response) {
+      setRows(response);
+      showSnackbar("Department deleted successfully", "success");
+    }
+    // const response = await fetch(
+    //   `/api/departments/${selectedDepartment.id}/delete`,
+    //   {
+    //     method: "DELETE",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     credentials: "include",
+    //   }
+    // )
+    //   .then((res) => {
+    //     if (!res.ok) {
+    //       throw new Error(`HTTP Status: ${res.status}`);
+    //     }
+    //     return res.json();
+    //   })
+    //   .then((res) => {
+    //     setRows(res ? res : []);
+
+    //     showSnackbar("Department deleted successfully", "success");
+    //   })
+    //   .catch((err) => {
+    //     showSnackbar(`Something went wrong. (${err.message})`, "error");
+    //   });
     hideLoader();
     setOpenConfirmDeleteDialog(false);
-    showSnackbar("Department deleted successfully", "success");
   };
   const handleRowDoubleClick = (params) => {
     setSelectedDepartment(params.row);
@@ -101,67 +151,51 @@ const Departments = () => {
     {
       field: "actions",
       type: "actions",
-      headerName: "Edit/Delete",
-      width: 80,
+      headerName: "Manage",
+      width: 100,
       renderCell: ({ row }) => {
         return [
-          <GridActionsCellItem
-            icon={<BorderColorOutlinedIcon />}
-            label="Edit"
-            onClick={() => handleUpdate(row)}
-          />,
-          <GridActionsCellItem
-            icon={<DeleteOutlineOutlinedIcon />}
-            label="Delete"
-            onClick={() => {
-              handleDelete(row);
-            }}
-          />,
+          <Tooltip title="Edit">
+            <IconButton onClick={() => handleUpdate(row)}>
+              <BorderColorOutlinedIcon />
+            </IconButton>
+          </Tooltip>,
+          <Tooltip title="Delete">
+            <IconButton
+              onClick={() => {
+                handleDelete(row);
+              }}
+            >
+              <DeleteOutlineOutlinedIcon />
+            </IconButton>
+          </Tooltip>,
+          <Tooltip title="Manage">
+            <IconButton
+              onClick={() => {
+                navigate(
+                  `/departments/${row.id}/manage`,
+                  { state: row },
+                  { replace: true }
+                );
+              }}
+            >
+              <ManageSearchOutlined />
+            </IconButton>
+          </Tooltip>,
         ];
       },
-      // cellClassName: "actions",
-      // getActions: ({ id }) => {
-      //   const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-      //   if (isInEditMode) {
-      //     return [
-      //       <GridActionsCellItem
-      //         icon={<SaveOutlinedIcon />}
-      //         label="Save"
-      //         sx={{
-      //           color: colors.yellowAccent[300],
-      //         }}
-      //         onClick={handleSaveClick(id)}
-      //       />,
-      //       <GridActionsCellItem
-      //         icon={<CancelOutlinedIcon />}
-      //         label="Cancel"
-      //         onClick={handleCancelClick(id)}
-      //       />,
-      //     ];
-      //   }
-
-      //   return [
-      //     <GridActionsCellItem
-      //       icon={<BorderColorOutlinedIcon />}
-      //       label="Edit"
-      //       onClick={handleEditClick(id)}
-      //     />,
-      //     <GridActionsCellItem
-      //       icon={<DeleteOutlineOutlinedIcon />}
-      //       label="Delete"
-      //       onClick={handleDeleteClick(id)}
-      //     />,
-      //   ];
-      // },
     },
   ];
-
+  const [open, setOpen] = useState(false);
+  if (college === null || college === undefined) {
+    return (college === null || college === undefined) && <Navigate to="/colleges" replace />;
+  }
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
-          title="DEPARTMENTS"
+          title={college.college}
+
           subtitle="List of Departments and their Department Heads"
         />
       </Box>
@@ -171,14 +205,48 @@ const Departments = () => {
         handleAdd={handleAdd}
         handleRowDoubleClick={handleRowDoubleClick}
         btnText={"ADD NEW DEPARTMENT"}
+        setOpen={setOpen}
       />
-      <AddDeptDialog open={openAddDialog} setOpen={setOpenAddDialog} />
+      <FormDialog
+        setRows={setRows}
+        open={openAddDialog}
+        setOpen={setOpenAddDialog}
+        submit={submit}
+        dialogTitle={"Add Department"}
+        dialogContentText={"Add a new department"}
+        fields={[
+          {
+            type: "textField",
+            label: "Department Name",
+            name: "dept",
+          },
+          {
+            type: "textField",
+            label: "Department Code",
+            name: "deptCode",
+          },
+        ]}
+        infotext="Department heads can be assigned after creating a new department
+              and adding faculties into the newly created department."
+      />
+      {/* <AddDeptDialog
+        open={openAddDialog}
+        setOpen={setOpenAddDialog}
+        setDepartments={setRows}
+      /> */}
+      <UpdDeptDialog
+        open={openUpdateDialog}
+        setOpen={setOpenUpdateDialog}
+        setDepartments={setRows}
+        selectedDepartment={selectedDepartment}
+      />
       <ConfirmDeleteDialog
         open={openConfirmDeleteDialog}
         setOpen={setOpenConfirmDeleteDialog}
         handleConfirm={handleDeleteConfirm}
         handleCancel={handleDeleteCancel}
       />
+      <ImportCSV open={open} setOpen={setOpen} departments={rows} />
     </Box>
   );
 };

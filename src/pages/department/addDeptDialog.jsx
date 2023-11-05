@@ -30,18 +30,15 @@ export const AddDeptDialog = ({ open, setOpen, setDepartments }) => {
   const { showSnackbar } = useAppContext();
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-      const data = new FormData(event.currentTarget);
-      console.log(data)
-    // let response = await postData("/api/departments/add", {
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    //   name: data.get("fullName"),
-    //   school_id: data.get("schoolID"),
-    // });
-    // setDepartments(response ? response : []);
+    const data = new FormData(event.currentTarget);
+    console.log(data);
+    let response = await postData("/api/departments/add", {
+      department: data.get("dept"),
+      dept_code: data.get("deptCode"),
+    });
+    setDepartments(response ? response : []);
     setOpen(false);
-    showSnackbar("User added successfully", "success");
+    showSnackbar("Department added successfully", "success");
   };
 
   return (
@@ -79,7 +76,8 @@ export const AddDeptDialog = ({ open, setOpen, setDepartments }) => {
           </Grid>
           <Grid item xs={12} mt={2}>
             <Alert severity="info">
-              Department heads can be assigned after creating a new department and adding teachers into the newly created department.
+              Department heads can be assigned after creating a new department
+              and adding faculties into the newly created department.
             </Alert>
           </Grid>
         </Box>
