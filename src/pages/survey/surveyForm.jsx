@@ -178,56 +178,58 @@ const SurveyForm = () => {
       />
       <Grid container direction={"column"} spacing={2}>
         <Grid item container spacing={2}>
-          <Grid item>
-            <Card sx={{ position: "sticky" }}>
-              <CardContent>
-                <Grid container spacing={2}>
-                  <Grid item xs={4} md={2}>
-                    <Typography variant="h5" color="text.secondary">
-                      Faculty:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={8} md={10}>
-                    <Typography
-                      variant="h5"
-                      sx={{ color: colors.yellowAccent[300] }}
-                    >
-                      {faculty.faculty}
-                    </Typography>
-                  </Grid>
-                  {!faculty.eval_type ? (
-                    <>
-                      <Grid item xs={4} md={2}>
-                        <Typography variant="h5" color="text.secondary">
-                          Subject:
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={8} md={10}>
-                        <Typography
-                          variant="h5"
-                          sx={{ color: colors.yellowAccent[300] }}
-                        >
-                          {faculty.subject}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={4} md={2}>
-                        <Typography variant="h5" color="text.secondary">
-                          Class Time:
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={8} md={10}>
-                        <Typography
-                          variant="h5"
-                          sx={{ color: colors.yellowAccent[300] }}
-                        >
-                          {faculty.class_time}
-                        </Typography>
-                      </Grid>
-                    </>
-                  ) : null}
+          <Grid item xs>
+            <Grid container spacing={2}>
+              <Grid item md container spacing={2}>
+                <Grid item>
+                  <Typography variant="h5" color="text.secondary">
+                    Faculty:
+                  </Typography>
                 </Grid>
-              </CardContent>
-            </Card>
+                <Grid item>
+                  <Typography
+                    variant="h5"
+                    sx={{ color: colors.yellowAccent[300] }}
+                  >
+                    {faculty.faculty}
+                  </Typography>
+                </Grid>
+              </Grid>
+              {!faculty.eval_type ? (
+                <>
+                  <Grid item md container spacing={2}>
+                    <Grid item>
+                      <Typography variant="h5" color="text.secondary">
+                        Subject:
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        sx={{ color: colors.yellowAccent[300] }}
+                      >
+                        {faculty.subject}
+                      </Typography>{" "}
+                    </Grid>
+                  </Grid>
+                  <Grid item md container spacing={2}>
+                    <Grid item>
+                      <Typography variant="h5" color="text.secondary">
+                        Class Time:
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        sx={{ color: colors.yellowAccent[300] }}
+                      >
+                        {faculty.class_time}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </>
+              ) : null}
+            </Grid>
           </Grid>
         </Grid>
         {survey && (
@@ -301,7 +303,7 @@ const getSurveyModel = (questionCategories) => {
           text: index + 1 + ". " + question.question,
         })),
         ///alternateRows: true,
-        //isAllRowRequired: true,
+        isAllRowRequired: true,
       },
     ],
   }));
