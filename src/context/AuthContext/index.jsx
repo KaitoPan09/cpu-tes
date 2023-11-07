@@ -10,37 +10,36 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(loadState("authState"));
   const [academicYear, setAcademicYear] = useState(loadState("academicYear"));
-  const [userInfo, setUserInfo] = useState({});
-  console.log(academicYear.start_date);
-  // useEffect(() => {
-  //   saveState(auth, "authState");
-  // }, [auth]);
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const response = await fetch(
-        `/api/auth/user_info?school_id=${auth.school_id}&role=${auth.role}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-      if (response.ok) {
-        const json = await response.json();
-        setUserInfo(json);
-      } else {
-        setAuth({});
-        setAcademicYear({});
+  const [userInfo, setUserInfo] = useState(loadState("userInfo"));
+  const fetchUserInfo = async () => {
+    const response = await fetch(
+      `/api/auth/user_info?school_id=${auth.school_id}&role=${auth.role}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
       }
-    };
-    if (auth?.isAuthenticated) {
-      fetchUserInfo();
+    );
+    if (response.ok) {
+      const json = await response.json();
+      setUserInfo(json);
+    } else {
+      setAuth({});
+      setAcademicYear({});
+      setUserInfo({});
     }
+  };
+  useEffect(() => {
+    // if (auth?.isAuthenticated) {
+    //   console.log("fetch");
+    //   fetchUserInfo();
+    // }
     saveState(auth, "authState");
     saveState(academicYear, "academicYear");
-  }, [auth, academicYear]);
+    saveState(userInfo, "userInfo");
+  }, [auth, academicYear, userInfo]);
   const login = async (credentials) => {
     const response = await fetch(`/api/auth/login`, {
       method: "POST",
@@ -75,8 +74,19 @@ export const AuthProvider = ({ children }) => {
         end_date: dayjs(response.acad_year.end_date).format("MM-DD-YYYY"),
         year: response.acad_year.year,
       };
+      const userInfo = {
+        user_id: response.user_id,
+        student_id: response.student_id,
+        name: response.name,
+        email: response.email,
+        college_id: response.college_id,
+        dept_id: response.dept_id,
+        college: response.college,
+        department: response.department,
+      };
       setAuth(auth);
       setAcademicYear(academicYear);
+      setUserInfo(userInfo);
       // setAuth({
       //   name: response.name,
       //   department: response.department,

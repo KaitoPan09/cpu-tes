@@ -126,7 +126,17 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
           <Grid container justifyContent="flex-end">
             <Grid item>
               {faculty.isCompleted ? (
-                <Button disabled size="small" variant="outlined">
+                <Button
+                  disabled
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    // backgroundColor: colors.blueAccent[700],
+                    // color: colors.grey[100],
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                  }}
+                >
                   Completed
                 </Button>
               ) : (

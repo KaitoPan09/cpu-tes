@@ -27,9 +27,7 @@ const Survey = () => {
   const [questionCategories, setQuestionCategories] = React.useState([]);
   useEffect(() => {
     (async () => {
-      // setLoading(true);
-      console.log(userInfo);
-      console.log(auth);
+      
       let faculties = null;
       if (auth.role === "Student") {
         faculties = await request(
