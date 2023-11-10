@@ -36,7 +36,7 @@ const Topbar = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
-    navigate("/");
+    // navigate("/");
   };
   const colors = tokens(theme.palette.mode);
   const { toggleSidebar, broken } = useProSidebar();

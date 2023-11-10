@@ -79,6 +79,8 @@ export const AuthProvider = ({ children }) => {
         student_id: response.student_id,
         name: response.name,
         email: response.email,
+        course: response.course,
+        year_level: response.year_level,
         college_id: response.college_id,
         dept_id: response.dept_id,
         college: response.college,
