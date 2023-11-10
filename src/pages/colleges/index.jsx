@@ -132,7 +132,22 @@ export const Colleges = () => {
   const handleDeleteCancel = () => {
     setOpenConfirmDeleteDialog(false);
   };
-
+  const submitUpdate = async (data) => {
+    console.log({
+      college: data.college,
+      college_code: data.college_code,
+      dean_id: data.dean.id,
+    });
+    const response = await postData(
+      `/api/colleges/${selectedCollege.id}/update`,
+      {
+        college: data.college,
+        college_code: data.college_code,
+        dean_id: data.dean.id,
+      }
+    );
+    return response;
+  };
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -166,6 +181,34 @@ export const Colleges = () => {
           },
         ]}
         infotext="Deans can be assigned after faculties are added to the system."
+      />
+      <FormDialog
+        open={openUpdateDialog}
+        setOpen={setOpenUpdateDialog}
+        setRows={setRows}
+        selectedCollege={selectedCollege}
+        submit={submitUpdate}
+        dialogTitle={"Update College"}
+        dialogContentText={"Update college details"}
+        fields={[
+          {
+            type: "textField",
+            label: "College Name",
+            name: "college",
+          },
+          {
+            type: "textField",
+            label: "College Code",
+            name: "college_code",
+          },
+          {
+            type: "comboBox",
+            label: "Select College Dean",
+            name: "dean",
+            options: selectedCollege?.faculties,
+            getOptionLabel: (option) => option.school_id + " - " + option.name,
+          },
+        ]}
       />
       {/* <UpdDeptDialog
         open={openUpdateDialog}
