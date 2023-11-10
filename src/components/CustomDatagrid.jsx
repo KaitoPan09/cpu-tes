@@ -10,6 +10,8 @@ const CustomDataGrid = ({
   handleAdd,
   btnText,
   handleRowDoubleClick,
+  setOpen,
+  ...props
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -33,32 +35,49 @@ const CustomDataGrid = ({
         "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
           color: `${colors.grey[100]} !important`,
         },
+        // "& .MuiDataGrid-columnHeaderTitle": {
+        //   whiteSpace: "normal",
+        //   lineHeight: "normal",
+        // },
+        // "& .MuiDataGrid-columnHeader": {
+        //   // Forced to use important since overriding inline styles
+        //   height: "unset !important",
+        //   maxHeight: "168px !important",
+        // },
+        "& .MuiDataGrid-row": {
+          minHeight: "52px !important",
+        },
+        "& .green": { color: colors.greenAccent[500] },
+        "& .red": { color: colors.redAccent[500] },
       }}
     >
       <DataGrid
+        getRowHeight={() => "auto"}
+        rowHeight="52px"
         rows={rows}
         columns={columns}
         onRowDoubleClick={handleRowDoubleClick}
         slots={{ toolbar: CustomToolbar }}
         slotProps={{
-          toolbar: { handleAdd: handleAdd, btnText: btnText },
+          toolbar: { handleAdd: handleAdd, btnText: btnText, setOpen: setOpen },
           panel: {
             sx: {
-              "& .MuiFormLabel-root": {
-                color: `${colors.yellowAccent[300]}`,
-              },
-              "& .MuiInput-underline:after": {
-                borderBottom: `${colors.yellowAccent[300]}`,
-              },
-              "& .MuiButtonBase-root": {
-                color: `${colors.yellowAccent[300]}`,
-              },
-              "& .Mui-checked+ .MuiSwitch-track": {
-                backgroundColor: `${colors.yellowAccent[300]}`,
-              },
+              // "& .MuiFormLabel-root": {
+              //   color: `${colors.yellowAccent[300]}`,
+              // },
+              // "& .MuiInput-underline:after": {
+              //   borderBottom: `${colors.yellowAccent[300]}`,
+              // },
+              // "& .MuiButtonBase-root": {
+              //   color: `${colors.yellowAccent[300]}`,
+              // },
+              // "& .Mui-checked+ .MuiSwitch-track": {
+              //   backgroundColor: `${colors.yellowAccent[300]}`,
+              // },
             },
           },
         }}
+        {...props}
       />
     </Box>
   );

@@ -6,11 +6,16 @@ const RequireAuth = ({ allowedRoles }) => {
   const { auth } = useAuth();
   const location = useLocation();
   const isAuthorized = allowedRoles.includes(auth.role) && auth.isAuthenticated;
-  return isAuthorized ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
-  );
+  return auth.isAuthenticated ?
+    isAuthorized ?
+      <Outlet /> :
+      <Navigate to="/" replace /> :
+    <Navigate to="/login" state={{ from: location }} replace />;
+  // return isAuthorized ? (
+  //   <Outlet />
+  // ) : (
+  //   <Navigate to="/login" state={{ from: location }} replace />
+  // );
   // return isAuthorized ? (
   //   <SurveyProvider>
   //     <Outlet />

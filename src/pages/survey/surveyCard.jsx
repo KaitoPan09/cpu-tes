@@ -53,10 +53,10 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
                   Department:
                 </Typography>
               </Grid>
-              <Grid item xs={9}>
+              <Grid item xs={8}>
                 <Typography
                   variant="h5"
-                  sx={{ color: colors.yellowAccent[300] }}
+                  sx={{ color: colors.yellowAccent[400] }}
                 >
                   {faculty.department}
                 </Typography>
@@ -66,7 +66,7 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
               <Grid item>
                 <Typography
                   variant="h5"
-                  sx={{ color: colors.yellowAccent[300] }}
+                  sx={{ color: colors.yellowAccent[400] }}
                 >
                   {faculty.eval_type}
                 </Typography>
@@ -79,10 +79,10 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
                       Subject:
                     </Typography>
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid item xs={8}>
                     <Typography
                       variant="h5"
-                      sx={{ color: colors.yellowAccent[300] }}
+                      sx={{ color: colors.yellowAccent[400] }}
                     >
                       {faculty.subject}
                     </Typography>
@@ -94,10 +94,10 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
                       Stub:
                     </Typography>
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid item xs={8}>
                     <Typography
                       variant="h5"
-                      sx={{ color: colors.yellowAccent[300] }}
+                      sx={{ color: colors.yellowAccent[400] }}
                     >
                       {faculty.stub_code}
                     </Typography>
@@ -109,10 +109,10 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
                       Class Time:
                     </Typography>
                   </Grid>
-                  <Grid item xs={9}>
+                  <Grid item xs={8}>
                     <Typography
                       variant="h5"
-                      sx={{ color: colors.yellowAccent[300] }}
+                      sx={{ color: colors.yellowAccent[400] }}
                     >
                       {faculty.class_time}
                     </Typography>
@@ -126,7 +126,17 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
           <Grid container justifyContent="flex-end">
             <Grid item>
               {faculty.isCompleted ? (
-                <Button disabled size="small" variant="outlined">
+                <Button
+                  disabled
+                  size="small"
+                  variant="outlined"
+                  sx={{
+                    // backgroundColor: colors.blueAccent[700],
+                    // color: colors.grey[100],
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                  }}
+                >
                   Completed
                 </Button>
               ) : (

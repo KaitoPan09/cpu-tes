@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 
@@ -11,14 +18,17 @@ import "survey-core/defaultV2.min.css";
 import { useNavigate } from "react-router";
 import { themeJson } from "./surveyTheme";
 import { useAuth } from "../../context/AuthContext";
+import useFetch from "../../hooks/useFetch";
 const SurveyForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
   const { auth, userInfo } = useAuth();
+  const { postData } = useFetch();
   // const [questionCategories, setQuestionCategories] = React.useState([]);
   const location = useLocation();
   const faculty = location.state.faculty;
+  console.log(faculty);
   const questionCategories = location.state.questionCategories;
   const [questionRatings, setQuestionRatings] = useState([]);
   const [survey] = useState(getSurveyModel(questionCategories));
@@ -45,12 +55,12 @@ const SurveyForm = () => {
       for (const question of data) {
         // console.log(question);
         if (question.isNode) {
-          Object.entries(question.value).map(([question_id, rating]) => {
-            questionRatings.push({
+          questionRatings.push(
+            ...Object.entries(question.value).map(([question_id, rating]) => ({
               question_id: parseInt(question_id),
               rating: parseInt(rating),
-            });
-          });
+            }))
+          );
         } else {
           feedbackAnswers.push({
             feedback_section_id: parseInt(question.name),
@@ -58,41 +68,19 @@ const SurveyForm = () => {
           });
         }
       }
-      console.log({
-        user_id: userInfo.id,
-        eval_type: faculty.eval_type,
-        faculty_id: faculty.faculty_id,
-        class_id: faculty.class_id,
-        question_ratings: questionRatings,
-        feedback_answer: feedbackAnswers,
-      });
-      // let response = await apiFetch(
-      //   `/api/evaluations/${surveyInfo.dept_id}/submit_evaluation`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       "X-CSRF-TOKEN": Cookies.get("csrf_access_token"),
-      //     },
-      //     body: JSON.stringify({
-      //       user_id: surveyInfo.user_id,
-      //       eval_type: surveyInfo.eval_type,
-      //       faculty_id: surveyInfo.faculty_id,
-      //       class_id: surveyInfo.class_id,
-      //       question_ratings: questionRatings,
-      //       feedback_answer: feedbackAnswers,
-      //     }),
-      //   }
-      // );
-      // let response = {
-      //   user_id: surveyInfo.user_id,
-      //   eval_type: surveyInfo.eval_type,
-      //   faculty_id: surveyInfo.faculty_id,
-      //   class_id: surveyInfo.class_id,
-      //   question_ratings: questionRatings,
-      //   feedback_answer: feedbackAnswers,
-      // };
-      // console.log(response);
+      const response = await postData(
+        `/api/evaluations/${faculty.dept_id}/submit_evaluation`,
+        {
+          user_id: userInfo.user_id,
+          eval_type: faculty.eval_type,
+          faculty_id: faculty.id,
+          class_id: faculty.class_id,
+          question_ratings: questionRatings,
+          feedback_answer: feedbackAnswers,
+        }
+      );
+
+      console.log(response);
       // if (response)
       //   setSnackbar({
       //     message: "Survey Submitted Successfully",
@@ -171,46 +159,59 @@ const SurveyForm = () => {
       />
       <Grid container direction={"column"} spacing={2}>
         <Grid item container spacing={2}>
-          <Grid item xs={4} md={2}>
-            <Typography variant="h5" color="text.secondary">
-              Faculty:
-            </Typography>
+          <Grid item xs>
+            <Grid container spacing={2}>
+              <Grid item md container spacing={2}>
+                <Grid item>
+                  <Typography variant="h5" color="text.secondary">
+                    Faculty:
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography
+                    variant="h5"
+                    sx={{ color: colors.yellowAccent[300] }}
+                  >
+                    {faculty.faculty}
+                  </Typography>
+                </Grid>
+              </Grid>
+              {!faculty.eval_type ? (
+                <>
+                  <Grid item md container spacing={2}>
+                    <Grid item>
+                      <Typography variant="h5" color="text.secondary">
+                        Subject:
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        sx={{ color: colors.yellowAccent[300] }}
+                      >
+                        {faculty.subject}
+                      </Typography>{" "}
+                    </Grid>
+                  </Grid>
+                  <Grid item md container spacing={2}>
+                    <Grid item>
+                      <Typography variant="h5" color="text.secondary">
+                        Class Time:
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        variant="h5"
+                        sx={{ color: colors.yellowAccent[300] }}
+                      >
+                        {faculty.class_time}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </>
+              ) : null}
+            </Grid>
           </Grid>
-          <Grid item xs={8} md={10}>
-            <Typography variant="h5" sx={{ color: colors.yellowAccent[300] }}>
-              {faculty.faculty}
-            </Typography>
-          </Grid>
-          {!faculty.eval_type ? (
-            <>
-              <Grid item xs={4} md={2}>
-                <Typography variant="h5" color="text.secondary">
-                  Subject:
-                </Typography>
-              </Grid>
-              <Grid item xs={8} md={10}>
-                <Typography
-                  variant="h5"
-                  sx={{ color: colors.yellowAccent[300] }}
-                >
-                  {faculty.subject}
-                </Typography>
-              </Grid>
-              <Grid item xs={4} md={2}>
-                <Typography variant="h5" color="text.secondary">
-                  Class Time:
-                </Typography>
-              </Grid>
-              <Grid item xs={8} md={10}>
-                <Typography
-                  variant="h5"
-                  sx={{ color: colors.yellowAccent[300] }}
-                >
-                  {faculty.class_time}
-                </Typography>
-              </Grid>
-            </>
-          ) : null}
         </Grid>
         {survey && (
           <Grid item container>
@@ -245,6 +246,7 @@ const getSurveyModel = (questionCategories) => {
     widthMode: "auto",
     fitToContainer: true,
     showTitle: false,
+    isAllRowRequired: true,
     pages: [],
   };
   const categoryPages = categories.map((category) => ({

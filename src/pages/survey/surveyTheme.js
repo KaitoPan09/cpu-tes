@@ -2,14 +2,14 @@ export const themeJson = {
   cssVariables: {
     "--sjs-general-backcolor": "rgba(255, 255, 255, 1)",
     "--sjs-general-backcolor-dark": "rgba(244, 244, 244, 1)",
-    "--sjs-general-backcolor-dim": "rgba(216, 207, 236, 1)",
+    "--sjs-general-backcolor-dim": "#f5f5f5",
     "--sjs-general-backcolor-dim-light": "rgba(241, 237, 248, 1)",
     "--sjs-general-backcolor-dim-dark": "rgba(225, 220, 233, 1)",
     "--sjs-general-forecolor": "rgba(0, 0, 0, 0.91)",
     "--sjs-general-forecolor-light": "rgba(0, 0, 0, 0.45)",
     "--sjs-general-dim-forecolor": "rgba(0, 0, 0, 0.91)",
     "--sjs-general-dim-forecolor-light": "rgba(0, 0, 0, 0.5)",
-    "--sjs-primary-backcolor": "rgba(122, 100, 168, 1)",
+    "--sjs-primary-backcolor": "#6870fa",
     "--sjs-primary-backcolor-light": "rgba(122, 100, 168, 0.1)",
     "--sjs-primary-backcolor-dark": "rgba(105, 84, 152, 1)",
     "--sjs-primary-forecolor": "rgba(255, 255, 255, 1)",
@@ -88,5 +88,5 @@ export const themeJson = {
     "--sjs-article-font-default-paragraphIndent": "0px",
     "--sjs-article-font-default-textCase": "none",
   },
-  isPanelless: true,
+  isPanelless: false,
 };

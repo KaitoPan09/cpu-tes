@@ -23,6 +23,9 @@ import SurveyForm from "./pages/survey/surveyForm";
 import { MyProSidebarProvider } from "./pages/global/sideBarContext";
 
 import { AppContextProvider } from "./context/AppContext";
+import ManageDepartment from "./pages/department/manageDepartment";
+import { Colleges } from "./pages/colleges";
+import ManageCollege from "./pages/colleges/manageCollege";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -62,18 +65,23 @@ function App() {
                   <RequireAuth allowedRoles={["Admin", "Department Head"]} />
                 }
               >
-                <Route path="/departments" element={<Departments />} />
-
+                <Route path="/colleges" element={<Colleges />} />
+                <Route
+                  path="/colleges/:collegeId/manage"
+                  element={<ManageCollege />}
+                />
+                <Route
+                  path="/colleges/:collegeId/departments"
+                  element={<Departments />}
+                />
+                <Route
+                  path="/departments/:deptId/manage"
+                  element={<ManageDepartment />}
+                />
                 <Route path="/evaluation" element={<Evaluation />} />
-                <Route
-                  path="/evaluations/viewEval"
-                  element={<ViewEvaluation />}
-                />
+                <Route path="/evaluations/:evalId/view" element={<ViewEvaluation />} />
                 <Route path="/reports" element={<Reports />} />
-                <Route
-                  path="/reports/reportDetails"
-                  element={<ReportDetails />}
-                />
+                <Route path="/reports/details" element={<ReportDetails />} />
               </Route>
               <Route
                 element={

@@ -74,7 +74,7 @@ const Login = () => {
             display: { xs: "none", sm: "none", md: "flex" },
           }}
         >
-          YOUR TEXT HERE
+          
         </Grid>
         <Grid
           item

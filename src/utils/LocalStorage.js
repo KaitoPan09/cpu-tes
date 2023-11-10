@@ -1,7 +1,7 @@
+import { encryptData, decryptData } from "./encryption";
 export const saveState = (state, stateName) => {
   try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem(stateName, serializedState);
+    localStorage.setItem(stateName, encryptData(state));
   } catch (err) {
     console.error("Failed to save state to localStorage:", err);
   }
@@ -9,11 +9,11 @@ export const saveState = (state, stateName) => {
 
 export const loadState = (stateName) => {
   try {
-    const serializedState = localStorage.getItem(stateName);
-    if (!serializedState) {
+    const data = localStorage.getItem(stateName);
+    if (!data) {
       return {};
     }
-    return JSON.parse(serializedState);
+    return decryptData(data);
   } catch (err) {
     console.error("Failed to load state from localStorage:", err);
     return {};
