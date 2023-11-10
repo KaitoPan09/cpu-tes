@@ -72,7 +72,10 @@ export const Faculty = () => {
     setOpenUpdateDialog(true);
   };
   const submit = async (formData) => {
-    const response = await postData("/api/faculty", formData);
+    const response = await postData("/api/faculty/add", {
+      ...formData,
+      college_id: collegeId,
+    });
     return response;
   };
 
