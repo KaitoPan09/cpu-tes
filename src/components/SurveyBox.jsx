@@ -15,15 +15,15 @@ import { useNavigate } from "react-router-dom";
 // import ProgressCircle from "./ProgressCircle";
 
 const SurveyBox = ({ title, subtitle, icon, surveyType, button}) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
+const theme = useTheme();
+const colors = tokens(theme.palette.mode);
+const [open, setOpen] = useState(false);
+const handleClose = () => {
     setOpen(false);
-  };
-  const navigate = useNavigate();
+};
+const navigate = useNavigate();
 
-  return (
+return (
     <Box width="100%" m="0 30px">
         <Box display="flex" justifyContent="space-between">
             <Box>

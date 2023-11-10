@@ -55,19 +55,23 @@ const Dashboard = () => {
                   color={colors.grey[100]}
                 >
                   Evaluation Summary */}
-      <Header title="DASHBOARD" subtitle="Welcome" />
+      <Header title="DASHBOARD" subtitle={`Welcome, ${auth.role}`} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Paper variant="outlined">
+          <Paper variant="outlined" sx={{backgroundColor: "primary.sub"}}>
             <Grid container spacing={2} p={2}>
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" fontWeight={700}>
+                <Typography 
+                  variant="h4" 
+                  fontWeight={700} 
+                  color={colors.grey[100]}>
                   {userInfo.name}
                 </Typography>
                 <Typography
-                  color={"text.secondary"}
+                  // color={"text.secondary"}
                   variant="h6"
                   fontWeight={700}
+                  color={colors.yellowAccent[500]}
                 >
                   SCHOOL ID: {auth.school_id}
                 </Typography>
@@ -166,11 +170,12 @@ const Dashboard = () => {
                     {updates.name}// */}
               </Grid>
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" fontWeight={700}>
+                <Typography variant="h4" fontWeight={700} color={colors.grey[100]}>
                   {userInfo.course + " - " + userInfo.year_level}
                 </Typography>
                 <Typography
-                  color={"text.secondary"}
+                  // color={"text.secondary"}
+                  color={colors.yellowAccent[500]}
                   variant="h6"
                   fontWeight={700}
                 >
@@ -178,11 +183,12 @@ const Dashboard = () => {
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" fontWeight={700}>
+                <Typography variant="h4" fontWeight={700} color={colors.grey[100]}>
                   {academicYear.year}
                 </Typography>
                 <Typography
-                  color={"text.secondary"}
+                  // color={"text.secondary"}
+                  color={colors.yellowAccent[500]}
                   variant="h6"
                   fontWeight={700}
                 >
@@ -190,11 +196,12 @@ const Dashboard = () => {
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" fontWeight={700}>
+                <Typography variant="h4" fontWeight={700} color={colors.grey[100]}>
                   {academicYear.semester}
                 </Typography>
                 <Typography
-                  color={"text.secondary"}
+                  // color={"text.secondary"}
+                  color={colors.yellowAccent[500]}
                   variant="h6"
                   fontWeight={700}
                 >
@@ -205,10 +212,10 @@ const Dashboard = () => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper variant="outlined">
+          <Paper variant="outlined" sx={{backgroundColor: "primary.sub"}}>
             <Grid container spacing={2} p={2}>
               <Grid item xs={12}>
-                <Typography variant="h5" color="darkred" fontWeight={700}>
+                <Typography variant="h5" color={colors.redAccent[400]} fontWeight={700}>
                   IMPORTANT NOTICE
                 </Typography>
               </Grid>
@@ -229,7 +236,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <Paper variant="outlined">
+          <Paper variant="outlined" sx={{backgroundColor: "primary.sub"}}>
             <Grid container spacing={2} p={2}>
               <Grid item xs={12}>
                 <Typography variant="h5" fontWeight={700}>

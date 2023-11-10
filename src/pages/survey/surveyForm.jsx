@@ -19,6 +19,7 @@ import { useNavigate } from "react-router";
 import { themeJson } from "./surveyTheme";
 import { useAuth } from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
+
 const SurveyForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -41,6 +42,7 @@ const SurveyForm = () => {
   const [pageChangeCounter, setPageChangeCounter] = useState(0);
   survey.showNavigationButtons = false;
   survey.applyTheme(themeJson);
+  // survey.applyTheme(useTheme);
   const prevPageFunc = () => {
     survey.prevPage();
   };
@@ -170,7 +172,7 @@ const SurveyForm = () => {
                 <Grid item>
                   <Typography
                     variant="h5"
-                    sx={{ color: colors.yellowAccent[300] }}
+                    sx={{ color: colors.yellowAccent[400] }}
                   >
                     {faculty.faculty}
                   </Typography>
@@ -187,7 +189,7 @@ const SurveyForm = () => {
                     <Grid item>
                       <Typography
                         variant="h5"
-                        sx={{ color: colors.yellowAccent[300] }}
+                        sx={{ color: colors.yellowAccent[400] }}
                       >
                         {faculty.subject}
                       </Typography>{" "}
@@ -202,7 +204,7 @@ const SurveyForm = () => {
                     <Grid item>
                       <Typography
                         variant="h5"
-                        sx={{ color: colors.yellowAccent[300] }}
+                        sx={{ color: colors.yellowAccent[400] }}
                       >
                         {faculty.class_time}
                       </Typography>
