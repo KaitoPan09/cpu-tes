@@ -56,7 +56,7 @@ const Dashboard = () => {
   const { auth, userInfo } = useAuth();
   return (
     <Box m="20px">
-      <Header title="DASHBOARD" subtitle="Welcome" />
+      <Header title="DASHBOARD" subtitle={`Welcome, ${auth.role}`} />
       {/* GRIDS & CHARTS */}
       {auth.role === "Admin" && (
         <Box
@@ -213,6 +213,140 @@ const Dashboard = () => {
                 </Link>
               </Box>
             ))}
+          </Box>
+        </Box>
+      )}
+      {auth.role !== "Admin" && (
+        <Box
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          gridAutoRows="120px"
+          gap="20px 0"
+        >
+          <Box
+            gridColumn="span 6"
+            gridRow="span 1"
+            backgroundColor={colors.darkBlue[400]}
+          >
+            <Box
+              mt="25px"
+              p="0 30px"
+              display="flex"
+              displayContent="space-between"
+              alignItems="center"
+            >
+              <Box>
+                <Typography
+                  variant="h4"
+                  // fontWeight="600"
+                  color={colors.grey[100]}
+                >
+                  Student Name
+                </Typography>
+                <Typography
+                  variant="h6"
+                  // fontWeight="bold"
+                  color={colors.yellowAccent[500]}
+                >
+                  University ID Number
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            gridColumn="span 3"
+            gridRow="span 1"
+            backgroundColor={colors.darkBlue[400]}
+          >
+            <Box
+              mt="25px"
+              p="0 30px"
+              display="flex"
+              displayContent="space-between"
+              alignItems="center"
+            >
+              <Box>
+                <Typography
+                  variant="h4"
+                  // fontWeight="600"
+                  color={colors.grey[100]}
+                >
+                  Put Course Here
+                </Typography>
+                <Typography
+                  variant="h6"
+                  // fontWeight="bold"
+                  color={colors.yellowAccent[500]}
+                >
+                  Course and Year
+                </Typography>
+              </Box>
+            </Box>
+            {/* <Box height="250px" mt="-20px">
+              <BarGraph isDashboard={true} />
+            </Box> */}
+          </Box>
+          <Box
+            gridColumn="span 3"
+            gridRow="span 1"
+            backgroundColor={colors.darkBlue[400]}
+          >
+            <Box
+              mt="25px"
+              p="0 30px"
+              display="flex"
+              displayContent="space-between"
+              alignItems="center"
+            >
+              <Box>
+                <Typography
+                  variant="h4"
+                  // fontWeight="600"
+                  color={colors.grey[100]}
+                >
+                  SY 2022-2023
+                </Typography>
+                <Typography
+                  variant="h6"
+                  // fontWeight="bold"
+                  color={colors.yellowAccent[500]}
+                >
+                  School Year
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            gridColumn="span 12"
+            gridRow="span 1"
+            backgroundColor={colors.darkBlue[400]}
+          >
+            <Box
+              mt="25px"
+              p="0 30px"
+              display="flex"
+              displayContent="space-between"
+              alignItems="center"
+            >
+              <Box>
+                <Typography
+                  variant="h1"
+                  // fontWeight="600"
+                  color={colors.yellowAccent[500]}
+                >
+                  Announcement
+                </Typography>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    // fontWeight="600"
+                    color={colors.grey[100]}
+                  >
+                    here lies my sleep
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
           </Box>
         </Box>
       )}
