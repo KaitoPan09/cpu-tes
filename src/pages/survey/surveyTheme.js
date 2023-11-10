@@ -1,13 +1,18 @@
 export const themeJson = {
   cssVariables: {
-    "--sjs-general-backcolor": "rgba(255, 255, 255, 1)",
+    // "--sjs-general-backcolor": "rgba(255, 255, 255, 1)",
+    "--sjs-general-backcolor": "#1F2A40",//panel inner color
     "--sjs-general-backcolor-dark": "rgba(244, 244, 244, 1)",
-    "--sjs-general-backcolor-dim": "#f5f5f5",
+    // "--sjs-general-backcolor-dim": "#f5f5f5",
+    "--sjs-general-backcolor-dim": "#141b2d",//outer color
     "--sjs-general-backcolor-dim-light": "rgba(241, 237, 248, 1)",
     "--sjs-general-backcolor-dim-dark": "rgba(225, 220, 233, 1)",
-    "--sjs-general-forecolor": "rgba(0, 0, 0, 0.91)",
-    "--sjs-general-forecolor-light": "rgba(0, 0, 0, 0.45)",
-    "--sjs-general-dim-forecolor": "rgba(0, 0, 0, 0.91)",
+    // "--sjs-general-forecolor": "rgba(0, 0, 0, 0.91)",
+    "--sjs-general-forecolor": "#e0e0e0",//survey text
+    // "--sjs-general-forecolor-light": "rgba(0, 0, 0, 0.45)",
+    "--sjs-general-forecolor-light": "#ffef99",//page number
+    // "--sjs-general-dim-forecolor": "rgba(0, 0, 0, 0.91)",
+    "--sjs-general-dim-forecolor": "#ffe766",//title
     "--sjs-general-dim-forecolor-light": "rgba(0, 0, 0, 0.5)",
     "--sjs-primary-backcolor": "#6870fa",
     "--sjs-primary-backcolor-light": "rgba(122, 100, 168, 0.1)",
@@ -31,7 +36,8 @@ export const themeJson = {
     "--sjs-border-default": "rgba(0, 0, 0, 0.16)",
     "--sjs-border-inside": "rgba(0, 0, 0, 0.16)",
     "--sjs-special-red": "rgba(229, 10, 62, 1)",
-    "--sjs-special-red-light": "rgba(229, 10, 62, 0.1)",
+    // "--sjs-special-red-light": "rgba(229, 10, 62, 0.1)",
+    "--sjs-special-red-light": "#e99592",//error radio buttons
     "--sjs-special-red-forecolor": "rgba(255, 255, 255, 1)",
     "--sjs-special-green": "rgba(25, 179, 148, 1)",
     "--sjs-special-green-light": "rgba(25, 179, 148, 0.1)",
