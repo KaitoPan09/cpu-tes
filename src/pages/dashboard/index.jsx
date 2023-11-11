@@ -20,10 +20,32 @@ import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { AdminDashboard } from "./adminDashboard";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import useFetch from "../../hooks/useFetch";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { request } = useFetch();
+  const [evalInfo, setEvalInfo] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      if (auth.role === "Student") {
+        // const faculties = await request(
+        //   `/api/evaluations/students/evaluate?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
+        // );
+        // const surveys_completed = faculties.filter(
+        //   (faculty) => faculty.isCompleted === true
+        // );
+        // setN_surveys(faculties.length - surveys_completed.length);
+        const response = await request(
+          `/api/evaluations/students/dashboard?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
+        );
+        setEvalInfo(response);
+      }
+    })();
+  }, []);
 
   const { auth, userInfo, academicYear } = useAuth();
   return (
@@ -45,18 +67,34 @@ const Dashboard = () => {
                   SCHOOL ID: {auth.school_id}
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h4" fontWeight={700}>
-                  {userInfo.course + " - " + userInfo.year_level}
-                </Typography>
-                <Typography
-                  color={"text.secondary"}
-                  variant="h6"
-                  fontWeight={700}
-                >
-                  COURSE AND YEAR
-                </Typography>
-              </Grid>
+              {auth.role === "Student" && (
+                <Grid item xs={12} md={6}>
+                  <Typography variant="h4" fontWeight={700}>
+                    {userInfo.course + " - " + userInfo.year_level}
+                  </Typography>
+                  <Typography
+                    color={"text.secondary"}
+                    variant="h6"
+                    fontWeight={700}
+                  >
+                    COURSE AND YEAR
+                  </Typography>
+                </Grid>
+              )}
+              {auth.role !== "Student" && auth.role !== "Admin" && (
+                <Grid item xs={12} md={6}>
+                  <Typography variant="h4" fontWeight={700}>
+                    {userInfo.college + " - " + userInfo.department}
+                  </Typography>
+                  <Typography
+                    color={"text.secondary"}
+                    variant="h6"
+                    fontWeight={700}
+                  >
+                    COLLEGE
+                  </Typography>
+                </Grid>
+              )}
               <Grid item xs={12} md={6}>
                 <Typography variant="h4" fontWeight={700}>
                   {academicYear.year}
@@ -84,51 +122,56 @@ const Dashboard = () => {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={12}>
-          <Paper variant="outlined">
-            <Grid container spacing={2} p={2}>
-              <Grid item xs={12}>
-                <Typography variant="h5" color="darkred" fontWeight={700}>
-                  IMPORTANT NOTICE
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="h6" color="text.primary">
-                  Good day Students! We would like to hear from you!! Please
-                  provide us your evaluation and feedback of your instructors
-                  for your respective classes.
-                  <br />
-                  <br />
-                  Thank you
-                  <br />
-                  <br />
-                  Dean
-                </Typography>
-              </Grid>
-            </Grid>
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper variant="outlined">
-            <Grid container spacing={2} p={2}>
-              <Grid item xs={12}>
-                <Typography variant="h5" fontWeight={700}>
-                  Surveys
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Link to="/survey">
-                  <Typography variant="h6">
-                    You have n teachers waiting to be evaluated.
+        {auth.role === "Student" && (
+          <Grid item xs={12}>
+            <Paper variant="outlined">
+              <Grid container spacing={2} p={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h5" color="darkred" fontWeight={700}>
+                    IMPORTANT NOTICE
                   </Typography>
-                </Link>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h6" color="text.primary">
+                    {evalInfo.announcement || "No announcements."}
+                    <br />
+                    {evalInfo.dean}
+                    <br />
+                    Dean
+                  </Typography>
+                </Grid>
               </Grid>
-            </Grid>
-          </Paper>
-        </Grid>
+            </Paper>
+          </Grid>
+        )}
+        {auth.role !== "Admin" && (
+          <Grid item xs={12}>
+            <Paper variant="outlined">
+              <Grid container spacing={2} p={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h5" fontWeight={700}>
+                    Surveys
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Link to="/survey">
+                    <Typography variant="h6">
+                      {"You have " +
+                        (evalInfo.total - evalInfo.completed) +
+                        " surveys to answer."}
+                    </Typography>
+                  </Link>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        )}
+        {auth.role === "Admin" && (
+          <Grid item xs={12}>
+            <AdminDashboard />
+          </Grid>
+        )}
       </Grid>
-
-      {auth.role === "Admin" && <AdminDashboard />}
     </Box>
   );
 };

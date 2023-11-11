@@ -52,12 +52,12 @@ const Item = ({ title, to, icon }) => {
 const ProSidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { auth } = useAuth();
+  const { auth, userInfo } = useAuth();
   const { toggleSidebar, broken } = useProSidebar();
 
   const sideBarList = [
     {
-      access: ["Admin", "Department Head", "Teacher", "Student"],
+      access: ["Admin", "Dean", "Department Head", "Teacher", "Student"],
       name: "Dashboard",
       path: "/",
       icon: <HomeOutlinedIcon />,
@@ -75,17 +75,17 @@ const ProSidebar = () => {
       icon: <PeopleOutlineOutlinedIcon />,
     },
     {
-      access: ["Admin", "Department Head"],
+      access: ["Admin", "Dean"],
       name: "Colleges",
       path: "/colleges",
       icon: <CorporateFareOutlinedIcon />,
     },
-    // {
-    //   access: ["Admin", "Department Head"],
-    //   name: "Departments",
-    //   path: "/departments",
-    //   icon: <CorporateFareOutlinedIcon />,
-    // },
+    {
+      access: ["Department Head"],
+      name: "Department",
+      path: "/department",
+      icon: <CorporateFareOutlinedIcon />,
+    },
     {
       access: ["Admin"],
       name: "Questionnaire",
@@ -93,19 +93,19 @@ const ProSidebar = () => {
       icon: <QuizOutlinedIcon />,
     },
     {
-      access: ["Admin", "Department Head"],
+      access: ["Admin", "Dean", "Department Head"],
       name: "Evaluation",
       path: "/evaluation",
       icon: <PollOutlinedIcon />,
     },
     {
-      access: ["Admin", "Department Head", "Teacher", "Student"],
+      access: ["Admin", "Dean", "Department Head", "Teacher", "Student"],
       name: "Survey",
       path: "/survey",
       icon: <BallotOutlinedIcon />,
     },
     {
-      access: ["Admin", "Department Head"],
+      access: ["Admin", "Dean", "Department Head"],
       name: "Reports",
       path: "/reports",
       icon: <TimelineOutlinedIcon />,
@@ -239,7 +239,13 @@ const ProSidebar = () => {
                 <Item
                   key={sideBar.name}
                   title={sideBar.name}
-                  to={sideBar.path}
+                  to={
+                    auth.role === "Department Head"
+                      ? sideBar.name === "Department"
+                        ? `/colleges/${userInfo.dept_id}` + sideBar.path
+                        : sideBar.path
+                      : sideBar.path
+                  }
                   icon={sideBar.icon}
                 />
               ) : null

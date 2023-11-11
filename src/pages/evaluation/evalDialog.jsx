@@ -10,9 +10,9 @@ import CustomDataGrid from "../../components/CustomDatagrid";
 const colStudEval = [
   { field: "school_id", headerName: "School ID", width: 100 },
   { field: "name", headerName: "Name", flex: 1, minWidth: 180 },
-    { field: "email", headerName: "Email", flex: 1, minWidth: 180 },
-    { field: "course", headerName: "Course", width: 80 },
-    { field: "year_level", headerName: "Year", width: 40 },
+  { field: "email", headerName: "Email", flex: 1, minWidth: 180 },
+  { field: "course", headerName: "Course", width: 80 },
+  { field: "year_level", headerName: "Year", width: 40 },
   { field: "stub_code", headerName: "Stub Code", width: 80 },
   { field: "subject_code", headerName: "Subject", width: 100 },
   {

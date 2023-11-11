@@ -130,7 +130,7 @@ const FormDialog = ({
                             required
                             label={label}
                             inputFormat="MM/DD/YYYY"
-                            defaultValue={dayjs(defaultValue)}
+                            // defaultValue={dayjs(defaultValue)}
                             onChange={(newValue) =>
                               setFormData({
                                 ...formData,
