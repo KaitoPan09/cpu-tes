@@ -135,6 +135,7 @@ const Dashboard = () => {
                   <Typography variant="h6" color="text.primary">
                     {evalInfo.announcement || "No announcements."}
                     <br />
+                    <br />
                     {evalInfo.dean}
                     <br />
                     Dean
