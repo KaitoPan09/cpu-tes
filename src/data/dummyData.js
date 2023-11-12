@@ -1668,57 +1668,37 @@ export const dummyBarData = [
   {
     category: "PROFESSIONAL RESPONSIBILITIES",
     student: 4.43,
-    studentColor: "hsl(229, 70%, 50%)",
     supervisor: 4.36,
-    supervisorColor: "hsl(296, 70%, 50%)",
     peer: 4.92,
-    peerColor: "hsl(97, 70%, 50%)",
     self: 5.00,
-    selfColor: "hsl(340, 70%, 50%)",
   },
   {
     category: "PLANNING AND PREPARATION",
     student: 4.28,
-    studentColor: "hsl(229, 70%, 50%)",
     supervisor: 4.92,
-    supervisorColor: "hsl(296, 70%, 50%)",
     peer: 4.45,
-    peerColor: "hsl(97, 70%, 50%)",
     self: 4.38,
-    selfColor: "hsl(340, 70%, 50%)",
   },
   {
     category: "DELIVERY OF INSTRUCTION",
     student: 3.75,
-    studentColor: "hsl(229, 70%, 50%)",
     supervisor: 3.32,
-    supervisorColor: "hsl(296, 70%, 50%)",
     peer: 2.66,
-    peerColor: "hsl(97, 70%, 50%)",
     self: 4.82,
-    selfColor: "hsl(340, 70%, 50%)",
   },
   {
     category: "ASSESSMENT",
     student: 3.91,
-    studentColor: "hsl(229, 70%, 50%)",
     supervisor: 3.5,
-    supervisorColor: "hsl(296, 70%, 50%)",
     peer: 4.31,
-    peerColor: "hsl(97, 70%, 50%)",
     self: 3.56,
-    selfColor: "hsl(340, 70%, 50%)",
   },
   {
     category: "CLASSROOM MANAGEMENT",
     student: 3.9,
-    studentColor: "hsl(229, 70%, 50%)",
     supervisor: 3.3,
-    supervisorColor: "hsl(296, 70%, 50%)",
     peer: 4.28,
-    peerColor: "hsl(97, 70%, 50%)",
     self: 5.00,
-    selfColor: "hsl(340, 70%, 50%)",
   },
 ];
 
@@ -1778,5 +1758,28 @@ export const dummyUpdates = [
     type: "Teacher",
     stubCode: "stub 108",
     score: "1.33",
+  },
+];
+
+export const dummyBarBreakdown = [
+  {
+    category: "PROFESSIONAL RESPONSIBILITIES",
+    score: 4.43,
+  },
+  {
+    category: "PLANNING AND PREPARATION",
+    score: 4.28,
+  },
+  {
+    category: "DELIVERY OF INSTRUCTION",
+    score: 3.75,
+  },
+  {
+    category: "ASSESSMENT",
+    score: 3.91,
+  },
+  {
+    category: "CLASSROOM MANAGEMENT",
+    score: 3.9,
   },
 ];

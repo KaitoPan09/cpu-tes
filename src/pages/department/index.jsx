@@ -73,7 +73,8 @@ const Departments = () => {
     return response;
   };
   const handleUpdate = (row) => {
-    setSelectedDepartment(row);
+    const dept = rows.filter((r) => r.id === row.id)[0];
+    setSelectedDepartment(dept);
     setOpenUpdateDialog(true);
   };
   const handleDelete = (row) => {

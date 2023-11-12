@@ -16,6 +16,45 @@ import { useTheme } from "@emotion/react";
 import { Link } from "react-router-dom";
 import CustomDatagrid from "../../components/CustomDatagrid";
 const Reports = () => {
+    // const theme = useTheme();
+    // const colors = tokens(theme.palette.mode);
+    
+    // const columns = [
+    //     { 
+    //         field: "id", 
+    //         headerName: "ID",
+    //         flex: .1,
+    //     },
+    //     {
+    //         field: "department",
+    //         headerName: "Department",
+    //         flex: 1,
+    //         editable: true,
+    //     },
+    //     { 
+    //         field: "status", 
+    //         headerName: "Status", 
+    //         flex: .5,
+    //     },
+    //     {
+    //         field: 'actions',
+    //         type: 'actions',
+    //         headerName: ' ',
+    //         flex: .5,
+    //         cellClassName: 'actions',
+    //         getActions: () => {
+    //             return [
+    //                     <Link to="/reports/reportDetails">
+    //                         <GridActionsCellItem
+    //                             icon={<VisibilityOutlinedIcon />}
+    //                             label="View"
+    //                         />Details
+    //                     </Link>
+    //             ];
+    //             },
+    //         },
+    
+    // ]
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 

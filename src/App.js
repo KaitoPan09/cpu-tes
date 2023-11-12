@@ -26,6 +26,7 @@ import { AppContextProvider } from "./context/AppContext";
 import ManageDepartment from "./pages/department/manageDepartment";
 import { Colleges } from "./pages/colleges";
 import ManageCollege from "./pages/colleges/manageCollege";
+import { Profile } from "./pages/profile";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -79,7 +80,10 @@ function App() {
                   element={<ManageDepartment />}
                 />
                 <Route path="/evaluation" element={<Evaluation />} />
-                <Route path="/evaluations/:evalId/view" element={<ViewEvaluation />} />
+                <Route
+                  path="/evaluations/:evalId/view"
+                  element={<ViewEvaluation />}
+                />
                 <Route path="/reports" element={<Reports />} />
                 <Route path="/reports/details" element={<ReportDetails />} />
               </Route>
@@ -98,6 +102,7 @@ function App() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/survey" element={<Survey />} />
                 <Route path="/survey/surveyForm" element={<SurveyForm />} />
+                <Route path="/profile" element={<Profile />} />
               </Route>
 
               {/* </main> */}

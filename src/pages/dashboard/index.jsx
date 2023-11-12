@@ -32,13 +32,6 @@ const Dashboard = () => {
   useEffect(() => {
     (async () => {
       if (auth.role === "Student") {
-        // const faculties = await request(
-        //   `/api/evaluations/students/evaluate?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
-        // );
-        // const surveys_completed = faculties.filter(
-        //   (faculty) => faculty.isCompleted === true
-        // );
-        // setN_surveys(faculties.length - surveys_completed.length);
         const response = await request(
           `/api/evaluations/students/dashboard?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
         );
@@ -50,30 +43,39 @@ const Dashboard = () => {
   const { auth, userInfo, academicYear } = useAuth();
   return (
     <Box m="20px">
-      <Header title="DASHBOARD" subtitle="Welcome" />
+      <Header title="DASHBOARD" subtitle={`Welcome, ${auth.role}`} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Paper variant="outlined">
+          <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
             <Grid container spacing={2} p={2}>
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" fontWeight={700}>
+                <Typography
+                  variant="h4"
+                  fontWeight={700}
+                  color={colors.grey[100]}
+                >
                   {userInfo.name}
                 </Typography>
                 <Typography
-                  color={"text.secondary"}
                   variant="h6"
                   fontWeight={700}
+                  color={colors.yellowAccent[500]}
                 >
                   SCHOOL ID: {auth.school_id}
                 </Typography>
               </Grid>
               {auth.role === "Student" && (
                 <Grid item xs={12} md={6}>
-                  <Typography variant="h4" fontWeight={700}>
+                  <Typography
+                    variant="h4"
+                    fontWeight={700}
+                    color={colors.grey[100]}
+                  >
                     {userInfo.course + " - " + userInfo.year_level}
                   </Typography>
                   <Typography
-                    color={"text.secondary"}
+                    // color={"text.secondary"}
+                    color={colors.yellowAccent[500]}
                     variant="h6"
                     fontWeight={700}
                   >
@@ -96,11 +98,15 @@ const Dashboard = () => {
                 </Grid>
               )}
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" fontWeight={700}>
+                <Typography
+                  variant="h4"
+                  fontWeight={700}
+                  color={colors.grey[100]}
+                >
                   {academicYear.year}
                 </Typography>
                 <Typography
-                  color={"text.secondary"}
+                  color={colors.yellowAccent[500]}
                   variant="h6"
                   fontWeight={700}
                 >
@@ -108,11 +114,15 @@ const Dashboard = () => {
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" fontWeight={700}>
+                <Typography
+                  variant="h4"
+                  fontWeight={700}
+                  color={colors.grey[100]}
+                >
                   {academicYear.semester}
                 </Typography>
                 <Typography
-                  color={"text.secondary"}
+                  color={colors.yellowAccent[500]}
                   variant="h6"
                   fontWeight={700}
                 >
@@ -124,19 +134,23 @@ const Dashboard = () => {
         </Grid>
         {auth.role === "Student" && (
           <Grid item xs={12}>
-            <Paper variant="outlined">
+            <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
               <Grid container spacing={2} p={2}>
                 <Grid item xs={12}>
-                  <Typography variant="h5" color="darkred" fontWeight={700}>
+                  <Typography
+                    variant="h5"
+                    color={colors.redAccent[400]}
+                    fontWeight={700}
+                  >
                     IMPORTANT NOTICE
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h6" color="text.primary">
-                    {evalInfo.announcement || "No announcements."}
+                    {evalInfo?.announcement || "No announcements."}
                     <br />
                     <br />
-                    {evalInfo.dean}
+                    {evalInfo?.dean}
                     <br />
                     Dean
                   </Typography>
@@ -147,7 +161,7 @@ const Dashboard = () => {
         )}
         {auth.role !== "Admin" && (
           <Grid item xs={12}>
-            <Paper variant="outlined">
+            <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
               <Grid container spacing={2} p={2}>
                 <Grid item xs={12}>
                   <Typography variant="h5" fontWeight={700}>
@@ -158,7 +172,7 @@ const Dashboard = () => {
                   <Link to="/survey">
                     <Typography variant="h6">
                       {"You have " +
-                        (evalInfo.total - evalInfo.completed) +
+                        (evalInfo?.total - evalInfo?.completed) +
                         " surveys to answer."}
                     </Typography>
                   </Link>

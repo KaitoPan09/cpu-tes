@@ -42,7 +42,7 @@ const UpdDeptDialog = ({
       {
         department: data.get("department"),
         dept_code: data.get("dept_code"),
-        dept_head: dept_head ? dept_head.id : null,
+        dept_head: selectedFaculty.id,
       }
     );
     setDepartments(response);
@@ -50,23 +50,23 @@ const UpdDeptDialog = ({
     showSnackbar("Department updated successfully", "success");
   };
   const [faculties, setFaculties] = useState([]);
-  useEffect(() => {
-    const getFaculties = async () => {
-      let response = await request(
-        `/api/departments/${selectedDepartment.id}/faculties`
-      );
-      setFaculties(response ? response : []);
-      setSelectedFaculty(
-        response.find(
-          (faculty) => faculty.name === selectedDepartment.dept_head
-        )
-      );
-    };
-    if (selectedDepartment) {
-      getFaculties();
-    }
-    console.log(selectedDepartment);
-  }, [selectedDepartment]);
+  // useEffect(() => {
+  //   const getFaculties = async () => {
+  //     let response = await request(
+  //       `/api/departments/${selectedDepartment.id}/faculties`
+  //     );
+  //     setFaculties(response ? response : []);
+  //     setSelectedFaculty(
+  //       response.find(
+  //         (faculty) => faculty.name === selectedDepartment.dept_head
+  //       )
+  //     );
+  //   };
+  //   if (selectedDepartment) {
+  //     getFaculties();
+  //   }
+    
+  // }, [selectedDepartment]);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -107,7 +107,7 @@ const UpdDeptDialog = ({
                 disablePortal={true}
                 id="dept_head"
                 getOptionLabel={(option) => option.name}
-                options={faculties}
+                options={selectedDepartment?.faculties}
                 loading={loading}
                 value={selectedFaculty}
                 onChange={(event, newValue) => {

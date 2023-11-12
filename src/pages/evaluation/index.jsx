@@ -52,11 +52,7 @@ const Evaluation = () => {
       ? `/api/evaluations/current?role=${auth?.role}`
       : `/api/evaluations/current?role=${auth?.role}&college_id=${userInfo?.college_id}`
   );
-  const [departments, setDepartments] = useData(
-    auth?.role === "Admin"
-      ? `/api/departments`
-      : `/api/departments?college_id=${userInfo?.college_id}`
-  );
+  const [colleges, setColleges] = useData(`/api/colleges`);
   const [openUpdDialog, setOpenUpdDialog] = useState(false);
   const [selectedEvaluation, setSelectedEvaluation] = useState(null);
   const columns = [
@@ -68,12 +64,6 @@ const Evaluation = () => {
     {
       field: "college",
       headerName: "College",
-      flex: 1,
-      minWidth: 180,
-    },
-    {
-      field: "department",
-      headerName: "Department",
       flex: 1,
       minWidth: 180,
     },
@@ -92,9 +82,7 @@ const Evaluation = () => {
       headerName: "Status",
       width: 100,
     },
-
     {
-      // headerName: "",
       width: 140,
       type: "actions",
       renderCell: ({ row }) => {
@@ -151,11 +139,9 @@ const Evaluation = () => {
   };
   const submit = async (formData) => {
     const response = await postData(
-      auth.role === "Admin"
-        ? `/api/evaluations/new_evaluation?role=${auth.role}`
-        : `/api/evaluations/new_evaluation?role=${auth.role}&college_id=${userInfo?.college_id}`,
+      `/api/evaluations/new_evaluation`,
       {
-        dept_id: formData.department.id,
+        college_id: formData.college.id,
         start_date: formData.start_date,
       }
     );
@@ -199,10 +185,10 @@ const Evaluation = () => {
         fields={[
           {
             type: "comboBox",
-            label: "Select a Department",
-            name: "department",
-            options: departments,
-            getOptionLabel: (option) => option.department,
+            label: "Select a College",
+            name: "college",
+            options: colleges,
+            getOptionLabel: (option) => option.college,
           },
           {
             type: "date",

@@ -16,6 +16,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import CustomDataGrid from "../../components/CustomDatagrid";
 import useData from "../../hooks/useData";
 import { EvalDialog } from "./evalDialog";
+import { useAuth } from "../../context/AuthContext";
 
 const View = () => {
   const theme = useTheme();
@@ -23,9 +24,8 @@ const View = () => {
   const { evalId } = useParams();
   const location = useLocation();
   const evaluation = location.state;
-  const [rows, setRows] = useData(
-    `/api/evaluations/department_evaluations?evaluation_id=${evalId}`
-  );
+  const {auth} = useAuth();
+  const [rows, setRows] = useData(`/api/evaluations/${evalId}?role=${auth?.role}`);
   const [open, setOpen] = React.useState(false);
   const [selectedEval, setSelectedEval] = React.useState(null);
   const columns = [
@@ -39,6 +39,12 @@ const View = () => {
       field: "school_id",
       headerName: "School ID",
       flex: 1,
+      minwidth: 180,
+    },
+    {
+      field: "department",
+      headerName: "Department",
+      flex: 2,
       minwidth: 180,
     },
     {

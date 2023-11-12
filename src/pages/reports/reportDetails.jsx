@@ -5,7 +5,9 @@ import {
     Dialog,
     DialogActions,
     DialogTitle,  
-    DialogContent
+    DialogContent,
+    ListItemText,
+    Typography
 } from "@mui/material";
 import { 
     DataGrid, 
@@ -16,13 +18,16 @@ import {
     GridActionsCellItem,
     } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { dummyreportDeets } from "../../data/dummyData";
+import { dummyreportDeets, dummyBarBreakdown } from "../../data/dummyData";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Header from "../../components/Header";
 import { useTheme } from "@emotion/react";
 import { Link } from "react-router-dom";
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import BarGraph from "../../components/BarGraph";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
 
 const CustomToolbar = () => {
 
@@ -57,7 +62,7 @@ const Details = () => {
     };
     const handleClose = () => {
         setOpen(false);
-      };
+    };
 
     const columns = [
         {
@@ -198,11 +203,11 @@ const Details = () => {
                     TransitionProps={{ timeout: 0 }}
                     PaperProps={{
                         style: {
-                          maxWidth: "80%",
-                          width: "100%",
-                          animation: "none", 
+                        maxWidth: "100%",
+                        width: "100%",
+                        animation: "none", 
                         },
-                      }}
+                    }}
                     // sx={{
                     //     "& .MuiDialog-paper": {
                     //         maxWidth: "80%", 
@@ -214,10 +219,80 @@ const Details = () => {
                     <DialogContent 
                         sx={{
                             height: "1000px",
-                            width: "100%"
+                            width: "100%",
                         }}
                     >
-                        <BarGraph />
+                        <Box display="flex" height="100%" width="100%">
+                        <Box height="100%" width="35%">
+                            {/* <List sx={{width: "100%", maxWidth: 360}}>
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText>
+                                        PROFESSIONAL RESPONSIBILITIES (20%)
+                                    </ListItemText>
+                                </ListItem>
+                                <Divider />
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText>
+                                        PLANNING AND PREPARATION (20%)
+                                    </ListItemText>
+                                </ListItem>
+                                <Divider />
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText>
+                                        DELIVERY OF INSTRUCTION (30%)
+                                    </ListItemText>
+                                </ListItem>
+                                <Divider />
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText>
+                                        ASSESSMENT (20%)
+                                    </ListItemText>
+                                </ListItem>
+                                <Divider />
+                                <ListItem alignItems="flex-start">
+                                    <ListItemText>
+                                        CLASSROOM MANAGEMENT (10%)
+                                    </ListItemText>
+                                </ListItem>
+                                <Divider />
+                                <ListItem alignItems="flex-start"> 
+                                    <ListItemText>
+                                    <Typography sx={{ fontWeight: 'bold'}}>
+                                        Evaluation Score
+                                    </Typography>
+                                    </ListItemText>
+                                </ListItem>
+                                <Divider />
+                            </List> */}
+                            <List sx={{ width: "100%", maxWidth: 360 }}>
+                            {dummyBarBreakdown.map((item, index) => (
+                                <div key={item.category}>
+                                    <ListItem alignItems="flex-start">
+                                        <ListItemText
+                                            // primary={`${item.category}(20%)`}
+                                            // sx={{ textAlign: "left" }} 
+                                            primary={
+                                                index === 2 ? `${item.category}(30%)`:
+                                                index === 4 ? `${item.category}(10%)`:
+                                                `${item.category}(20%)`
+                                            }
+                                            sx={{ textAlign: "left" }} 
+                                        />
+                                        <ListItemText
+                                            primary={item.score} 
+                                            sx={{ textAlign: "right" }}
+                                        />
+                                    </ListItem>
+                                <Divider />
+                                </div>
+                            ))}
+                            </List>
+                        </Box>
+                        <Box height="100%" width="100%">
+                            <BarGraph reportDetails={true} />
+                        </Box>
+                        </Box>
+                        {/* <BarGraph reportDetails={true}/> */}
                     </DialogContent>
                     <DialogActions>
                         <Button 
