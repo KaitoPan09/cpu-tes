@@ -103,8 +103,8 @@ const SurveyForm = () => {
       <Button
         variant="contained"
         onClick={func}
-        color="primary"
-        sx={{ margin: 2 }}
+        // color="primary"
+        sx={{ margin: 2, backgroundColor: colors.blueAccent[300], color: colors.grey[900] }}
       >
         {text}
       </Button>
@@ -142,8 +142,8 @@ const SurveyForm = () => {
           <Button
             variant="contained"
             onClick={handleCancel}
-            color="primary"
-            sx={{ margin: 2 }}
+            // color="primary"
+            sx={{ margin: 2, backgroundColor: colors.blueAccent[300], color: colors.grey[900] }}
           >
             Cancel
           </Button>
@@ -298,9 +298,9 @@ const getSurveyModel = (questionCategories) => {
           type: "boolean",
           name: question.id.toString(),
           title: question.question,
-          valueTrue: "Yes",
-          valueFalse: "No",
-          renderAs: "radio",
+          // valueTrue: "Yes",
+          // valueFalse: "No",
+          // renderAs: "radio",
           isRequired: true,
         };
       } else {

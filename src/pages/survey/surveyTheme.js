@@ -10,7 +10,7 @@ export const themeJson = {
     // "--sjs-general-forecolor": "rgba(0, 0, 0, 0.91)",
     "--sjs-general-forecolor": "#e0e0e0",//survey text
     // "--sjs-general-forecolor-light": "rgba(0, 0, 0, 0.45)",
-    "--sjs-general-forecolor-light": "#ffef99",//page number
+    "--sjs-general-forecolor-light": "#3da58a",//page number
     // "--sjs-general-dim-forecolor": "rgba(0, 0, 0, 0.91)",
     "--sjs-general-dim-forecolor": "#ffe766",//title
     "--sjs-general-dim-forecolor-light": "rgba(0, 0, 0, 0.5)",
@@ -93,6 +93,7 @@ export const themeJson = {
     "--sjs-article-font-default-lineHeight": "28px",
     "--sjs-article-font-default-paragraphIndent": "0px",
     "--sjs-article-font-default-textCase": "none",
+    "--sjs-font-editorfont-color": "black", //text box font color
   },
   isPanelless: false,
 };
