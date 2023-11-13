@@ -60,7 +60,7 @@ const Login = () => {
           backgroundPosition: "center",
         }}
       >
-        <Grid
+        {/* <Grid
           item
           container
           //alignContent={"center"}
@@ -75,7 +75,7 @@ const Login = () => {
           }}
         >
           
-        </Grid>
+        </Grid> */}
         <Grid
           item
           xs={12}
@@ -90,7 +90,7 @@ const Login = () => {
         >
           <Box
             sx={{
-              my: 8,
+              my: 16,
               mx: 4,
               display: "flex",
               flexDirection: "column",
@@ -144,7 +144,7 @@ const Login = () => {
                     fontWeight: { xs: "500", lg: "700" },
                     fontSize: { xs: "0.8rem", lg: "1rem" },
                     letterSpacing: "0.1rem",
-                    color: "#685990",
+                    // color: "#685990",
                     justifyContent: "space-around",
                   }}
                 >
