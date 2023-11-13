@@ -26,19 +26,27 @@ import { useAuth } from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
 import { tokens } from "../../theme";
 import { LoadingButton } from "@mui/lab";
+import { useAppContext } from "../../context/AppContext";
 
 export const Profile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { auth, userInfo } = useAuth();
   const { postData, loading } = useFetch();
+  const { showSnackbar } = useAppContext();
   const [password, setPassword] = React.useState({
     currentPassword: "",
     newPassword: "",
   });
   const changePassword = async (e) => {
     e.preventDefault();
-    await postData("api/auth/change_password", password);
+    const response = await postData("api/auth/change_password", password);
+    if (response.success) {
+      showSnackbar(response.msg, "success");
+    } else {
+      showSnackbar(response.msg, "error");
+    }
+    setPassword({ currentPassword: "", newPassword: "" });
   };
   const [showPassword, setShowPassword] = React.useState(false);
   return (
@@ -129,23 +137,27 @@ export const Profile = () => {
             />
           </Grid>
           <Grid item xs={12} alignContent={"center"}>
-            <LoadingButton
-              fullWidth
-              type="submit"
-              form="change-password-form"
-              sx={{
-                backgroundColor: colors.blueAccent[700],
-                color: colors.grey[100],
-                fontSize: "14px",
-                fontWeight: "bold",
-                padding: "10px 20px",
-                maxWidth: "360px",
-              }}
-              loading={loading}
-              disabled={loading}
-            >
-              Save
-            </LoadingButton>
+            {loading ? (
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <Button
+                fullWidth
+                type="submit"
+                form="change-password-form"
+                sx={{
+                  backgroundColor: colors.blueAccent[700],
+                  color: colors.grey[100],
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  padding: "10px 20px",
+                  maxWidth: "360px",
+                }}
+              >
+                Save
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Box>

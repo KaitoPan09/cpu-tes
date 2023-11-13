@@ -33,19 +33,18 @@ const View = () => {
       field: "faculty",
       headerName: "Faculty",
       flex: 2,
-      minwidth: 180,
+      minWidth: 150,
     },
     {
       field: "school_id",
       headerName: "School ID",
-      flex: 1,
-      minwidth: 180,
+      width: 120,
     },
     {
       field: "department",
       headerName: "Department",
       flex: 2,
-      minwidth: 180,
+      minWidth: 150,
     },
     {
       field: "supervisor",
@@ -89,7 +88,7 @@ const View = () => {
     {
       field: "student",
       headerName: "Student",
-      width: 100,
+      width: 120,
       renderCell: ({ row }) => {
         return [
           <Tooltip title="Click to view details">
