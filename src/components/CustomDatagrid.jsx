@@ -11,6 +11,7 @@ const CustomDataGrid = ({
   btnText,
   handleRowDoubleClick,
   setOpen,
+  fontSize = "1rem",
   ...props
 }) => {
   const theme = useTheme();
@@ -52,6 +53,7 @@ const CustomDataGrid = ({
       }}
     >
       <DataGrid
+        sx={{ fontSize: fontSize }}
         getRowHeight={() => "auto"}
         rowHeight="52px"
         rows={rows}

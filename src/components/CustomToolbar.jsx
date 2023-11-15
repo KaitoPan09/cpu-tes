@@ -8,9 +8,11 @@ import {
   GridToolbarDensitySelector,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import React from "react";
 
-export const CustomToolbar = ({ handleAdd, btnText, setOpen }) => {
+export const CustomToolbar = ({ handleAdd, btnText, setOpen, handleBack }) => {
+  // console.log(handleBack);
   return (
     <GridToolbarContainer>
       {handleAdd && btnText && (
@@ -20,7 +22,7 @@ export const CustomToolbar = ({ handleAdd, btnText, setOpen }) => {
           onClick={handleAdd}
           sx={{
             padding: "4px 5px",
-            fontSize: "0.6964285714285714rem",
+            fontSize: "0.833rem",
           }}
         >
           {btnText}
@@ -42,12 +44,36 @@ export const CustomToolbar = ({ handleAdd, btnText, setOpen }) => {
           }}
           sx={{
             padding: "4px 5px",
-            fontSize: "0.6964285714285714rem",
+            fontSize: "0.833rem",
           }}
         >
           Import Data
         </Button>
       )}
+      {handleBack && (
+        <Button
+          color="primary"
+          startIcon={<ArrowBackOutlinedIcon />}
+          onClick={handleBack}
+          sx={{
+            padding: "4px 5px",
+            fontSize: "0.833rem",
+          }}
+        >
+          Return
+        </Button>
+      )}
+
+      {/* <Button 
+          color="primary" 
+          startIcon={<ArrowBackOutlinedIcon />}
+          sx={{
+              padding: "4px 5px",
+              fontSize: "0.6964285714285714rem"
+          }}
+          >
+          RETURN
+      </Button> */}
     </GridToolbarContainer>
   );
 };

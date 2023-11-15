@@ -33,10 +33,11 @@ export const Faculty = () => {
       headerName: "Manage",
       width: 100,
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: '1.25rem' };
         return [
           <Tooltip title="Edit">
             <IconButton onClick={() => console.log(row)}>
-              <BorderColorOutlined />
+              <BorderColorOutlined sx={{ fontSize: iconStyle.fontSize }}/>
             </IconButton>
           </Tooltip>,
           <Tooltip title="Delete">
@@ -45,7 +46,7 @@ export const Faculty = () => {
                 console.log(row);
               }}
             >
-              <DeleteOutlineOutlined />
+              <DeleteOutlineOutlined sx={{ fontSize: iconStyle.fontSize }}/>
             </IconButton>
           </Tooltip>,
         ];

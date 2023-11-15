@@ -52,7 +52,7 @@ export const Classes = () => {
     {
       field: "n_students",
       headerName: "No. Of Students",
-      width: 100,
+      width: 120,
       renderCell: ({ row }) => (
         <Button
           variant="text"

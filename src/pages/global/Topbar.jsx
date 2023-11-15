@@ -53,6 +53,7 @@ const Topbar = () => {
           onClick={() => toggleSidebar()}
           sx={{
             display: broken ? "block" : "none",
+            fontSize: "1.5rem"
           }}
         >
           <MenuOutlinedIcon />
@@ -106,7 +107,7 @@ const Topbar = () => {
 
       {/* ICONS */}
       <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode}>
+        <IconButton onClick={colorMode.toggleColorMode} sx={{ fontSize: "1.5rem" }}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />
           ) : (
@@ -125,6 +126,7 @@ const Topbar = () => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
+          sx={{ fontSize: "1.5rem" }}
         >
           <AccountCircleOutlinedIcon />
         </IconButton>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, IconButton, Link, Tooltip } from "@mui/material";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -94,17 +94,17 @@ const Users = () => {
       field: "actions",
       type: "actions",
       headerName: "Edit/Delete",
-      width: 80,
+      width: 100,
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: '1.25rem' };
         return [
-          <GridActionsCellItem
-            icon={<BorderColorOutlinedIcon />}
-            label="Edit"
-            onClick={() => handleUpdate(row)}
-          />,
-          <GridActionsCellItem
-            icon={<DeleteOutlineOutlinedIcon />}
-            label="Delete"
+          <Tooltip title="Edit">
+            <IconButton onClick={() => handleUpdate(row)}>
+              <BorderColorOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+            </IconButton>
+          </Tooltip>,
+          <Tooltip title="Delete">
+          <IconButton
             onClick={() => {
               if (row.school_id === auth.school_id) {
                 window.alert("You cannot delete yourself");
@@ -112,7 +112,21 @@ const Users = () => {
               }
               handleDelete(row);
             }}
-          />,
+          >
+            <DeleteOutlineOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+          </IconButton>
+        </Tooltip>,
+          // <GridActionsCellItem
+          //   icon={<DeleteOutlineOutlinedIcon sx={{ fontSize: iconStyle.fontSize }} />}
+          //   label="Delete"
+          //   onClick={() => {
+          //     if (row.school_id === auth.school_id) {
+          //       window.alert("You cannot delete yourself");
+          //       return;
+          //     }
+          //     handleDelete(row);
+          //   }}
+          // />,
         ];
       },
     },
@@ -127,7 +141,7 @@ const Users = () => {
         rows={rows}
         columns={columns}
         handleAdd={handleAdd}
-        handleRowDoubleClick={handleRowDoubleClick}
+        // handleRowDoubleClick={handleRowDoubleClick}
         btnText="ADD NEW USER"
       />
       <AddUserDialog

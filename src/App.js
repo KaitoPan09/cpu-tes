@@ -85,7 +85,7 @@ function App() {
                   element={<ViewEvaluation />}
                 />
                 <Route path="/reports" element={<Reports />} />
-                <Route path="/reports/details" element={<ReportDetails />} />
+                <Route path="/reports/reportDetails" element={<ReportDetails />} />
               </Route>
               <Route
                 element={

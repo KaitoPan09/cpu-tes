@@ -150,26 +150,13 @@ const Departments = () => {
       minWidth: 100,
     },
     {
-      field: "actions",
-      type: "actions",
+      field: "manage",
+      type: "manage",
       headerName: "Manage",
-      width: 100,
+      width: 90,
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: '1.25rem' };
         return [
-          <Tooltip title="Edit">
-            <IconButton onClick={() => handleUpdate(row)}>
-              <BorderColorOutlinedIcon />
-            </IconButton>
-          </Tooltip>,
-          <Tooltip title="Delete">
-            <IconButton
-              onClick={() => {
-                handleDelete(row);
-              }}
-            >
-              <DeleteOutlineOutlinedIcon />
-            </IconButton>
-          </Tooltip>,
           <Tooltip title="Manage">
             <IconButton
               onClick={() => {
@@ -180,9 +167,47 @@ const Departments = () => {
                 );
               }}
             >
-              <ManageSearchOutlined />
+              <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }}/>
             </IconButton>
           </Tooltip>,
+        ];
+      },
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 100,
+      renderCell: ({ row }) => {
+        const iconStyle = { fontSize: '1.25rem' };
+        return [
+          <Tooltip title="Edit">
+            <IconButton onClick={() => handleUpdate(row)}>
+              <BorderColorOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+            </IconButton>
+          </Tooltip>,
+          <Tooltip title="Delete">
+            <IconButton
+              onClick={() => {
+                handleDelete(row);
+              }}
+            >
+              <DeleteOutlineOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+            </IconButton>
+          </Tooltip>,
+        //   <Tooltip title="Manage">
+        //   <IconButton
+        //     onClick={() => {
+        //       navigate(
+        //         `/departments/${row.id}/manage`,
+        //         { state: row },
+        //         { replace: true }
+        //       );
+        //     }}
+        //   >
+        //     <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }}/>
+        //   </IconButton>
+        // </Tooltip>,
         ];
       },
     },

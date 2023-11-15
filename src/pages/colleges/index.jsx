@@ -9,6 +9,7 @@ import {
   CropRotateOutlined,
   ManageSearchOutlined,
 } from "@mui/icons-material";
+import AssistantDirectionIcon from '@mui/icons-material/AssistantDirection';
 import DeleteOutlineOutlined from "@mui/icons-material/DeleteOutlineOutlined";
 import Header from "../../components/Header";
 import CustomDataGrid from "../../components/CustomDatagrid";
@@ -44,28 +45,14 @@ export const Colleges = () => {
       headerName: "College Code",
       width: 100,
     },
-
     {
-      field: "actions",
+      field: "manage",
       type: "actions",
-      headerName: "Actions",
-      width: 120,
+      headerName: "Manage",
+      width: 90,
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: '1.25rem' };
         return [
-          <Tooltip title="Edit">
-            <IconButton onClick={() => handleUpdate(row)}>
-              <BorderColorOutlined />
-            </IconButton>
-          </Tooltip>,
-          <Tooltip title="Delete">
-            <IconButton
-              onClick={() => {
-                handleDelete(row);
-              }}
-            >
-              <DeleteOutlineOutlined />
-            </IconButton>
-          </Tooltip>,
           <Tooltip title="Manage">
             <IconButton
               onClick={() => {
@@ -76,30 +63,91 @@ export const Colleges = () => {
                 );
               }}
             >
-              <ManageSearchOutlined />
+              <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }}/>
             </IconButton>
           </Tooltip>,
         ];
       },
     },
     {
-      headerName: "",
-      width: 140,
+      field: "goto",
+      type: "actions",
+      headerName: "To Departments",
+      width: 150,
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: '1.25rem' };
         return [
-          <Link
-            component="button"
-            variant="body2"
-            color={"secondary"}
-            onClick={() => {
-              navigate(`/colleges/${row.id}/departments`, { state: row });
-            }}
-          >
-            Go to Departments
-          </Link>,
+          <Tooltip title="Go to Department">
+            <IconButton
+              onClick={() => {
+                navigate(
+                  `/colleges/${row.id}/departments`,
+                  { state: row },
+                );
+              }}
+            >
+              <AssistantDirectionIcon sx={{ fontSize: iconStyle.fontSize }}/>
+            </IconButton>
+          </Tooltip>,
         ];
       },
     },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 120,
+      renderCell: ({ row }) => {
+        const iconStyle = { fontSize: '1.25rem' };
+        return [
+          <Tooltip title="Edit">
+            <IconButton onClick={() => handleUpdate(row)}>
+              <BorderColorOutlined sx={{ fontSize: iconStyle.fontSize }}/>
+            </IconButton>
+          </Tooltip>,
+          <Tooltip title="Delete">
+            <IconButton
+              onClick={() => {
+                handleDelete(row);
+              }}
+            >
+              <DeleteOutlineOutlined sx={{ fontSize: iconStyle.fontSize }}/>
+            </IconButton>
+          </Tooltip>,
+          // <Tooltip title="Manage">
+          //   <IconButton
+          //     onClick={() => {
+          //       navigate(
+          //         `/colleges/${row.id}/manage`,
+          //         { state: row },
+          //         { replace: true }
+          //       );
+          //     }}
+          //   >
+          //     <ManageSearchOutlined />
+          //   </IconButton>
+          // </Tooltip>,
+        ];
+      },
+    },
+    // {
+    //   headerName: "",
+    //   width: 140,
+    //   renderCell: ({ row }) => {
+    //     return [
+    //       <Link
+    //         component="button"
+    //         variant="body2"
+    //         color={"secondary"}
+    //         onClick={() => {
+    //           navigate(`/colleges/${row.id}/departments`, { state: row });
+    //         }}
+    //       >
+    //         Go to Departments
+    //       </Link>,
+    //     ];
+    //   },
+    // },
   ];
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
@@ -148,6 +196,10 @@ export const Colleges = () => {
     );
     return response;
   };
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -157,9 +209,10 @@ export const Colleges = () => {
         rows={rows}
         columns={columns}
         handleAdd={handleAdd}
-        handleRowDoubleClick={handleRowDoubleClick}
+        // handleRowDoubleClick={handleRowDoubleClick}
         btnText={"ADD NEW COLLEGE"}
         setOpen={setImportOpen}
+        handleBack={handleBack}
       />
       <FormDialog
         setRows={setRows}

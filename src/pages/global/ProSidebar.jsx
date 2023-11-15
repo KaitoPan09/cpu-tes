@@ -190,6 +190,7 @@ const ProSidebar = () => {
                   onClick={() => {
                     toggleSidebar();
                   }}
+                  sx={{ fontSize: "1.5rem" }}
                 >
                   <ChevronLeftOutlined />
                 </IconButton>

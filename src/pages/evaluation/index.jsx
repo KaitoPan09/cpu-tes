@@ -83,9 +83,42 @@ const Evaluation = () => {
       width: 100,
     },
     {
+      field: "details",
+      headerName: "Details",
+      width: 60,
+      type: "action",
+      renderCell: ({ row }) => {
+        const iconStyle = { fontSize: '1.25rem' };
+        return [
+          <Tooltip title="Details">
+            <IconButton
+              onClick={() => {
+                navigate(`/evaluations/${row.id}/view`, { state: row });
+              }}
+            >
+              <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }}/>
+            </IconButton>
+          </Tooltip>,
+          // <Button
+          //   // component="button"
+          //   // variant="body1"
+          //   color={"secondary"}
+          //   onClick={() => {
+          //     navigate(`/evaluations/${row.id}/view`, { state: row });
+          //   }}
+          // >
+          //   Details
+          // </Button>,
+        ];
+      },
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
       width: 140,
       type: "actions",
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: '1.25rem' };
         return [
           <Tooltip title="Edit">
             <IconButton
@@ -98,7 +131,7 @@ const Evaluation = () => {
                 }
               }}
             >
-              <BorderColorOutlinedIcon />
+              <BorderColorOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
             </IconButton>
           </Tooltip>,
           <Tooltip title="Delete">
@@ -107,19 +140,19 @@ const Evaluation = () => {
                 console.log(row);
               }}
             >
-              <DeleteOutlineOutlinedIcon />
+              <DeleteOutlineOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
             </IconButton>
           </Tooltip>,
-          <Button
-            // component="button"
-            // variant="body1"
-            color={"secondary"}
-            onClick={() => {
-              navigate(`/evaluations/${row.id}/view`, { state: row });
-            }}
-          >
-            Details
-          </Button>,
+          // <Button
+          //   // component="button"
+          //   // variant="body1"
+          //   color={"secondary"}
+          //   onClick={() => {
+          //     navigate(`/evaluations/${row.id}/view`, { state: row });
+          //   }}
+          // >
+          //   Details
+          // </Button>,
         ];
       },
     },
