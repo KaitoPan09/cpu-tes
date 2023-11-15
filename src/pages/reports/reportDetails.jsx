@@ -7,7 +7,9 @@ import {
     DialogTitle,  
     DialogContent,
     ListItemText,
-    Typography
+    Typography,
+    Tooltip,
+    IconButton,
 } from "@mui/material";
 import { 
     DataGrid, 
@@ -28,29 +30,30 @@ import BarGraph from "../../components/BarGraph";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
+import CustomDatagrid from "../../components/CustomDatagrid";
 
-const CustomToolbar = () => {
+// const CustomToolbar = () => {
 
-    return (
-        <GridToolbarContainer>
-            <GridToolbarColumnsButton />
-            <GridToolbarFilterButton />
-            <GridToolbarDensitySelector />
-            <Link to="/reports">
-                <Button 
-                    color="primary" 
-                    startIcon={<ArrowBackOutlinedIcon />}
-                    sx={{
-                        padding: "4px 5px",
-                        fontSize: "0.6964285714285714rem"
-                    }}
-                    >
-                    RETURN
-                </Button>
-            </Link>
-        </GridToolbarContainer>
-    )
-}
+//     return (
+//         <GridToolbarContainer>
+//             <GridToolbarColumnsButton />
+//             <GridToolbarFilterButton />
+//             <GridToolbarDensitySelector />
+//             <Link to="/reports">
+//                 <Button 
+//                     color="primary" 
+//                     startIcon={<ArrowBackOutlinedIcon />}
+//                     sx={{
+//                         padding: "4px 5px",
+//                         fontSize: "0.6964285714285714rem"
+//                     }}
+//                     >
+//                     RETURN
+//                 </Button>
+//             </Link>
+//         </GridToolbarContainer>
+//     )
+// }
 
 const Details = () => {
     const theme = useTheme();
@@ -114,13 +117,21 @@ const Details = () => {
             }
         },
         {
-            field: 'actions',
+            field: 'bar',
             type: 'actions',
-            headerName: ' ',
+            headerName: 'Graph',
             flex: .5,
-            cellClassName: 'actions',
+            cellClassName: 'bar',
             getActions: () => {
+                const iconStyle = { fontSize: '1.25rem' };
                 return [
+                    <Tooltip title="Bar Graph">
+                        <IconButton
+                        onClick={handleOpenDialog}
+                        >
+                            <FactCheckOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+                        </IconButton>
+                    </Tooltip>,
                     // <Link to="../../components/BarGraph">
                     // <GridActionsCellItem
                     //         icon={<FactCheckOutlinedIcon />}
@@ -128,11 +139,11 @@ const Details = () => {
                     //         onClick={handleOpenDialog}
                     //     />
                     // </Link>
-                        <GridActionsCellItem
-                            icon={<FactCheckOutlinedIcon />}
-                            label="Graphs"
-                            onClick={handleOpenDialog}
-                        />
+                        // <GridActionsCellItem
+                        //     icon={<FactCheckOutlinedIcon />}
+                        //     label="Graphs"
+                        //     onClick={handleOpenDialog}
+                        // />
                 ];
                 },
             },
@@ -150,7 +161,8 @@ const Details = () => {
                     subtitle="Viewing Details for Survey Placeholder" 
                     />
             </Box>
-            <Box
+            <CustomDatagrid rows={dummyreportDeets} columns={columns} />
+            {/* <Box
                 height="70vh"
                 sx={{
                     "& .MuiDataGrid-root": { border: "none" },
@@ -196,7 +208,7 @@ const Details = () => {
                             }
                         },
                     }}
-                    />
+                    /> */}
                 <Dialog 
                     open={open} 
                     onClose={handleClose} 
@@ -306,7 +318,7 @@ const Details = () => {
                         </Button>
                     </DialogActions>
                 </Dialog>
-            </Box>
+            {/* </Box> */}
         </Box>
     )
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Tooltip, IconButton } from "@mui/material";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -13,7 +13,7 @@ import { dummyEvalResult } from "../../data/dummyData";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import Header from "../../components/Header";
 import { useTheme } from "@emotion/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CustomDatagrid from "../../components/CustomDatagrid";
 const Reports = () => {
     // const theme = useTheme();
@@ -57,6 +57,7 @@ const Reports = () => {
     // ]
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -76,20 +77,31 @@ const Reports = () => {
       flex: 0.5,
     },
     {
-      field: "actions",
+      field: "details",
       type: "actions",
-      headerName: " ",
+      headerName: "Details",
       flex: 0.5,
-      cellClassName: "actions",
+      cellClassName: "details",
       getActions: () => {
+        const iconStyle = { fontSize: '1.25rem' };
         return [
-          <Link to="/reports/reportDetails">
-            <GridActionsCellItem
-              icon={<VisibilityOutlinedIcon />}
-              label="View"
-            />
-            Details
-          </Link>,
+          <Tooltip title="Details">
+            <IconButton
+              onClick={() => {
+                navigate(`/reports/reportDetails`);
+              }}
+            >
+              <VisibilityOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+            </IconButton>
+          </Tooltip>,
+
+          // <Link to="/reports/reportDetails">
+          //   <GridActionsCellItem
+          //     icon={<VisibilityOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>}
+          //     label="View"
+          //   />
+          //   Details
+          // </Link>,
         ];
       },
     },
