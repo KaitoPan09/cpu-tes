@@ -5,7 +5,10 @@ import useData from "../../hooks/useData";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import FormDialog from "../../components/FormDialog";
+import { useNavigate } from "react-router-dom";
+
 export const Courses = () => {
+  const navigate = useNavigate();
   const { collegeId } = useParams();
   const { postData, loading } = useFetch();
   const [rows, setRows] = useData(`/api/colleges/${collegeId}/courses`);
@@ -24,6 +27,9 @@ export const Courses = () => {
     );
     return response;
   };
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   return (
     <Box>
@@ -33,6 +39,7 @@ export const Courses = () => {
         handleAdd={handleAdd}
         //handleRowDoubleClick={handleRowDoubleClick}
         btnText={"ADD NEW COURSE"}
+        handleBack={handleBack}
       />{" "}
       <FormDialog
         setRows={setRows}

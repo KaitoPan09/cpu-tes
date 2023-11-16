@@ -196,9 +196,6 @@ export const Colleges = () => {
     );
     return response;
   };
-  const handleBack = () => {
-    navigate(-1);
-  };
 
   return (
     <Box m="20px">
@@ -212,7 +209,6 @@ export const Colleges = () => {
         // handleRowDoubleClick={handleRowDoubleClick}
         btnText={"ADD NEW COLLEGE"}
         setOpen={setImportOpen}
-        handleBack={handleBack}
       />
       <FormDialog
         setRows={setRows}

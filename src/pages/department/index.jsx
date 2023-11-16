@@ -216,6 +216,10 @@ const Departments = () => {
   if (college === null || college === undefined) {
     return (college === null || college === undefined) && <Navigate to="/colleges" replace />;
   }
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -232,6 +236,7 @@ const Departments = () => {
         handleRowDoubleClick={handleRowDoubleClick}
         btnText={"ADD NEW DEPARTMENT"}
         setOpen={setOpen}
+        handleBack={handleBack}
       />
       <FormDialog
         setRows={setRows}

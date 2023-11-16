@@ -10,8 +10,10 @@ import {
 import { Form, useParams } from "react-router-dom";
 import FormDialog from "../../components/FormDialog";
 import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 
 export const Faculty = () => {
+  const navigate = useNavigate();
   const { collegeId, deptId } = useParams();
   const { postData, loading } = useFetch();
   const [rows, setRows] = useData(
@@ -72,6 +74,9 @@ export const Faculty = () => {
     setSelectedRow(params.row);
     setOpenUpdateDialog(true);
   };
+  const handleBack = () => {
+    navigate(-1);
+  };
   const submit = async (formData) => {
     const url = collegeId
       ? `/api/faculty/add?college_id=${collegeId}`
@@ -88,6 +93,7 @@ export const Faculty = () => {
         handleAdd={handleAdd}
         handleRowDoubleClick={handleRowDoubleClick}
         btnText={"ADD NEW FACULTY"}
+        handleBack={handleBack}
       />
       <FormDialog
         setRows={setRows}

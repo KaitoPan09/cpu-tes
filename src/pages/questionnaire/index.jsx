@@ -4,6 +4,8 @@ import {
     Button, 
     DialogContent,
     DialogContentText, 
+    Tooltip,
+    IconButton,
 } from "@mui/material";
 import { 
     DataGrid,
@@ -34,6 +36,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
 import PollOutlinedIcon from '@mui/icons-material/PollOutlined';
 import React, { useState } from "react";
+import CustomDatagrid from "../../components/CustomDatagrid";
 
 const Questionnaire = () => {
     const theme = useTheme();
@@ -56,7 +59,7 @@ const Questionnaire = () => {
 
     const handleRowEditStop = (params, event) => {
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-          event.defaultMuiPrevented = true;
+            event.defaultMuiPrevented = true;
         }
     };
     
@@ -84,13 +87,13 @@ const Questionnaire = () => {
     
     const handleCancelClick = (id) => () => {
         setRowModesModel({
-          ...rowModesModel,
-         [id]: { mode: GridRowModes.View, ignoreModifications: true },
+            ...rowModesModel,
+            [id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
     
     const editedRow = rows.find((row) => row.id === id);
         if (editedRow.isNew) {
-          setRows(rows.filter((row) => row.id !== id));
+            setRows(rows.filter((row) => row.id !== id));
         }
     };
     
@@ -164,6 +167,10 @@ const Questionnaire = () => {
             </GridToolbarContainer>
         )
     }
+
+    const handleAdd = () => {
+        // setOpenAddDialog(true);
+    };
     
 
     const columnsCategory = [
@@ -188,46 +195,68 @@ const Questionnaire = () => {
             editable: true
         },
         {
-            field: 'actions',
-            type: 'actions',
-            headerName: 'Edit/Delete',
+            field: "actions",
+            type: "actions",
+            headerName: "Edit/Delete",
             width: 100,
-            cellClassName: 'actions',
-            getActions: ({ id }) => {
-              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-      
-                if (isInEditMode) {
-                    return [
-                    <GridActionsCellItem
-                        icon={<SaveOutlinedIcon />}
-                        label="Save"
-                        sx={{
-                        color: colors.yellowAccent[300],
-                        }}
-                        onClick={handleSaveClick(id)}
-                    />,
-                    <GridActionsCellItem
-                        icon={<CancelOutlinedIcon />}
-                        label="Cancel"
-                        onClick={handleCancelClick(id)}
-                    />,
-                    ];
-                }
-      
+            renderCell: ({ row }) => {
+                const iconStyle = { fontSize: '1.25rem' };
                 return [
-                    <GridActionsCellItem
-                    icon={<BorderColorOutlinedIcon />}
-                    label="Edit"
-                    onClick={handleEditClick(id)}
-                    />,
-                    <GridActionsCellItem
-                    icon={<DeleteOutlineOutlinedIcon />}
-                    label="Delete"
-                    onClick={handleDeleteClick(id)}
-                    />,
-                ];
-                },
+                    <Tooltip title="Edit">
+                        <IconButton>
+                            <BorderColorOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+                        </IconButton>
+                    </Tooltip>,
+                    <Tooltip title="Delete">
+                        <IconButton>
+                            <DeleteOutlineOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+                        </IconButton>
+                    </Tooltip>,
+                ]
             },
+        },
+
+        // {
+        //     field: 'actions',
+        //     type: 'actions',
+        //     headerName: 'Edit/Delete',
+        //     width: 100,
+        //     cellClassName: 'actions',
+        //     getActions: ({ id }) => {
+        //         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+    
+        //         if (isInEditMode) {
+        //             return [
+        //             <GridActionsCellItem
+        //                 icon={<SaveOutlinedIcon />}
+        //                 label="Save"
+        //                 sx={{
+        //                 color: colors.yellowAccent[300],
+        //                 }}
+        //                 onClick={handleSaveClick(id)}
+        //             />,
+        //             <GridActionsCellItem
+        //                 icon={<CancelOutlinedIcon />}
+        //                 label="Cancel"
+        //                 onClick={handleCancelClick(id)}
+        //             />,
+        //             ];
+        //         }
+    
+        //         return [
+        //             <GridActionsCellItem
+        //             icon={<BorderColorOutlinedIcon />}
+        //             label="Edit"
+        //             onClick={handleEditClick(id)}
+        //             />,
+        //             <GridActionsCellItem
+        //             icon={<DeleteOutlineOutlinedIcon />}
+        //             label="Delete"
+        //             onClick={handleDeleteClick(id)}
+        //             />,
+        //         ];
+        //         },
+        // },
     ]
 
     const columnFeedback = [
@@ -243,31 +272,31 @@ const Questionnaire = () => {
             flex: .3,
             renderCell: (params) => {
                 const isInEditMode = rowModesModel[params.id]?.mode === GridRowModes.Edit;
-          
+        
                 if (isInEditMode) {
-                  return (
-                    <Select
-                      value={params.value}
-                      onChange={(event) => {
-                        const newValue = event.target.value;
-                        const row = params.row;
-                        const updatedRows = rows.map((r) =>
-                          r.id === row.id ? { ...r, role: newValue } : r
-                        );
+                    return (
+                        <Select
+                            value={params.value}
+                            onChange={(event) => {
+                            const newValue = event.target.value;
+                            const row = params.row;
+                            const updatedRows = rows.map((r) =>
+                                r.id === row.id ? { ...r, role: newValue } : r
+                            );
                         setRows(updatedRows);
-                      }}
+                        }}
                     >
-                      {questionType.map((role) => (
+                        {questionType.map((role) => (
                         <MenuItem key={role} value={role}>
-                          {role}
+                            {role}
                         </MenuItem>
-                      ))}
+                        ))}
                     </Select>
-                  );
+                    );
                 } else {
                   return params.value; // Display the regular text value when not in edit mode
                 }
-              },
+                },
         },
         {
             field: 'actions',
@@ -276,8 +305,8 @@ const Questionnaire = () => {
             width: 100,
             cellClassName: 'actions',
             getActions: ({ id }) => {
-              const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-      
+                const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+    
                 if (isInEditMode) {
                     return [
                     <GridActionsCellItem
@@ -295,7 +324,7 @@ const Questionnaire = () => {
                     />,
                     ];
                 }
-      
+    
                 return [
                     <GridActionsCellItem
                     icon={<BorderColorOutlinedIcon />}
@@ -324,184 +353,224 @@ const Questionnaire = () => {
                     subtitle="Review and Modify Survey Questionnaire" />
             </Box>
             <Box  display="flex" flexDirection="row">
-            <Box
-                height="70vh"
-                flex=".5"
-                sx={{
-                    "& .MuiDataGrid-root": { border: "none" },
-                    "& .MuiDataGrid-cell": { borderBottom: "none" },
-                    "& .yearCell": { color: colors.yellowAccent[300] },
-                    "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: colors.blueAccent[700],
-                        borderBottom: "none"
-                    },
-                    "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: colors.darkBlue[400]
-                    },
-                    "& .MuiDataGrid-footerContainer": {
-                        borderTop: "none",
-                        backgroundColor: colors.blueAccent[700]
-                    },
-                    "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                        color: `${colors.grey[100]} !important`,
-                    },
-                }}
-                >
-                {/* table for categories */}
-                <DataGrid
-                    rows={dummyQuestionnaireCategory}
-                    columns={columnsCategory}
-                    onRowClick={handleRowClick}
-                    // edit row
-                    editMode="row"
-                    rowModesModel={rowModesModel}
-                    onRowModesModelChange={handleRowModesModelChange}
-                    onRowEditStop={handleRowEditStop}
-                    processRowUpdate={processRowUpdate}
+                <Box flex=".5" width="30%">
+                    <CustomDatagrid 
+                        rows={dummyQuestionnaireCategory} 
+                        columns={columnsCategory} 
+                        handleAdd={handleAdd}
+                        btnText={"ADD NEW CATEGORY"}
+                        onRowClick={handleRowClick}
+                        />
+                </Box>
+                {/* <Box
+                    height="70vh"
+                    flex=".5"
+                    sx={{
+                        "& .MuiDataGrid-root": { border: "none" },
+                        "& .MuiDataGrid-cell": { borderBottom: "none" },
+                        "& .yearCell": { color: colors.yellowAccent[300] },
+                        "& .MuiDataGrid-columnHeaders": {
+                            backgroundColor: colors.blueAccent[700],
+                            borderBottom: "none"
+                        },
+                        "& .MuiDataGrid-virtualScroller": {
+                            backgroundColor: colors.darkBlue[400]
+                        },
+                        "& .MuiDataGrid-footerContainer": {
+                            borderTop: "none",
+                            backgroundColor: colors.blueAccent[700]
+                        },
+                        "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+                            color: `${colors.grey[100]} !important`,
+                        },
+                    }}
+                    >
+                    <DataGrid //table for categories
+                        rows={dummyQuestionnaireCategory}
+                        columns={columnsCategory}
+                        onRowClick={handleRowClick}
+                        // edit row
+                        editMode="row"
+                        rowModesModel={rowModesModel}
+                        onRowModesModelChange={handleRowModesModelChange}
+                        onRowEditStop={handleRowEditStop}
+                        processRowUpdate={processRowUpdate}
 
-                    components={{ Toolbar: CategoryToolbar }}
-                    slotProps={{
-                        toolbar: { setRows, setRowModesModel },
-                        panel: {
-                            sx: {
-                                "& .MuiFormLabel-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiInput-underline:after": {
-                                    borderBottom: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .MuiButtonBase-root": {
-                                    color: `${colors.yellowAccent[300]}`,
-                                },
-                                "& .Mui-checked+ .MuiSwitch-track": {
-                                    backgroundColor: `${colors.yellowAccent[300]}`,
+                        components={{ Toolbar: CategoryToolbar }}
+                        slotProps={{
+                            toolbar: { setRows, setRowModesModel },
+                            panel: {
+                                sx: {
+                                    "& .MuiFormLabel-root": {
+                                        color: `${colors.yellowAccent[300]}`,
+                                    },
+                                    "& .MuiInput-underline:after": {
+                                        borderBottom: `${colors.yellowAccent[300]}`,
+                                    },
+                                    "& .MuiButtonBase-root": {
+                                        color: `${colors.yellowAccent[300]}`,
+                                    },
+                                    "& .Mui-checked+ .MuiSwitch-track": {
+                                        backgroundColor: `${colors.yellowAccent[300]}`,
+                                    }
                                 }
                             }
-                        }
-                    }}
-                    />            
-            </Box>
-
-            {/* table for questions and/or feedback */}
-            <Box
-                height="70vh"
-                flex="1"
-                ml={2}
-                sx={{
-                    "& .MuiDataGrid-root": { border: "none" },
-                    "& .MuiDataGrid-cell": { borderBottom: "none" },
-                    "& .yearCell": { color: colors.yellowAccent[300] },
-                    "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: colors.blueAccent[700],
-                        borderBottom: "none"
-                    },
-                    "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: colors.darkBlue[400]
-                    },
-                    "& .MuiDataGrid-footerContainer": {
-                        borderTop: "none",
-                        backgroundColor: colors.blueAccent[700]
-                    },
-                    "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                        color: `${colors.grey[100]} !important`,
-                    },
-                }}
-                >
-                    { showFeedback ? (
-                        <DataGrid
-                            rows={dummyQuestionnaireQL}
-                            columns={columnFeedback}
-                            ml="20px"
-                            // edit row
-                            editMode="row"
+                        }}
+                        />            
+                </Box> */}
+                <Box flex="1" width="30%" ml={1}>
+                    {showFeedback ? (
+                        <CustomDatagrid 
+                            rows={dummyQuestionnaireQL} 
+                            columns={columnFeedback} 
                             rowModesModel={rowModesModel}
                             onRowModesModelChange={handleRowModesModelChange}
                             onRowEditStop={handleRowEditStop}
                             processRowUpdate={processRowUpdate}
-        
-                            components={{ Toolbar: QuestionToolbar }}
-                            slotProps={{
-                                toolbar: { setRows, setRowModesModel },
-                                panel: {
-                                    sx: {
-                                        "& .MuiFormLabel-root": {
-                                            color: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .MuiInput-underline:after": {
-                                            borderBottom: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .MuiButtonBase-root": {
-                                            color: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .Mui-checked+ .MuiSwitch-track": {
-                                            backgroundColor: `${colors.yellowAccent[300]}`,
-                                        }
-                                    }
-                                }
-                            }}
                             />
                     ) : (
-                        <DataGrid
-                            rows={filteredDummyQuestionnaireQN}
-                            columns={columnsQuantitative}
-                            ml="20px"
-                            // edit row
+                        <CustomDatagrid 
+                            rows={filteredDummyQuestionnaireQN} 
+                            columns={columnsQuantitative} 
                             editMode="row"
                             rowModesModel={rowModesModel}
                             onRowModesModelChange={handleRowModesModelChange}
                             onRowEditStop={handleRowEditStop}
                             processRowUpdate={processRowUpdate}
-
-                            components={{ Toolbar: QuestionToolbar }}
-                            slotProps={{
-                                toolbar: { setRows, setRowModesModel },
-                                panel: {
-                                    sx: {
-                                        "& .MuiFormLabel-root": {
-                                            color: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .MuiInput-underline:after": {
-                                            borderBottom: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .MuiButtonBase-root": {
-                                            color: `${colors.yellowAccent[300]}`,
-                                        },
-                                        "& .Mui-checked+ .MuiSwitch-track": {
-                                            backgroundColor: `${colors.yellowAccent[300]}`,
-                                        }
-                                    }
-                                }
-                            }}
+                            handleAdd={handleAdd}
+                            btnText={"ADD NEW QUESTION"}
+                            onRowClick={handleRowClick}
                             />
                     )}
-                    {/* delete confirmation dialog box render */}
-                    <Dialog open={open} onClose={handleDeleteCancel}>
-                        <DialogTitle>Confirm Deletion</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                            Are you sure you want to delete this?
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button 
-                                onClick={handleDeleteCancel} 
-                                sx={{
-                                    color: colors.yellowAccent[300],
-                                    }}
-                                >
-                            Cancel
-                            </Button>
-                            <Button 
-                                onClick={handleDeleteConfirm} 
-                                sx={{
-                                    color: colors.redAccent[400],
-                                    }}
-                                autoFocus>
-                            Delete
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
+                    {/* <CustomDatagrid 
+                        rows={dummyQuestionnaireQL} 
+                        columns={columnFeedback} 
+                        rowModesModel={rowModesModel}
+                        onRowModesModelChange={handleRowModesModelChange}
+                        onRowEditStop={handleRowEditStop}
+                        processRowUpdate={processRowUpdate}
+                        /> */}
                 </Box>
+            {/* table for questions and/or feedback */}
+                {/* <Box
+                    height="70vh"
+                    flex="1"
+                    ml={2}
+                    sx={{
+                        "& .MuiDataGrid-root": { border: "none" },
+                        "& .MuiDataGrid-cell": { borderBottom: "none" },
+                        "& .yearCell": { color: colors.yellowAccent[300] },
+                        "& .MuiDataGrid-columnHeaders": {
+                            backgroundColor: colors.blueAccent[700],
+                            borderBottom: "none"
+                        },
+                        "& .MuiDataGrid-virtualScroller": {
+                            backgroundColor: colors.darkBlue[400]
+                        },
+                        "& .MuiDataGrid-footerContainer": {
+                            borderTop: "none",
+                            backgroundColor: colors.blueAccent[700]
+                        },
+                        "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+                            color: `${colors.grey[100]} !important`,
+                        },
+                    }}
+                    >
+                        { showFeedback ? (
+                            <DataGrid
+                                rows={dummyQuestionnaireQL}
+                                columns={columnFeedback}
+                                ml="20px"
+                                // edit row
+                                editMode="row"
+                                rowModesModel={rowModesModel}
+                                onRowModesModelChange={handleRowModesModelChange}
+                                onRowEditStop={handleRowEditStop}
+                                processRowUpdate={processRowUpdate}
+                        
+                                components={{ Toolbar: QuestionToolbar }}
+                                slotProps={{
+                                    toolbar: { setRows, setRowModesModel },
+                                    panel: {
+                                        sx: {
+                                            "& .MuiFormLabel-root": {
+                                                color: `${colors.yellowAccent[300]}`,
+                                            },
+                                            "& .MuiInput-underline:after": {
+                                                borderBottom: `${colors.yellowAccent[300]}`,
+                                            },
+                                            "& .MuiButtonBase-root": {
+                                                color: `${colors.yellowAccent[300]}`,
+                                            },
+                                            "& .Mui-checked+ .MuiSwitch-track": {
+                                                backgroundColor: `${colors.yellowAccent[300]}`,
+                                            }
+                                        }
+                                    }
+                                }}
+                                />
+                        ) : (
+                            <DataGrid
+                                rows={filteredDummyQuestionnaireQN}
+                                columns={columnsQuantitative}
+                                ml="20px"
+                                // edit row
+                                editMode="row"
+                                rowModesModel={rowModesModel}
+                                onRowModesModelChange={handleRowModesModelChange}
+                                onRowEditStop={handleRowEditStop}
+                                processRowUpdate={processRowUpdate}
+
+                                components={{ Toolbar: QuestionToolbar }}
+                                slotProps={{
+                                    toolbar: { setRows, setRowModesModel },
+                                    panel: {
+                                        sx: {
+                                            "& .MuiFormLabel-root": {
+                                                color: `${colors.yellowAccent[300]}`,
+                                            },
+                                            "& .MuiInput-underline:after": {
+                                                borderBottom: `${colors.yellowAccent[300]}`,
+                                            },
+                                            "& .MuiButtonBase-root": {
+                                                color: `${colors.yellowAccent[300]}`,
+                                            },
+                                            "& .Mui-checked+ .MuiSwitch-track": {
+                                                backgroundColor: `${colors.yellowAccent[300]}`,
+                                            }
+                                        }
+                                    }
+                                }}
+                                />
+                        )}
+                        
+                        <Dialog open={open} onClose={handleDeleteCancel}>
+                            <DialogTitle>Confirm Deletion</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                Are you sure you want to delete this?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button 
+                                    onClick={handleDeleteCancel} 
+                                    sx={{
+                                        color: colors.yellowAccent[300],
+                                        }}
+                                    >
+                                Cancel
+                                </Button>
+                                <Button 
+                                    onClick={handleDeleteConfirm} 
+                                    sx={{
+                                        color: colors.redAccent[400],
+                                        }}
+                                    autoFocus>
+                                Delete
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                </Box> */}
             </Box>
         </Box>
     )

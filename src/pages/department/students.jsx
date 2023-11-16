@@ -4,8 +4,10 @@ import CustomDataGrid from "../../components/CustomDatagrid";
 import useData from "../../hooks/useData";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 
 export const Students = () => {
+  const navigate = useNavigate();
   const { collegeId } = useParams();
   const { postData, loading } = useFetch();
   const [rows, setRows] = useData(`/api/colleges/${collegeId}/students`);
@@ -16,11 +18,15 @@ export const Students = () => {
     { field: "year_level", headerName: "Year Level", width: 80 },
     { field: "course_code", headerName: "Course", width: 180 },
   ];
+  const handleBack = () => {
+    navigate(-1);
+  };
   return (
     <Box>
       <CustomDataGrid
         rows={rows}
         columns={columns}
+        handleBack={handleBack}
         // handleAdd={handleAdd}
         // handleRowDoubleClick={handleRowDoubleClick}
         // btnText={"ADD NEW FACULTY"}

@@ -15,8 +15,10 @@ import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
+import { useNavigate } from "react-router-dom";
 
 export const Classes = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { collegeId, deptId } = useParams();
@@ -75,10 +77,14 @@ export const Classes = () => {
     { field: "course", headerName: "Course", flex: 1, minWidth: 150 },
     { field: "email", headerName: "Email", flex: 1, minWidth: 150 },
   ];
+  const handleBack = () => {
+    navigate(-1);
+  };
+
 
   return (
     <Box>
-      <CustomDataGrid rows={rows} columns={columns} />
+      <CustomDataGrid rows={rows} columns={columns} handleBack={handleBack}/>
       <Dialog
         open={openStudents}
         onClose={() => setOpenStudents(false)}

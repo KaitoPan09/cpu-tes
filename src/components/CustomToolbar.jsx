@@ -12,7 +12,6 @@ import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import React from "react";
 
 export const CustomToolbar = ({ handleAdd, btnText, setOpen, handleBack }) => {
-  // console.log(handleBack);
   return (
     <GridToolbarContainer>
       {handleAdd && btnText && (
