@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useEffect, useState } from 'react'; 
 import { 
     Box, 
     Button,
@@ -31,6 +31,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import CustomDatagrid from "../../components/CustomDatagrid";
+import ReportDialog from "./reportDialog.jsx";
 
 // const CustomToolbar = () => {
 
@@ -55,14 +56,34 @@ import CustomDatagrid from "../../components/CustomDatagrid";
 //     )
 // }
 
+const reportsData = (rowData) => {
+    return {
+        category: rowData.category,
+        student: rowData.student,
+        supervisor: rowData.supervisor,
+        peer: rowData.peer,
+        self: rowData.self,
+      // Add more fields as needed
+    };
+};
+
 const Details = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     const [open, setOpen] = useState(false);
-    const handleOpenDialog = () => {
+    const [dialogData, setDialogData] = React.useState(null);
+    const handleOpenDialog = (rowData) => {
+        const dataForBarGraph = reportsData(rowData);
+        setDialogData({ ...rowData, barData: dataForBarGraph });
+        // setDialogData(rowData)
         setOpen(true);
     };
+    useEffect(() => {
+        if (open) {
+            setDialogData(dialogData);
+        }
+    }, [open]);
     const handleClose = () => {
         setOpen(false);
     };
@@ -122,14 +143,16 @@ const Details = () => {
             headerName: 'Graph',
             flex: .5,
             cellClassName: 'bar',
-            getActions: () => {
+            getActions: (params) => {
+                // console.log('params.row:', params.row);
                 const iconStyle = { fontSize: '1.25rem' };
                 return [
                     <Tooltip title="Bar Graph">
-                        <IconButton
-                        onClick={handleOpenDialog}
-                        >
+                        {/* <IconButton onClick={handleOpenDialog}> */}
+                        <IconButton onClick={() => handleOpenDialog(params.row)}>
+                            {/* <FactCheckOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/> */}
                             <FactCheckOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+                            {/* <ResultDialog open={open} handleClose={handleClose} /> */}
                         </IconButton>
                     </Tooltip>,
                     // <Link to="../../components/BarGraph">
@@ -162,6 +185,7 @@ const Details = () => {
                     />
             </Box>
             <CustomDatagrid rows={dummyreportDeets} columns={columns} />
+            <ReportDialog open={open} handleClose={handleClose} dialogData={dialogData} />
             {/* <Box
                 height="70vh"
                 sx={{
@@ -209,7 +233,7 @@ const Details = () => {
                         },
                     }}
                     /> */}
-                <Dialog 
+                {/* <Dialog 
                     open={open} 
                     onClose={handleClose} 
                     TransitionProps={{ timeout: 0 }}
@@ -220,12 +244,6 @@ const Details = () => {
                         animation: "none", 
                         },
                     }}
-                    // sx={{
-                    //     "& .MuiDialog-paper": {
-                    //         maxWidth: "80%", 
-                    //         // maxHeight: "100%", 
-                    //     }
-                    // }}
                     >
                     <DialogTitle>Evaluation Results for CCS Dept Head</DialogTitle>
                     <DialogContent 
@@ -236,46 +254,6 @@ const Details = () => {
                     >
                         <Box display="flex" height="100%" width="100%">
                         <Box height="100%" width="35%">
-                            {/* <List sx={{width: "100%", maxWidth: 360}}>
-                                <ListItem alignItems="flex-start">
-                                    <ListItemText>
-                                        PROFESSIONAL RESPONSIBILITIES (20%)
-                                    </ListItemText>
-                                </ListItem>
-                                <Divider />
-                                <ListItem alignItems="flex-start">
-                                    <ListItemText>
-                                        PLANNING AND PREPARATION (20%)
-                                    </ListItemText>
-                                </ListItem>
-                                <Divider />
-                                <ListItem alignItems="flex-start">
-                                    <ListItemText>
-                                        DELIVERY OF INSTRUCTION (30%)
-                                    </ListItemText>
-                                </ListItem>
-                                <Divider />
-                                <ListItem alignItems="flex-start">
-                                    <ListItemText>
-                                        ASSESSMENT (20%)
-                                    </ListItemText>
-                                </ListItem>
-                                <Divider />
-                                <ListItem alignItems="flex-start">
-                                    <ListItemText>
-                                        CLASSROOM MANAGEMENT (10%)
-                                    </ListItemText>
-                                </ListItem>
-                                <Divider />
-                                <ListItem alignItems="flex-start"> 
-                                    <ListItemText>
-                                    <Typography sx={{ fontWeight: 'bold'}}>
-                                        Evaluation Score
-                                    </Typography>
-                                    </ListItemText>
-                                </ListItem>
-                                <Divider />
-                            </List> */}
                             <List sx={{ width: "100%", maxWidth: 360 }}>
                             {dummyBarBreakdown.map((item, index) => (
                                 <div key={item.category}>
@@ -304,7 +282,6 @@ const Details = () => {
                             <BarGraph reportDetails={true} />
                         </Box>
                         </Box>
-                        {/* <BarGraph reportDetails={true}/> */}
                     </DialogContent>
                     <DialogActions>
                         <Button 
@@ -317,8 +294,7 @@ const Details = () => {
                             Close
                         </Button>
                     </DialogActions>
-                </Dialog>
-            {/* </Box> */}
+                </Dialog> */}
         </Box>
     )
 }

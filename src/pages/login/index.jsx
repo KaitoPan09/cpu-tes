@@ -60,7 +60,7 @@ const Login = () => {
           backgroundPosition: "center",
         }}
       >
-        {/* <Grid
+        <Grid
           item
           container
           //alignContent={"center"}
@@ -75,7 +75,7 @@ const Login = () => {
           }}
         >
           
-        </Grid> */}
+        </Grid>
         <Grid
           item
           xs={12}
