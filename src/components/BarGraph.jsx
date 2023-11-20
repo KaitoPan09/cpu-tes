@@ -161,12 +161,12 @@ return (
         axisBottom={{
             tickSize: 5,
             tickPadding: 5,
-            tickRotation: 0,
+            tickRotation: 7,
             // legend: isDashboard ? undefined : 'country',
-            legend: 'category',
+            // legend: 'category',
             // legend: axisLabelDisplay,
             legendPosition: 'middle',
-            legendOffset: 32
+            legendOffset: 32,
         }}
         axisLeft={{
             tickSize: 5,
