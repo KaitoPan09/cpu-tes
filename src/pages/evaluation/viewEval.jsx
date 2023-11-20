@@ -97,7 +97,7 @@ const View = () => {
                 setSelectedEval({
                   type: "Student",
                   faculty: row.faculty,
-                  rows: row.students,
+                  rows: row.classes,
                 });
                 setOpen(true);
               }}
@@ -111,12 +111,11 @@ const View = () => {
         params.value === "Completed" ? "green" : "red",
     },
   ];
-
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
-          title={evaluation?.department}
+          title={evaluation?.college}
           subtitle="List of faculty members and their evaluation status"
         />
       </Box>
