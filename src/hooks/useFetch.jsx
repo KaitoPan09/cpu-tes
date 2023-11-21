@@ -14,33 +14,64 @@ const useFetch = () => {
   const { showSnackbar, showDialogBox } = useAppContext();
   const request = async (url) => {
     setLoading(true);
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          // showSnackbar(`Your session has expired`, "error");
-          showDialogBox(
-            "Session Expired",
-            "Your session has expired. Please log in again."
-          );
-        }
-        if (!res.ok) {
-          console.log(res);
-          throw new Error(`HTTP Status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .catch((err) => {
-        showSnackbar(`Something went wrong. (${err.message})`, "error");
-        setLoading(false);
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
       });
-    setLoading(false);
-    return response;
+      const res = await response.json();
+      if (!response.ok) {
+        if (response.status === 401) {
+          if (res.msg === "Token has expired") {
+            showDialogBox(
+              "Session Expired",
+              "Your session has expired. Please log in again."
+            );
+          }
+          if (res.msg === "Token has been revoked") {
+            showDialogBox(
+              "Session Invalid",
+              "Please log in again"
+            );
+          }
+        } else {
+          throw new Error(`HTTP Status: ${response.status}`);
+        }
+      }
+      setLoading(false);
+      return res
+    } catch (error) {
+      showSnackbar(`Something went wrong. (${error.message})`, "error");
+      setLoading(false);
+      return null;
+    }
+    // .then((res) => {
+    //   if (!res.ok) {
+    //     console.log(res);
+    //     throw new Error(`HTTP Status: ${res.status}`);
+    //   }
+    //   return res.json();
+    // })
+    // .then((res) => {
+    //   console.log(res)
+    //   if (res.msg === "Token has expired") {
+    //     showDialogBox(
+    //       "Session Expired",
+    //       "Your session has expired. Please log in again."
+    //     );
+    //   }
+    //   if (res.msg === "Token has been revoked") {
+    //     showDialogBox("Logged in from another device", "Please log in again");
+    //   }
+    //   return res;
+    // })
+    // .catch((err) => {
+    //   showSnackbar(`Something went wrong. (${err.message})`, "error");
+    //   setLoading(false);
+    // });
   };
   const postData = async (url, payload) => {
     setLoading(true);
@@ -56,10 +87,20 @@ const useFetch = () => {
       .then((res) => {
         if (!res.ok) {
           if (res.status === 401) {
-            showDialogBox(
-              "Session Expired",
-              "Your session has expired. Please log in again."
-            );
+            let response = res.json();
+            console.log(response);
+            if (response.msg === "Token has expired") {
+              showDialogBox(
+                "Session Expired",
+                "Your session has expired. Please log in again."
+              );
+            }
+            if (response.msg === "Token has been revoked") {
+              showDialogBox(
+                "Logged in from another device",
+                "Please log in again"
+              );
+            }
           } else {
             throw new Error(`HTTP Status: ${res.status}`);
           }
