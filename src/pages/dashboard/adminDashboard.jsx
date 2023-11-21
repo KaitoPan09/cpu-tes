@@ -1,4 +1,4 @@
-import { Box, Button, Menu, MenuItem, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Menu, MenuItem, TextField, Typography, useTheme, Grid } from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
 import BarGraph from "../../components/BarGraph";
@@ -6,6 +6,7 @@ import { FilterListOffOutlined } from "@mui/icons-material";
 import { dummyUpdates } from "../../data/dummyData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import ProgressCircle from "../../components/ProgressCircle";
 
 export const AdminDashboard = () => {
   const theme = useTheme();
@@ -44,25 +45,28 @@ export const AdminDashboard = () => {
     setFilteredUpdates(dummyUpdates);
   };
   return (
-    <Box
-      display="grid"
-      gridTemplateColumns="repeat(12, 1fr)"
-      gridAutoRows="140px"
+    <Grid
+      // display="grid"
+      // gridTemplateColumns="repeat(12, 1fr)"
+      // gridAutoRows="140px"
       gap="20px"
+      container
     >
-      <Box
-        gridColumn="span 8"
-        gridRow="span 2"
+      <Grid
+        // gridColumn="span 8"
+        // gridRow="span 2"
         backgroundColor={colors.darkBlue[400]}
+        item container xs={12} md={8}
       >
-        <Box
+        <Grid
           mt="25px"
           p="0 30px"
           display="flex"
           displayContent="space-between"
           alignItems="center"
+          item container xs={12} md={8}
         >
-          <Box>
+          <Grid>
             <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
               Evaluation Summary
             </Typography>
@@ -73,14 +77,45 @@ export const AdminDashboard = () => {
             >
               2022-2023
             </Typography>
-          </Box>
-        </Box>
-        <Box height="250px" mt="-20px">
+          </Grid>
+        </Grid>
+        <Grid height="250px" mt="-20px" xs={12} md={12}>
           <BarGraph isDashboard={true} />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
+
+      {/* circle */}
+      <Grid
+        // gridColumn="span 4"
+        // gridRow="span 2"
+        backgroundColor={colors.darkBlue[400]}
+        p="30px"
+        xs={12} md={4}
+        >
+          <Typography variant="h5" fontWeight="500">
+              Campaign
+          </Typography>
+          <Grid
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              mt="25px"
+              >
+                <ProgressCircle size="125"/>
+                <Typography 
+                  variant="h5" 
+                  color={colors.yellowAccent[500]}
+                  sx={{ mt: "15px" }}
+                  >
+                    Surveys Completed
+                </Typography>
+                <Typography>
+                    Pending Surveys Included in Red
+                </Typography>
+          </Grid>
+      </Grid>
       {/* updates */}
-      <Box
+      {/* <Box
         gridColumn="span 4"
         gridRow="span 2"
         backgroundColor={colors.darkBlue[400]}
@@ -97,10 +132,6 @@ export const AdminDashboard = () => {
           <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
             Completed Surveys
           </Typography>
-          {/* <TextField 
-                                        label="Search Teacher"
-                                        variant="outlined"
-                                        /> */}
           <Button
             color="primary"
             startIcon={<FilterListOffOutlined />}
@@ -188,7 +219,153 @@ export const AdminDashboard = () => {
             </Link>
           </Box>
         ))}
-      </Box>
-    </Box>
+      </Box> */}
+    </Grid>
   );
+
+
+  // return (
+  //   <Box
+  //     display="grid"
+  //     gridTemplateColumns="repeat(12, 1fr)"
+  //     gridAutoRows="140px"
+  //     gap="20px"
+  //   >
+  //     <Box
+  //       gridColumn="span 8"
+  //       gridRow="span 2"
+  //       backgroundColor={colors.darkBlue[400]}
+  //     >
+  //       <Box
+  //         mt="25px"
+  //         p="0 30px"
+  //         display="flex"
+  //         displayContent="space-between"
+  //         alignItems="center"
+  //       >
+  //         <Box>
+  //           <Typography variant="h5" fontWeight="600" color={colors.grey[100]}>
+  //             Evaluation Summary
+  //           </Typography>
+  //           <Typography
+  //             variant="h3"
+  //             fontWeight="bold"
+  //             color={colors.yellowAccent[500]}
+  //           >
+  //             2022-2023
+  //           </Typography>
+  //         </Box>
+  //       </Box>
+  //       <Box height="250px" mt="-20px">
+  //         <BarGraph isDashboard={true} />
+  //       </Box>
+  //     </Box>
+  //     {/* updates */}
+  //     {/* <Box
+  //       gridColumn="span 4"
+  //       gridRow="span 2"
+  //       backgroundColor={colors.darkBlue[400]}
+  //       overflow="auto"
+  //     >
+  //       <Box
+  //         display="flex"
+  //         justifyContent="space-between"
+  //         alignItems="center"
+  //         borderBottom={`4px solid ${colors.darkBlue[500]}`}
+  //         colors={colors.grey[100]}
+  //         p="15px"
+  //       >
+  //         <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+  //           Completed Surveys
+  //         </Typography>
+  //         <Button
+  //           color="primary"
+  //           startIcon={<FilterListOffOutlined />}
+  //           sx={{
+  //             padding: "4px 5px",
+  //             color: colors.grey[100],
+  //           }}
+  //           onClick={handleFilterMenuOpen}
+  //         >
+  //           FILTER SCORES
+  //         </Button>
+  //         <Menu
+  //           anchorEl={filterMenuAnchor}
+  //           open={Boolean(filterMenuAnchor)}
+  //           onClose={handleFilterMenuClose}
+  //         >
+  //           <MenuItem>
+  //             <TextField
+  //               label="Score"
+  //               type="number"
+  //               value={selectedFilterScore}
+  //               onChange={(event) =>
+  //                 setSelectedFilterScore(parseFloat(event.target.value))
+  //               }
+  //               variant="outlined"
+  //             />
+  //           </MenuItem>
+  //           <MenuItem>
+  //             <Button
+  //               variant="contained"
+  //               sx={{
+  //                 backgroundColor: colors.greenAccent[500],
+  //               }}
+  //               onClick={handleApplyFilter}
+  //             >
+  //               Apply
+  //             </Button>
+  //             <Button
+  //               sx={{
+  //                 backgroundColor: colors.greenAccent[500],
+  //                 color: colors.grey[100],
+  //                 ml: "15px",
+  //               }}
+  //               onClick={handleResetFilter}
+  //             >
+  //               Reset
+  //             </Button>
+  //           </MenuItem>
+  //         </Menu>
+  //       </Box>
+  //       {filteredUpdates.map((updates, i) => (
+  //         <Box
+  //           key={`${updates.txId}-${i}`}
+  //           display="flex"
+  //           justifyContent="space-between"
+  //           alignItems="center"
+  //           borderBottom={`4px solid ${colors.darkBlue[500]}`}
+  //           p="15px"
+  //         >
+  //           <Box>
+  //             <Typography
+  //               color={colors.yellowAccent[500]}
+  //               variant="h5"
+  //               fontWeight="600"
+  //             >
+  //               {updates.name}
+  //             </Typography>
+  //             <Typography color={colors.grey[100]}>{updates.type}</Typography>
+  //           </Box>
+  //           <Box color={colors.grey[100]}>{updates.stubCode}</Box>
+  //           <Link to="/reports/reportDetails">
+  //             <Button
+  //               variant="contained"
+  //               sx={{
+  //                 backgroundColor:
+  //                   updates.score < 4.2
+  //                     ? colors.redAccent[500]
+  //                     : colors.greenAccent[500],
+  //                 p: "5px 10px",
+  //                 borderRadius: "4px",
+  //               }}
+  //             >
+  //               {updates.score}
+  //             </Button>
+  //           </Link>
+  //         </Box>
+  //       ))}
+  //     </Box> */}
+  //   </Box>
+  // );
 };
