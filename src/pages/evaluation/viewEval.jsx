@@ -1,5 +1,14 @@
-import React from "react";
-import { Box, Button, Tooltip, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Tab,
+  Tabs,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -17,6 +26,7 @@ import CustomDataGrid from "../../components/CustomDatagrid";
 import useData from "../../hooks/useData";
 import { EvalDialog } from "./evalDialog";
 import { useAuth } from "../../context/AuthContext";
+import useFetch from "../../hooks/useFetch";
 
 const View = () => {
   const theme = useTheme();
@@ -24,11 +34,16 @@ const View = () => {
   const { evalId } = useParams();
   const location = useLocation();
   const evaluation = location.state;
-  const {auth} = useAuth();
-  const [rows, setRows] = useData(`/api/evaluations/${evalId}?role=${auth?.role}`);
+  const { auth } = useAuth();
+  const { request, loading } = useFetch();
+  const [facultyRows, setFacultyRows] = useData(
+    `/api/evaluations/${evalId}?role=${auth?.role}&type=Faculty`
+  );
+  // const [facultyRows, setFacultyRows] = useState([]);
+  const [studentRows, setStudentRows] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [selectedEval, setSelectedEval] = React.useState(null);
-  const columns = [
+  const facultyColumns = [
     {
       field: "faculty",
       headerName: "Faculty",
@@ -111,6 +126,71 @@ const View = () => {
         params.value === "Completed" ? "green" : "red",
     },
   ];
+  const studentColumns = [
+    {
+      field: "student",
+      headerName: "Student",
+      flex: 1,
+      minWidth: 150,
+    },
+    {
+      field: "school_id",
+      headerName: "School ID",
+      width: 120,
+    },
+    {
+      field: "course",
+      headerName: "Course",
+      width: 120,
+    },
+    {
+      field: "year",
+      headerName: "Year",
+      width: 80,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 120,
+      renderCell: ({ row }) => {
+        return [
+          <Tooltip title="Click to view details">
+            <Typography
+            // onClick={() => {
+            //   setSelectedEval({
+            //     type: "Student",
+            //     faculty: row.faculty,
+            //     rows: row.classes,
+            //   });
+            //   setOpen(true);
+            // }}
+            >
+              {row.completed} / {row.total}
+            </Typography>
+          </Tooltip>,
+        ];
+      },
+      // cellClassName: (params) =>
+      //   params.value === "Completed" ? "green" : "red",
+    },
+  ];
+  const [columns, setColumns] = useState(facultyColumns);
+  const [value, setValue] = useState(0);
+  const handleChange = async (event, newValue) => {
+    setValue(newValue);
+    const response = await request(
+      `/api/evaluations/${evalId}?role=${auth?.role}&type=${
+        newValue === 0 ? "Faculty" : "Students"
+      }`
+    );
+    if (response) {
+      if (value === "Faculty") {
+        setFacultyRows(response);
+      } else {
+        setStudentRows(response);
+      }
+    }
+  };
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -119,16 +199,46 @@ const View = () => {
           subtitle="List of faculty members and their evaluation status"
         />
       </Box>
-      <CustomDataGrid
-        getRowId={(row) => row.school_id}
-        rows={rows}
-        columns={columns}
-      />
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        indicatorColor="secondary"
+        textColor="secondary"
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        <Tab label="Faculty" />
+        <Tab label="Students" />
+      </Tabs>
+      <TabPanel value={value} index={0}>
+        <CustomDataGrid
+          getRowId={(row) => row.school_id}
+          rows={facultyRows}
+          columns={facultyColumns}
+          loading={loading}
+        />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <CustomDataGrid
+          getRowId={(row) => row.school_id}
+          rows={studentRows}
+          columns={studentColumns}
+          loading={loading}
+        />
+      </TabPanel>
+
       {selectedEval && (
         <EvalDialog open={open} setOpen={setOpen} selectedEval={selectedEval} />
       )}
     </Box>
   );
 };
-
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div role="tabpanel" hidden={value !== index} {...other}>
+      {value === index && <Box sx={{ px: 2, pt: 1 }}>{children}</Box>}
+    </div>
+  );
+}
 export default View;

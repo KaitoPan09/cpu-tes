@@ -51,6 +51,7 @@ const CustomDataGrid = ({
         },
         "& .green": { color: colors.greenAccent[500] },
         "& .red": { color: colors.redAccent[500] },
+        "& .yellow": { color: colors.yellowAccent[500] },
       }}
     >
       <DataGrid
