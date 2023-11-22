@@ -28,7 +28,7 @@ const Survey = () => {
   useEffect(() => {
     (async () => {
       
-      let faculties = null;
+      let faculties = [];
       if (auth.role === "Student") {
         faculties = await request(
           `/api/evaluations/students/evaluate?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
@@ -42,7 +42,7 @@ const Survey = () => {
           `/api/evaluations/faculties/evaluate?user_id=${auth.user_id}&role=${auth.role}&dept_id=${auth.dept_id}`
         );
       }
-      setFaculties(faculties);
+      setFaculties(faculties ? faculties : []);
       let questionCategories = await request(
         `/api/questionnaires/survey?role=${auth.role}`
       );

@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { saveState, loadState } from "../../utils/LocalStorage";
 import { useContext } from "react";
 import dayjs from "dayjs";
+import Cookies from "js-cookie";
 export const AuthContext = createContext({});
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -105,12 +106,16 @@ export const AuthProvider = ({ children }) => {
   };
   const logout = async () => {
     const response = await fetch(`api/auth/logout`, {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "X-CSRF-TOKEN": Cookies.get("csrf_access_token"),
       },
+      credentials: "include",
     });
     setAuth({});
+    setAcademicYear({});
+    setUserInfo({});
   };
   const validateAuth = async () => {
     const response = await fetch(`/api/auth/validate`, {

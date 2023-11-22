@@ -8,6 +8,8 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  ToggleButton,
+  ToggleButtonGroup,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -88,7 +90,7 @@ const Evaluation = () => {
       width: 60,
       type: "action",
       renderCell: ({ row }) => {
-        const iconStyle = { fontSize: '1.25rem' };
+        const iconStyle = { fontSize: "1.25rem" };
         return [
           <Tooltip title="Details">
             <IconButton
@@ -96,7 +98,7 @@ const Evaluation = () => {
                 navigate(`/evaluations/${row.id}/view`, { state: row });
               }}
             >
-              <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }}/>
+              <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
             </IconButton>
           </Tooltip>,
           // <Button
@@ -118,7 +120,7 @@ const Evaluation = () => {
       width: 140,
       type: "actions",
       renderCell: ({ row }) => {
-        const iconStyle = { fontSize: '1.25rem' };
+        const iconStyle = { fontSize: "1.25rem" };
         return [
           <Tooltip title="Edit">
             <IconButton
@@ -131,7 +133,7 @@ const Evaluation = () => {
                 }
               }}
             >
-              <BorderColorOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+              <BorderColorOutlinedIcon sx={{ fontSize: iconStyle.fontSize }} />
             </IconButton>
           </Tooltip>,
           <Tooltip title="Delete">
@@ -140,7 +142,9 @@ const Evaluation = () => {
                 console.log(row);
               }}
             >
-              <DeleteOutlineOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+              <DeleteOutlineOutlinedIcon
+                sx={{ fontSize: iconStyle.fontSize }}
+              />
             </IconButton>
           </Tooltip>,
           // <Button
@@ -171,13 +175,10 @@ const Evaluation = () => {
     setOpenAddDialog(true);
   };
   const submit = async (formData) => {
-    const response = await postData(
-      `/api/evaluations/new_evaluation`,
-      {
-        college_id: formData.college.id,
-        start_date: formData.start_date,
-      }
-    );
+    const response = await postData(`/api/evaluations/new_evaluation`, {
+      college_id: formData.college.id,
+      start_date: formData.start_date,
+    });
     return response;
     // console.log({
     //   dept_id: formData.department.id,
@@ -193,6 +194,7 @@ const Evaluation = () => {
     );
     return response;
   };
+  
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -201,6 +203,7 @@ const Evaluation = () => {
           subtitle="Start or Manage an Ongoing Evaluation"
         />
       </Box>
+      
       <CustomDataGrid
         rows={rows}
         columns={columns}

@@ -14,6 +14,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
+import { useAuth } from "../AuthContext";
 
 const AppContext = createContext();
 
@@ -27,7 +28,7 @@ export const AppContextProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("info");
-
+  const { logout } = useAuth();
   const showSnackbar = (msg, severity) => {
     setMessage(msg);
     setSeverity(severity);
@@ -56,7 +57,11 @@ export const AppContextProvider = ({ children }) => {
 
   const handleDialogClose = () => {
     setOpenDialog(false);
-    if (title === "Session Expired") {
+    if (
+      title === "Session Expired" ||
+      title === "Session Invalid"
+    ) {
+      logout()
       navigate("/login", { state: { from: location }, replace: true });
     }
   };

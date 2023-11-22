@@ -15,46 +15,9 @@ import Header from "../../components/Header";
 import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import CustomDatagrid from "../../components/CustomDatagrid";
+import useData from "../../hooks/useData";
 const Reports = () => {
-    // const theme = useTheme();
-    // const colors = tokens(theme.palette.mode);
-    
-    // const columns = [
-    //     { 
-    //         field: "id", 
-    //         headerName: "ID",
-    //         flex: .1,
-    //     },
-    //     {
-    //         field: "department",
-    //         headerName: "Department",
-    //         flex: 1,
-    //         editable: true,
-    //     },
-    //     { 
-    //         field: "status", 
-    //         headerName: "Status", 
-    //         flex: .5,
-    //     },
-    //     {
-    //         field: 'actions',
-    //         type: 'actions',
-    //         headerName: ' ',
-    //         flex: .5,
-    //         cellClassName: 'actions',
-    //         getActions: () => {
-    //             return [
-    //                     <Link to="/reports/reportDetails">
-    //                         <GridActionsCellItem
-    //                             icon={<VisibilityOutlinedIcon />}
-    //                             label="View"
-    //                         />Details
-    //                     </Link>
-    //             ];
-    //             },
-    //         },
-    
-    // ]
+  const [rows, setRows] = useData("/api/evaluations/");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
@@ -63,45 +26,45 @@ const Reports = () => {
     {
       field: "id",
       headerName: "ID",
-      flex: 0.1,
+      width: 80,
     },
     {
-      field: "department",
-      headerName: "Department",
+      field: "college",
+      headerName: "College",
       flex: 1,
-      editable: true,
+      minWidth: 180,
     },
     {
       field: "status",
       headerName: "Status",
-      flex: 0.5,
+      width: 120,
+    },
+    {
+      field: "score",
+      headerName: "Overall Score",
+      width: 120,
+      type:"number"
     },
     {
       field: "details",
       type: "actions",
       headerName: "Details",
-      flex: 0.5,
+      width: 80,
       cellClassName: "details",
-      getActions: () => {
-        const iconStyle = { fontSize: '1.25rem' };
+      getActions: ({row}) => {
+        const iconStyle = { fontSize: "1.25rem" };
+        
         return [
           <Tooltip title="Details">
             <IconButton
               onClick={() => {
-                navigate(`/reports/reportDetails`);
+                console.log(row);
+                navigate(`/reports/${row.id}/reportDetails`);
               }}
             >
-              <VisibilityOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+              <VisibilityOutlinedIcon sx={{ fontSize: iconStyle.fontSize }} />
             </IconButton>
           </Tooltip>,
-
-          // <Link to="/reports/reportDetails">
-          //   <GridActionsCellItem
-          //     icon={<VisibilityOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>}
-          //     label="View"
-          //   />
-          //   Details
-          // </Link>,
         ];
       },
     },
@@ -112,7 +75,7 @@ const Reports = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="REPORTS" subtitle="Evaluation Result Summary" />
       </Box>
-      <CustomDatagrid rows={dummyEvalResult} columns={columns} />
+      <CustomDatagrid rows={rows} columns={columns} />
     </Box>
   );
 };
