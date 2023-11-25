@@ -15,6 +15,8 @@ import {
   Tab,
   Tabs,
   CircularProgress,
+  BottomNavigation,
+  BottomNavigationAction,
 } from "@mui/material";
 import BarGraph from "../../components/BarGraph";
 import { dummyBarBreakdown } from "../../data/dummyData";
@@ -26,11 +28,18 @@ import { useParams } from "react-router";
 const ReportDialog = ({ open, setOpen, handleClose, dialogData }) => {
   const { evalId } = useParams();
   const { loading, request } = useFetch();
+  const [ratings, setRatings] = React.useState([]);
   useEffect(() => {
-    const response = request(
-      `/api/evaluations/individual_result?evaluation_id=${evalId}&faculty_id=${dialogData?.id}`
-    );
+    (async () => {
+      const response = await request(
+        `/api/evaluations/individual_result?evaluation_id=${evalId}&faculty_id=${dialogData?.id}`
+      );
+      if (response) {
+        setRatings(response.student_ratings);
+      }
+    })();
   }, []);
+  const columnColors = ["#e8c1a0", "#f47560", "#f1e15b", "#e8a838", "#61cdbb"];
   return (
     <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="lg">
       <DialogTitle>
@@ -59,7 +68,7 @@ const ReportDialog = ({ open, setOpen, handleClose, dialogData }) => {
           </Grid>
         ) : (
           <>
-            <Grid container spacing={2} sx={{ height: "60vh" }}>
+            <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Tabs
                   // value={value}
@@ -74,40 +83,42 @@ const ReportDialog = ({ open, setOpen, handleClose, dialogData }) => {
                 </Tabs>
               </Grid>
               <Grid item xs={12} md={4}>
-                <List sx={{ width: "100%", maxWidth: 360 }}>
-                  {dummyBarBreakdown.map((item, index) => (
+                <List>
+                  {ratings.map((item, index) => (
                     <div key={item.category}>
-                      <ListItem alignItems="flex-start">
+                      <ListItem divider={true}>
                         <ListItemText
                           primary={
-                            index === 2
-                              ? `${item.category} (30%)`
-                              : index === 4
-                              ? `${item.category} (10%)`
-                              : `${item.category} (20%)`
+                            item.category + " " + item.weight * 100 + "%"
                           }
-                          sx={{ textAlign: "left" }}
+                          sx={{ textAlign: "left", color: columnColors[index] }}
                         />
+
                         <ListItemText
-                          primary={item.score.toFixed(2)}
-                          sx={{ textAlign: "right" }}
+                          primary={Number(item.rating).toFixed(2)}
+                          sx={{
+                            textAlign: "right",
+                            paddingLeft: 2,
+                            color: item.rating < 4.2 ? "red" : "green",
+                          }}
                         />
                       </ListItem>
-                      <Divider />
                     </div>
                   ))}
                 </List>
               </Grid>
-              <Grid item xs={12} md={8}>
-                <Box height="50vh">
-                  <BarGraph reportDetails={true} />
-                </Box>
-              </Grid>
+              {ratings && (
+                <Grid item xs={12} md={8}>
+                  <Box height="50vh">
+                    <BarGraph ratings={ratings} />
+                  </Box>
+                </Grid>
+              )}
             </Grid>
             <Divider />
             <Grid item xs={12} container justifyContent="center">
               <Tabs
-                // value={value}
+                value={0}
                 // onChange={handleChange}
                 indicatorColor="secondary"
                 textColor="secondary"
@@ -125,6 +136,27 @@ const ReportDialog = ({ open, setOpen, handleClose, dialogData }) => {
         )}
       </DialogContent>
       <DialogActions>
+        {/* <Box
+          sx={{
+            maxWidth: { xs: 320, sm: 480, md: "100%" },
+            bgcolor: "transparent",
+          }}
+        >
+          <Tabs
+            value={0}
+            // onChange={handleChange}
+            indicatorColor="secondary"
+            textColor="secondary"
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            <Tab label="Student" />
+            <Tab label="Supervisor" />
+            <Tab label="Peer" />
+            <Tab label="Self" />
+            <Tab label="Sentiment" />
+          </Tabs>
+        </Box> */}
         <Button variant="outlined" onClick={handleClose}>
           Close
         </Button>
