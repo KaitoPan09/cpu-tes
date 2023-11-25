@@ -90,7 +90,7 @@ export const AdminDashboard = () => {
           pendingSurveys: response?.pending_surveys,
           progress:
             response?.total_student_surveys_completed /
-            response?.pending_surveys,
+            response?.total_surveys_to_be_completed,
         });
       }
     })();
