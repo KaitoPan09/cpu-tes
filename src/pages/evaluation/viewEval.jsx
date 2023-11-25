@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
+  Dialog,
   Tab,
   Tabs,
   ToggleButton,
@@ -27,6 +28,8 @@ import useData from "../../hooks/useData";
 import { EvalDialog } from "./evalDialog";
 import { useAuth } from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
+import { FacultyEvalStatusReport } from "../../components/generatePDF/template";
+import generatePdf from "../../components/generatePDF";
 
 const View = () => {
   const theme = useTheme();
@@ -122,8 +125,15 @@ const View = () => {
           </Tooltip>,
         ];
       },
-      cellClassName: (params) =>
-        params.value === "Completed" ? "green" : "red",
+      cellClassName: (params) => {
+        if (params.value === "No Students") {
+          return "yellow";
+        } else if (params.value === "Pending") {
+          return "red";
+        } else {
+          return "green";
+        }
+      },
     },
   ];
   const studentColumns = [
@@ -191,12 +201,19 @@ const View = () => {
       }
     }
   };
+  const handleGenerateReport = (rows) => {
+    generatePdf(FacultyEvalStatusReport, { rows }, "test.pdf");
+  };
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title={evaluation?.college}
-          subtitle="List of faculty members and their evaluation status"
+          subtitle={
+            value === 0
+              ? "List of faculty members and their evaluation status"
+              : "List of students with incomplete survey submissions"
+          }
         />
       </Box>
       <Tabs
@@ -216,6 +233,7 @@ const View = () => {
           rows={facultyRows}
           columns={facultyColumns}
           loading={loading}
+          handleGenerateReport={() => handleGenerateReport(facultyRows)}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -230,6 +248,11 @@ const View = () => {
       {selectedEval && (
         <EvalDialog open={open} setOpen={setOpen} selectedEval={selectedEval} />
       )}
+      {/* <Dialog open={true} fullWidth maxWidth="md">
+        <FacultyEvalStatusReport
+          rows={facultyRows}
+        />
+      </Dialog> */}
     </Box>
   );
 };
