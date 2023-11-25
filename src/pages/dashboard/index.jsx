@@ -31,12 +31,17 @@ const Dashboard = () => {
 
   useEffect(() => {
     (async () => {
+      let response = {};
       if (auth.role === "Student") {
-        const response = await request(
+        response = await request(
           `/api/evaluations/students/dashboard?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
         );
-        setEvalInfo(response);
+      } else if (auth.role === "Teacher") {
+        response = await request(
+          `/api/evaluations/faculty/dashboard?faculty_id=${userInfo.faculty_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}&dept_id=${userInfo.dept_id}`
+        );
       }
+      if (response) setEvalInfo(response);
     })();
   }, []);
 
@@ -89,11 +94,11 @@ const Dashboard = () => {
                     {userInfo.college + " - " + userInfo.department}
                   </Typography>
                   <Typography
-                    color={"text.secondary"}
+                    color={colors.yellowAccent[500]}
                     variant="h6"
                     fontWeight={700}
                   >
-                    COLLEGE
+                    COLLEGE AND DEPARTMENT
                   </Typography>
                 </Grid>
               )}
