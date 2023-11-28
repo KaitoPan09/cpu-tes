@@ -100,7 +100,7 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
   const [rows, setRows] = useState(comments);
   const [checked, setChecked] = React.useState(false);
   const [value, setValue] = useState("all");
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
   const handleChange = (event) => {
     setChecked(false);
@@ -110,7 +110,7 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
         setRows(selectedResult?.overall.comments);
         setBarChartData(selectedResult?.overall.data);
         setValue(event.target.value);
-        setDisabled(true);
+        setDisabled(false);
       } else {
         console.log(selectedResult?.overall.comments.length);
         window.alert("No comments found");
@@ -146,15 +146,28 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
   };
   const generateWordCloud = async (class_id) => {
     setLoading(true);
-    let response = await fetch(
-      `/api/evaluations/wordcloud?sentiment=${selectedResult.sentiment}&faculty_id=${selectedResult.faculty_id}&evaluation_id=${evalId}&class_id=${class_id}`,
-      {
-        methods: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    let response = null;
+    if (class_id) {
+      response = await fetch(
+        `/api/evaluations/wordcloud?sentiment=${selectedResult.sentiment}&faculty_id=${selectedResult.faculty_id}&evaluation_id=${evalId}&class_id=${class_id}`,
+        {
+          methods: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } else {
+      response = await fetch(
+        `/api/evaluations/wordcloud?sentiment=${selectedResult.sentiment}&faculty_id=${selectedResult.faculty_id}&evaluation_id=${evalId}`,
+        {
+          methods: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
     let jsonResponse = await response.json();
     if (!response.ok) {
       if (response.status === 409) {
@@ -179,9 +192,16 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
   const handleSwitchChange = async (event) => {
     let wordcloud = null;
     if (event.target.checked) {
-      wordcloud = await generateWordCloud(selectedClass.class_id);
-      if (!wordcloud) {
-        return;
+      if (value === "all") {
+        wordcloud = await generateWordCloud();
+        if (!wordcloud) {
+          return;
+        }
+      } else {
+        wordcloud = await generateWordCloud(selectedClass.class_id);
+        if (!wordcloud) {
+          return;
+        }
       }
     } else {
       setRows(selectedClass.comments);
@@ -217,44 +237,46 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
             <Grid item marginTop={2}>
               <Grid container spacing={2} direction="row">
                 <Grid item>
-                  <Grow in={!disabled}>
-                    <Autocomplete
-                      disableClearable
-                      value={selectedClass}
-                      onChange={async (event, newValue) => {
-                        // if (checked) {
-                        //   let wordcloud = await generateWordCloud(
-                        //     newValue.class_id
-                        //   );
-                        //   if (!wordcloud) {
-                        //     return;
-                        //   }
-                        // } else {
-                        //   setRows(newValue.comments);
-                        //   setColumns(col);
-                        // }
-                        if (checked) {
-                          setChecked(false);
+                  {value === "students" && (
+                    <Grow in={!disabled}>
+                      <Autocomplete
+                        disableClearable
+                        value={selectedClass}
+                        onChange={async (event, newValue) => {
+                          // if (checked) {
+                          //   let wordcloud = await generateWordCloud(
+                          //     newValue.class_id
+                          //   );
+                          //   if (!wordcloud) {
+                          //     return;
+                          //   }
+                          // } else {
+                          //   setRows(newValue.comments);
+                          //   setColumns(col);
+                          // }
+                          if (checked) {
+                            setChecked(false);
+                          }
+                          setRows(newValue.comments);
+                          setColumns(col);
+                          setSelectedClass(newValue);
+                          setBarChartData(newValue.data);
+                        }}
+                        disablePortal
+                        disabled={disabled}
+                        options={classes.filter(
+                          (class_) => class_.comments?.length > 0
+                        )}
+                        getOptionLabel={(option) =>
+                          option.stub_code + " " + option.subject
                         }
-                        setRows(newValue.comments);
-                        setColumns(col);
-                        setSelectedClass(newValue);
-                        setBarChartData(newValue.data);
-                      }}
-                      disablePortal
-                      disabled={disabled}
-                      options={classes.filter(
-                        (class_) => class_.comments?.length > 0
-                      )}
-                      getOptionLabel={(option) =>
-                        option.stub_code + " " + option.subject
-                      }
-                      sx={{ width: 400 }}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Select a class" />
-                      )}
-                    />
-                  </Grow>
+                        sx={{ width: 400 }}
+                        renderInput={(params) => (
+                          <TextField {...params} label="Select a class" />
+                        )}
+                      />
+                    </Grow>
+                  )}
                 </Grid>
                 <Grid item alignItems="stretch" style={{ display: "flex" }}>
                   <Grow
@@ -280,36 +302,44 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
       </Grid>
       <Grid item>
         <Grid container direction="row" spacing={2} minHeight="60vh">
-          <Grid item xs={8} md={6}>
+          <Grid item xs={checked ? 4 : 12} md={checked ? 6 : 12}>
             <CustomDataGrid rows={rows ? rows : []} columns={columns} />
           </Grid>
-          <Grid item xs={8} md={6} maxHeight="60vh">
-            {!checked ? (
-              <></>
-            ) : //   <ResponsiveContainer width="100%" height="100%">
-            //     <BarChart
-            //       width={500}
-            //       height={300}
-            //       data={barChartData}
-            //       margin={{
-            //         top: 5,
-            //         right: 30,
-            //         left: 20,
-            //         bottom: 5,
-            //       }}
-            //     >
-            //       <CartesianGrid strokeDasharray="3 3" />
-            //       <XAxis dataKey="eval_type" />
-            //       <YAxis allowDecimals={false} />
-            //       <Tooltip />
-            //       <Legend />
-            //       <Bar dataKey="positive" fill="green" maxBarSize={55} />
-            //       <Bar dataKey="negative" fill="red" maxBarSize={55} />
-            //     </BarChart>
-            //   </ResponsiveContainer>
-            loading ? (
-              <Loading />
-            ) : (
+
+          {!checked ? (
+            <></>
+          ) : //   <ResponsiveContainer width="100%" height="100%">
+          //     <BarChart
+          //       width={500}
+          //       height={300}
+          //       data={barChartData}
+          //       margin={{
+          //         top: 5,
+          //         right: 30,
+          //         left: 20,
+          //         bottom: 5,
+          //       }}
+          //     >
+          //       <CartesianGrid strokeDasharray="3 3" />
+          //       <XAxis dataKey="eval_type" />
+          //       <YAxis allowDecimals={false} />
+          //       <Tooltip />
+          //       <Legend />
+          //       <Bar dataKey="positive" fill="green" maxBarSize={55} />
+          //       <Bar dataKey="negative" fill="red" maxBarSize={55} />
+          //     </BarChart>
+          //   </ResponsiveContainer>
+          loading ? (
+            <Loading />
+          ) : (
+            <Grid
+              item
+              xs={8}
+              md={6}
+              container
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
               <Box
                 component="img"
                 sx={{
@@ -319,8 +349,9 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
                 alt="WordCloud"
                 src={image}
               />
-            )}
-          </Grid>
+            </Grid>
+          )}
+
           {/* <Grid container direction="row" spacing={2} minHeight="60vh">
           <Grid item xs={8} md={6}>
             <Grid

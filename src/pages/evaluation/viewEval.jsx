@@ -29,7 +29,7 @@ import useData from "../../hooks/useData";
 import { EvalDialog } from "./evalDialog";
 import { useAuth } from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
-import { FacultyEvalStatusReport } from "../../components/generatePDF/template";
+import { PDFReport } from "../../components/generatePDF/template";
 import generatePdf from "../../components/generatePDF";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -205,7 +205,6 @@ const View = () => {
       }
     }
   };
-  const [openDialog, setOpenDialog] = useState(false);
   const componentRef = useRef();
   const handleGenerateReport = useReactToPrint({
     content: () => componentRef.current,
@@ -255,6 +254,10 @@ const View = () => {
           rows={studentRows}
           columns={studentColumns}
           loading={loading}
+          handleGenerateReport={() => {
+            // setOpenDialog(true);
+            handleGenerateReport();
+          }}
         />
       </TabPanel>
 
@@ -274,7 +277,23 @@ const View = () => {
         </DialogActions>
       </Dialog> */}
       <div style={{ display: "none" }}>
-        <FacultyEvalStatusReport rows={facultyRows} ref={componentRef} />
+        {value === 0 ? (
+          <PDFReport
+            rows={facultyRows}
+            columnHeaders={facultyColumns.map((column) => column.headerName)}
+            college={evaluation.college}
+            title="Faculty Evaluation Status Report"
+            ref={componentRef}
+          />
+        ) : (
+          <PDFReport
+            rows={studentRows}
+            columnHeaders={studentColumns.map((column) => column.headerName)}
+            college={evaluation.college}
+            title="Student Evaluation Status Report"
+            ref={componentRef}
+          />
+        )}
       </div>
     </Box>
   );

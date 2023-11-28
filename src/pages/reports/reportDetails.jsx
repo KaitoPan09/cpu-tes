@@ -34,6 +34,9 @@ import CustomDatagrid from "../../components/CustomDatagrid";
 import ReportDialog from "./reportDialog.jsx";
 import useData from "../../hooks/useData.js";
 import { useAuth } from "../../context/AuthContext/index.jsx";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import { PDFReport } from "../../components/generatePDF/template.jsx";
 
 // const CustomToolbar = () => {
 
@@ -144,6 +147,7 @@ const Details = () => {
       width: 120,
       headerAlign: "right",
       align: "right",
+      visible: false,
       valueFormatter: (params) => {
         if (params.value == null) {
           return 0.0;
@@ -311,6 +315,10 @@ const Details = () => {
       },
     },
   ];
+  const componentRef = useRef();
+  const handleGenerateReport = useReactToPrint({
+    content: () => componentRef.current,
+  });
   if (auth.role === "Admin" && college === undefined) {
     return <Navigate to="/reports" />;
   }
@@ -329,6 +337,7 @@ const Details = () => {
         columnVisibilityModel={{
           student_turnout: false,
         }}
+        handleGenerateReport={() => handleGenerateReport()}
       />
       {open && (
         <ReportDialog
@@ -339,6 +348,17 @@ const Details = () => {
           setTabValue={setTabValue}
         />
       )}
+      <div style={{ display: "none" }}>
+        <PDFReport
+          rows={rows}
+          columnHeaders={columns
+            .filter((column) => column.type !== "actions")
+            .map((column) => column.headerName)}
+          college={college}
+          title="Evaluation Summary Report"
+          ref={componentRef}
+        />
+      </div>
     </Box>
   );
 };
