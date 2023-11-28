@@ -22,12 +22,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    color: theme.palette.common.black,
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
+    // backgroundColor: theme.palette.action.hover,
+    backgroundColor: theme.palette.pdf.main,
+  },
+  "&:nth-of-type(even)": {
+    backgroundColor: theme.palette.pdf.sub,
   },
   // hide last border
   "&:last-child td, &:last-child th": {
@@ -82,7 +87,7 @@ export const FacultyEvalStatusReport = React.forwardRef(({ rows }, ref) => {
         style={{ pageBreakAfter: "always" }}
         >
         <Grid item mx={10}>
-          <Typography variant="h4" sx={{ color: colors.darkBlue[500] }}>
+          <Typography variant="h3" sx={{ color: colors.darkBlue[500] }}>
             Faculty Evaluation Status Report
           </Typography>
         </Grid>
@@ -112,6 +117,20 @@ export const FacultyEvalStatusReport = React.forwardRef(({ rows }, ref) => {
 
   return (
     <div ref={ref} style={printStyles}>
+      <Grid item mx={10}>
+        <Typography variant="h5" sx={{ color: colors.darkBlue[500] }}>
+          Dean
+        </Typography>
+        <Typography variant="h5" sx={{ color: colors.darkBlue[500] }}>
+          Date
+        </Typography>
+        <Typography variant="h5" sx={{ color: colors.darkBlue[500] }}>
+          School Year
+        </Typography>
+        <Typography variant="h5" sx={{ color: colors.darkBlue[500] }}>
+          Semester
+        </Typography>
+      </Grid>
       {tables}
     </div>
   );

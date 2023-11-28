@@ -194,6 +194,10 @@ export const themeSetting = (mode) => {
             background: {
               default: colors.primary[900],
             },
+            pdf: {
+              main: colors.grey[100],
+              sub: colors.grey[200]
+            }
           }
         : {
             primary: {
@@ -212,6 +216,10 @@ export const themeSetting = (mode) => {
               default: colors.primary[900],
               // default: "#fcfcfc"
             },
+            pdf: {
+              main: colors.grey[900],
+              sub: colors.grey[800]
+            }
           }),
     },
     typography: {
