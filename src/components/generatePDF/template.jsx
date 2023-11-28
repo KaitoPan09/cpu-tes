@@ -1,14 +1,7 @@
 import React from "react";
 import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardHeader,
-  Divider,
   Grid,
   Paper,
-  SvgIcon,
   Table,
   TableBody,
   TableContainer,
@@ -41,12 +34,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
 export const FacultyEvalStatusReport = React.forwardRef(({ rows }, ref) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const getPageMargins = () => {
-    return `@page { margin: ${10} ${10} ${10} ${10} !important; }`;
-  };
+  // const getPageMargins = () => {
+  //   return `@page { margin: ${10} ${10} ${10} ${10} !important; }`;
+  // };
   const printStyles = {
     "@page": {
       margin: "10 10 10 10 !important",
@@ -63,20 +57,38 @@ export const FacultyEvalStatusReport = React.forwardRef(({ rows }, ref) => {
       },
     },
   };
-  return (
-    <div ref={ref} style={printStyles}>
-      <Grid
-        container
-        spacing={2}
-        justifyContent={"center"}
-        alignContent={"center"}
-      >
+
+  const tables = [];
+  for (let i = 0; i < rows.length; i += 6) {
+    const tableRows = rows.slice(i, i + 6).map((row) => (
+      <StyledTableRow key={row.school_id}>
+        <StyledTableCell>{row.faculty}</StyledTableCell>
+        <StyledTableCell>{row.school_id}</StyledTableCell>
+        <StyledTableCell>{row.department}</StyledTableCell>
+        <StyledTableCell>{row.supervisor}</StyledTableCell>
+        <StyledTableCell>{row.peer}</StyledTableCell>
+        <StyledTableCell>{row.self}</StyledTableCell>
+        <StyledTableCell>{row.student}</StyledTableCell>
+      </StyledTableRow>
+    ));
+    
+    const table = (
+      <Grid 
+        container 
+        spacing={2} 
+        justifyContent={"center"} 
+        alignContent={"center"} 
+        key={i}
+        style={{ pageBreakAfter: "always" }}
+        >
         <Grid item mx={10}>
-          <Typography variant="h4" sx={{ color: colors.darkBlue[500]}}>Faculty Evaluation Status Report</Typography>
+          <Typography variant="h4" sx={{ color: colors.darkBlue[500] }}>
+            Faculty Evaluation Status Report
+          </Typography>
         </Grid>
         <Grid item mx={10}>
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: 900 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Faculty</StyledTableCell>
@@ -88,25 +100,19 @@ export const FacultyEvalStatusReport = React.forwardRef(({ rows }, ref) => {
                   <StyledTableCell>Student</StyledTableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {rows.map((row) => {
-                  return (
-                    <StyledTableRow key={row.school_id}>
-                      <StyledTableCell>{row.faculty}</StyledTableCell>
-                      <StyledTableCell>{row.school_id}</StyledTableCell>
-                      <StyledTableCell>{row.department}</StyledTableCell>
-                      <StyledTableCell>{row.supervisor}</StyledTableCell>
-                      <StyledTableCell>{row.peer}</StyledTableCell>
-                      <StyledTableCell>{row.self}</StyledTableCell>
-                      <StyledTableCell>{row.student}</StyledTableCell>
-                    </StyledTableRow>
-                  );
-                })}
-              </TableBody>
+              <TableBody>{tableRows}</TableBody>
             </Table>
           </TableContainer>
         </Grid>
       </Grid>
+    );
+
+    tables.push(table);
+  }
+
+  return (
+    <div ref={ref} style={printStyles}>
+      {tables}
     </div>
   );
 });
