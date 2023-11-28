@@ -15,9 +15,13 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import { tokens } from "../../theme";
+
+// const colors = tokens(theme.palette.mode);
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -38,6 +42,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 export const FacultyEvalStatusReport = React.forwardRef(({ rows }, ref) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const getPageMargins = () => {
     return `@page { margin: ${10} ${10} ${10} ${10} !important; }`;
   };
@@ -66,7 +72,7 @@ export const FacultyEvalStatusReport = React.forwardRef(({ rows }, ref) => {
         alignContent={"center"}
       >
         <Grid item mx={10}>
-          <Typography variant="h4">Faculty Evaluation Status Report</Typography>
+          <Typography variant="h4" sx={{ color: colors.darkBlue[500]}}>Faculty Evaluation Status Report</Typography>
         </Grid>
         <Grid item mx={10}>
           <TableContainer component={Paper}>
