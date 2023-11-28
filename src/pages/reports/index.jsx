@@ -43,7 +43,7 @@ const Reports = () => {
       field: "score",
       headerName: "Overall Score",
       width: 120,
-      type:"number"
+      type: "number",
     },
     {
       field: "details",
@@ -51,15 +51,14 @@ const Reports = () => {
       headerName: "Details",
       width: 80,
       cellClassName: "details",
-      getActions: ({row}) => {
+      getActions: ({ row }) => {
         const iconStyle = { fontSize: "1.25rem" };
-        
+
         return [
           <Tooltip title="Details">
             <IconButton
               onClick={() => {
-                console.log(row);
-                navigate(`/reports/${row.id}/reportDetails`);
+                navigate(`/reports/${row.id}/reportDetails`, { state: row });
               }}
             >
               <VisibilityOutlinedIcon sx={{ fontSize: iconStyle.fontSize }} />

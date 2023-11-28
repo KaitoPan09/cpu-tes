@@ -24,7 +24,7 @@ import { dummyreportDeets, dummyBarBreakdown } from "../../data/dummyData";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import Header from "../../components/Header";
 import { useTheme } from "@emotion/react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import FactCheckOutlinedIcon from "@mui/icons-material/FactCheckOutlined";
 import BarGraph from "../../components/BarGraph";
 import List from "@mui/material/List";
@@ -33,6 +33,7 @@ import Divider from "@mui/material/Divider";
 import CustomDatagrid from "../../components/CustomDatagrid";
 import ReportDialog from "./reportDialog.jsx";
 import useData from "../../hooks/useData.js";
+import { useAuth } from "../../context/AuthContext/index.jsx";
 
 // const CustomToolbar = () => {
 
@@ -57,37 +58,38 @@ import useData from "../../hooks/useData.js";
 //     )
 // }
 
-const reportsData = (rowData) => {
-  return {
-    category: rowData.category,
-    student: rowData.student,
-    supervisor: rowData.supervisor,
-    peer: rowData.peer,
-    self: rowData.self,
-    // Add more fields as needed
-  };
-};
+// const reportsData = (rowData) => {
+//   return {
+//     category: rowData.category,
+//     student: rowData.student,
+//     supervisor: rowData.supervisor,
+//     peer: rowData.peer,
+//     self: rowData.self,
+//     // Add more fields as needed
+//   };
+// };
 
 const Details = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { evalId } = useParams();
+  const location = useLocation();
+  const { auth, userInfo } = useAuth();
+  const college =
+    auth.role === "Admin" ? location.state?.college : userInfo.college;
   const [rows, setRows] = useData(
-    `/api/evaluations/results?evaluation_id=${evalId}`
+    auth.role === "Department Head"
+      ? `/api/evaluations/results?evaluation_id=${evalId}&&dept_id=${userInfo.dept_id}`
+      : `/api/evaluations/results?evaluation_id=${evalId}`
   );
   const [open, setOpen] = useState(false);
   const [dialogData, setDialogData] = React.useState(null);
-  const handleOpenDialog = (rowData) => {
-    const dataForBarGraph = reportsData(rowData);
-    setDialogData({ ...rowData, barData: dataForBarGraph });
-    // setDialogData(rowData)
+  const [tabValue, setTabValue] = React.useState(0);
+  const handleOpenDialog = (rowData, tabValue) => {
+    setTabValue(tabValue);
+    setDialogData(rowData);
     setOpen(true);
   };
-  useEffect(() => {
-    if (open) {
-      setDialogData(dialogData);
-    }
-  }, [open]);
   const handleClose = () => {
     setOpen(false);
   };
@@ -111,9 +113,43 @@ const Details = () => {
       width: 120,
       headerAlign: "right",
       align: "right",
-      valueFormatter: (params) => {
-        return params.value.toFixed(2);
+      renderCell: (params) => {
+        if (params.value == null) {
+          return "Pending";
+        } else {
+          return (
+            <Button
+              variant="text"
+              tabIndex={params.hasFocus ? 0 : -1}
+              onClick={() => {
+                handleOpenDialog(params.row, 0);
+              }}
+              color={params.value >= 4.2 ? "success" : "error"}
+            >
+              {params.value.toFixed(2)}
+            </Button>
+          );
+        }
       },
+      cellClassName: (params) => {
+        if (params.value == null) {
+          return "yellow";
+        }
+      },
+    },
+    {
+      field: "student_turnout",
+      headerName: "Response Rate",
+      width: 120,
+      headerAlign: "right",
+      align: "right",
+      hidden: true,
+      // valueFormatter: (params) => {
+      //   if (params.value == null) {
+      //     return 0.0;
+      //   }
+      //   return params.value.toFixed(2) + " %";
+      // },
     },
     {
       field: "supervisor",
@@ -122,8 +158,28 @@ const Details = () => {
       width: 120,
       headerAlign: "right",
       align: "right",
-      valueFormatter: (params) => {
-        return params.value.toFixed(2);
+      renderCell: (params) => {
+        if (params.value == null) {
+          return "Pending";
+        } else {
+          return (
+            <Button
+              variant="text"
+              tabIndex={params.hasFocus ? 0 : -1}
+              onClick={() => {
+                handleOpenDialog(params.row, 1);
+              }}
+              color={params.value >= 4.2 ? "success" : "error"}
+            >
+              {params.value.toFixed(2)}
+            </Button>
+          );
+        }
+      },
+      cellClassName: (params) => {
+        if (params.value == null) {
+          return "yellow";
+        }
       },
     },
     {
@@ -133,8 +189,28 @@ const Details = () => {
       width: 120,
       headerAlign: "right",
       align: "right",
-      valueFormatter: (params) => {
-        return params.value.toFixed(2);
+      renderCell: (params) => {
+        if (params.value == null) {
+          return <Typography variant="body2">Pending</Typography>;
+        } else {
+          return (
+            <Button
+              variant="text"
+              tabIndex={params.hasFocus ? 0 : -1}
+              onClick={() => {
+                handleOpenDialog(params.row, 1);
+              }}
+              color={params.value >= 4.2 ? "success" : "error"}
+            >
+              {params.value.toFixed(2)}
+            </Button>
+          );
+        }
+      },
+      cellClassName: (params) => {
+        if (params.value == null) {
+          return "yellow";
+        }
       },
     },
     {
@@ -144,8 +220,28 @@ const Details = () => {
       width: 120,
       headerAlign: "right",
       align: "right",
-      valueFormatter: (params) => {
-        return params.value.toFixed(2);
+      renderCell: (params) => {
+        if (params.value == null) {
+          return "Pending";
+        } else {
+          return (
+            <Button
+              variant="text"
+              tabIndex={params.hasFocus ? 0 : -1}
+              onClick={() => {
+                handleOpenDialog(params.row, 1);
+              }}
+              color={params.value >= 4.2 ? "success" : "error"}
+            >
+              {params.value.toFixed(2)}
+            </Button>
+          );
+        }
+      },
+      cellClassName: (params) => {
+        if (params.value == null) {
+          return "yellow";
+        }
       },
     },
     {
@@ -154,19 +250,25 @@ const Details = () => {
       width: 120,
       headerAlign: "right",
       align: "right",
-      valueFormatter: (params) => {
+      renderCell: (params) => {
         // return params.value >= 0.5 ? "Positive" : "Negative";
-        if (isNaN(params.value)) {
-          return params.value;
+        if (params.value == null) {
+          return "No comments";
+        } else {
+          return (
+            <Button
+              variant="text"
+              tabIndex={params.hasFocus ? 0 : -1}
+              onClick={() => handleOpenDialog(params.row, 1)}
+              color={params.value >= 0.5 ? "success" : "error"}
+            >
+              {params.value.toFixed(2)}
+            </Button>
+          );
         }
-        return params.value.toFixed(2);
       },
       cellClassName: (params) => {
-        if (params.value < 0.5) {
-          return "red";
-        } else if (params.value > 0.5) {
-          return "green";
-        } else {
+        if (params.value == null) {
           return "yellow";
         }
       },
@@ -199,7 +301,7 @@ const Details = () => {
         const iconStyle = { fontSize: "1.25rem" };
         return [
           <Tooltip title="Bar Graph">
-            <IconButton onClick={() => handleOpenDialog(params.row)}>
+            <IconButton onClick={() => handleOpenDialog(params.row, 0)}>
               <FactCheckOutlinedIcon sx={{ fontSize: iconStyle.fontSize }} />
             </IconButton>
           </Tooltip>,
@@ -207,21 +309,32 @@ const Details = () => {
       },
     },
   ];
+  if (auth.role === "Admin" && college === undefined) {
+    return <Navigate to="/reports" />;
+  }
 
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
-          title="CURRENTLY VIEWING"
-          subtitle="Viewing Details for Survey Placeholder"
+          title={college}
+          subtitle={"Evaluation Summary for " + college}
         />
       </Box>
-      <CustomDatagrid rows={rows} columns={columns} />
+      <CustomDatagrid
+        rows={rows}
+        columns={columns}
+        columnVisibilityModel={{
+          student_turnout: false,
+        }}
+      />
       {open && (
         <ReportDialog
           open={open}
           handleClose={handleClose}
           dialogData={dialogData}
+          tabValue={tabValue}
+          setTabValue={setTabValue}
         />
       )}
     </Box>

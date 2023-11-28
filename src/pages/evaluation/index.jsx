@@ -49,11 +49,7 @@ const Evaluation = () => {
   const navigate = useNavigate();
   const { auth, userInfo } = useAuth();
   const { postData, request } = useFetch();
-  const [rows, setRows] = useData(
-    auth?.role === "Admin"
-      ? `/api/evaluations/current?role=${auth?.role}`
-      : `/api/evaluations/current?role=${auth?.role}&college_id=${userInfo?.college_id}`
-  );
+  const [rows, setRows] = useData(`/api/evaluations/current`);
   const [colleges, setColleges] = useData(`/api/colleges`);
   const [openUpdDialog, setOpenUpdDialog] = useState(false);
   const [selectedEvaluation, setSelectedEvaluation] = useState(null);
@@ -63,6 +59,7 @@ const Evaluation = () => {
       headerName: "ID",
       width: 50,
     },
+    { field: "college_id", headerName: "College ID", width: 50 },
     {
       field: "college",
       headerName: "College",
@@ -95,7 +92,8 @@ const Evaluation = () => {
           <Tooltip title="Details">
             <IconButton
               onClick={() => {
-                navigate(`/evaluations/${row.id}/view`, { state: row });
+                console.log(row);
+                navigate(`/evaluations/${row.college_id}/view`, { state: row });
               }}
             >
               <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
@@ -210,6 +208,9 @@ const Evaluation = () => {
         handleAdd={handleAdd}
         // handleRowDoubleClick={handleRowDoubleClick}
         btnText={"START NEW EVALUATION"}
+        columnVisibilityModel={{
+          college_id: false,
+        }}
       />
       <FormDialog
         setRows={setRows}

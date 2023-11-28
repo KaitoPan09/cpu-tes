@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Dialog,
+  DialogActions,
   Tab,
   Tabs,
   ToggleButton,
@@ -30,17 +31,20 @@ import { useAuth } from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
 import { FacultyEvalStatusReport } from "../../components/generatePDF/template";
 import generatePdf from "../../components/generatePDF";
-
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 const View = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { evalId } = useParams();
+  const { collegeId } = useParams();
   const location = useLocation();
   const evaluation = location.state;
-  const { auth } = useAuth();
+  const { auth, userInfo } = useAuth();
   const { request, loading } = useFetch();
   const [facultyRows, setFacultyRows] = useData(
-    `/api/evaluations/${evalId}?role=${auth?.role}&type=Faculty`
+    auth?.role === "Department Head"
+      ? `/api/evaluations/${collegeId}?type=Faculty&dept_id=${userInfo.dept_id}`
+      : `/api/evaluations/${collegeId}?type=Faculty`
   );
   // const [facultyRows, setFacultyRows] = useState([]);
   const [studentRows, setStudentRows] = useState([]);
@@ -189,7 +193,7 @@ const View = () => {
   const handleChange = async (event, newValue) => {
     setValue(newValue);
     const response = await request(
-      `/api/evaluations/${evalId}?role=${auth?.role}&type=${
+      `/api/evaluations/${collegeId}?role=${auth?.role}&type=${
         newValue === 0 ? "Faculty" : "Students"
       }`
     );
@@ -201,9 +205,15 @@ const View = () => {
       }
     }
   };
-  const handleGenerateReport = (rows) => {
-    generatePdf(FacultyEvalStatusReport, { rows }, "test.pdf");
-  };
+  const [openDialog, setOpenDialog] = useState(false);
+  const componentRef = useRef();
+  const handleGenerateReport = useReactToPrint({
+    content: () => componentRef.current,
+  });
+  // const handleGenerateReport = () => {
+  //   generatePdf(componentRef);
+  // };
+
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -233,7 +243,10 @@ const View = () => {
           rows={facultyRows}
           columns={facultyColumns}
           loading={loading}
-          handleGenerateReport={() => handleGenerateReport(facultyRows)}
+          handleGenerateReport={() => {
+            // setOpenDialog(true);
+            handleGenerateReport();
+          }}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -253,6 +266,16 @@ const View = () => {
           rows={facultyRows}
         />
       </Dialog> */}
+      {/* <Dialog open={openDialog} fullWidth maxWidth="md">
+        <FacultyEvalStatusReport rows={facultyRows} ref={componentRef} />
+        <DialogActions>
+          <Button onClick={handleGenerateReport}>Generate PDF</Button>
+          <Button onClick={() => setOpenDialog(false)}>Close</Button>
+        </DialogActions>
+      </Dialog> */}
+      <div style={{ display: "none" }}>
+        <FacultyEvalStatusReport rows={facultyRows} ref={componentRef} />
+      </div>
     </Box>
   );
 };

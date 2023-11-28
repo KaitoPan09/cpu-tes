@@ -3,44 +3,57 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { flushSync } from "react-dom";
 import { FacultyEvalStatusReport } from "./template";
-const generatePdf = (template, data, filename) => {
-  const options = {
-    margin: 10,
-    filename: filename,
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-  };
-  const pdf = new jsPDF();
 
-  // Create a div element to render the component
-  const div = document.createElement("div");
-  // Create a root and render the component into the div
-  const root = createRoot(div);
-  flushSync(() => {
-    root.render(<FacultyEvalStatusReport rows={data.rows} />);
+const generatePdf = (componentRef) => {
+  const pdf = new jsPDF();
+  const component = componentRef.current;
+  const tables = component.querySelectorAll(".table-grid-item");
+
+  const addPageBreak = (index) => {
+    if (index < tables.length - 1) {
+      pdf.addPage();
+    }
+  };
+
+  const promises = Array.from(tables).map((table, index) => {
+    return html2canvas(table, { scale: 2, scrollY: -window.scrollY }).then(
+      (canvas) => {
+        // Calculate the aspect ratio of the PDF page
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const aspectRatio = canvas.width / canvas.height;
+
+        // Calculate the dimensions to fit the image while maintaining aspect ratio
+        let imgWidth = pdfWidth;
+        let imgHeight = pdfWidth / aspectRatio;
+
+        // Adjust if the calculated height exceeds the page height
+        if (imgHeight > pdfHeight) {
+          imgHeight = pdfHeight;
+          imgWidth = pdfHeight * aspectRatio;
+        }
+
+        // Add the image to the PDF
+        pdf.addImage(
+          canvas.toDataURL("image/png"),
+          "PNG",
+          0,
+          0,
+          imgWidth,
+          imgHeight
+        );
+
+        // Add page break after each table (except the last one)
+        addPageBreak(index);
+      }
+    );
   });
 
-  // Get the HTML content from the div
-  html2canvas(div, { scale: 2 })
-    .then((canvas) => {
-      // Convert the canvas image to data URL
-      const imageData = canvas.toDataURL("image/jpeg", 0.98);
-
-      // Add the image to the PDF
-      pdf.addImage(
-        imageData,
-        "JPEG",
-        options.jsPDF.margin,
-        options.jsPDF.margin
-      );
-
-      // Save the PDF
-      pdf.save(options.filename);
-    })
-    .catch((error) => {
-      console.error("Error generating PDF:", error);
-    });
+  // Wait for all promises to resolve before saving the PDF
+  Promise.all(promises).then(() => {
+    // Save or display the PDF
+    pdf.save("myPDF.pdf");
+  });
 };
 
 export default generatePdf;

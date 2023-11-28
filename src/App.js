@@ -61,11 +61,7 @@ function App() {
                 <Route path="/users" element={<Users />} />
                 <Route path="/questionnaire" element={<Questionnaire />} />
               </Route>
-              <Route
-                element={
-                  <RequireAuth allowedRoles={["Admin", "Department Head"]} />
-                }
-              >
+              <Route element={<RequireAuth allowedRoles={["Admin", "Dean"]} />}>
                 <Route path="/colleges" element={<Colleges />} />
                 <Route
                   path="/colleges/:collegeId/manage"
@@ -75,17 +71,28 @@ function App() {
                   path="/colleges/:collegeId/departments"
                   element={<Departments />}
                 />
+                <Route path="/evaluation" element={<Evaluation />} />
+                <Route path="/reports" element={<Reports />} />
+              </Route>
+              <Route
+                element={
+                  <RequireAuth
+                    allowedRoles={["Admin", "Dean", "Department Head"]}
+                  />
+                }
+              >
                 <Route
                   path="/departments/:deptId/manage"
                   element={<ManageDepartment />}
                 />
-                <Route path="/evaluation" element={<Evaluation />} />
                 <Route
-                  path="/evaluations/:evalId/view"
+                  path="/evaluations/:collegeId/view"
                   element={<ViewEvaluation />}
                 />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/reports/:evalId/reportDetails" element={<ReportDetails />} />
+                <Route
+                  path="/reports/:evalId/reportDetails"
+                  element={<ReportDetails />}
+                />
               </Route>
               <Route
                 element={
