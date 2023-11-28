@@ -114,7 +114,7 @@ export const AdminDashboard = () => {
               </Stack>
               <Avatar
                 sx={{
-                  backgroundColor: colors.greenAccent[300],
+                  backgroundColor: colors.greenAccent[200],
                   height: 56,
                   width: 56,
                 }}
@@ -146,7 +146,7 @@ export const AdminDashboard = () => {
               </Stack>
               <Avatar
                 sx={{
-                  backgroundColor: colors.blueAccent[400],
+                  backgroundColor: colors.greenAccent[300],
                   height: 56,
                   width: 56,
                 }}

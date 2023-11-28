@@ -28,7 +28,7 @@ const ProgressCircle = ({ progress, size }) => {
         variant="h3"
         sx={{
           position: "absolute",
-          top: "50%",
+          top: "45%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           color: colors.primary,
@@ -37,19 +37,20 @@ const ProgressCircle = ({ progress, size }) => {
       >
         {`${Math.round(parseFloat(progress) * 100)}%`}
       </Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          position: "absolute",
+          top: "65%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          color: colors.primary,
+          fontWeight: "bold",
+        }}
+      >
+        of Total
+      </Typography>
     </Box>
-    // <Box
-    //     sx={{
-    //         background: `radial-gradient(${colors.darkBlue[400]} 55%,
-    //             transparent 56%),
-    //             conic-gradient(transparent 0deg ${angle}deg,
-    //                 ${colors.redAccent[500]} ${angle}deg 360deg),
-    //                 ${colors.yellowAccent[500]}`,
-    //         borderRadius: "50%",
-    //         width: `${size}px`,
-    //         height: `${size}px`
-    //     }}
-    //     />
   );
 };
 
