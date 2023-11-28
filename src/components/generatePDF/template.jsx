@@ -7,51 +7,100 @@ import {
   CardHeader,
   Divider,
   Grid,
+  Paper,
   SvgIcon,
   Table,
   TableBody,
-  TableCell,
+  TableContainer,
   TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
 
-export const FacultyEvalStatusReport = ({ rows }) => (
-  <Grid container spacing={2}>
-    <Grid item>
-      <Typography variant="h4">Faculty Evaluation Status Report</Typography>
-    </Grid>
-    <Grid item>
-      <Box sx={{ minWidth: 1000 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Faculty</TableCell>
-              <TableCell>School ID</TableCell>
-              <TableCell>Department</TableCell>
-              <TableCell>Supervisor</TableCell>
-              <TableCell>Peer</TableCell>
-              <TableCell>Self</TableCell>
-              <TableCell>Student</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => {
-              return (
-                <TableRow hover key={row.school_id}>
-                  <TableCell>{row.faculty}</TableCell>
-                  <TableCell>{row.school_id}</TableCell>
-                  <TableCell>{row.department}</TableCell>
-                  <TableCell>{row.supervisor}</TableCell>
-                  <TableCell>{row.peer}</TableCell>
-                  <TableCell>{row.self}</TableCell>
-                  <TableCell>{row.student}</TableCell>
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+export const FacultyEvalStatusReport = React.forwardRef(({ rows }, ref) => {
+  const getPageMargins = () => {
+    return `@page { margin: ${10} ${10} ${10} ${10} !important; }`;
+  };
+  const printStyles = {
+    "@page": {
+      margin: "10 10 10 10 !important",
+    },
+    "@media print": {
+      html: {
+        height: "100vh",
+      },
+      body: {
+        height: "100vh",
+        margin: "0 !important",
+        padding: "0 !important",
+        overflow: "hidden",
+      },
+    },
+  };
+  return (
+    <div ref={ref} style={printStyles}>
+      <Grid
+        container
+        spacing={2}
+        justifyContent={"center"}
+        alignContent={"center"}
+      >
+        <Grid item mx={10}>
+          <Typography variant="h4">Faculty Evaluation Status Report</Typography>
+        </Grid>
+        <Grid item mx={10}>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Faculty</StyledTableCell>
+                  <StyledTableCell>School ID</StyledTableCell>
+                  <StyledTableCell>Department</StyledTableCell>
+                  <StyledTableCell>Supervisor</StyledTableCell>
+                  <StyledTableCell>Peer</StyledTableCell>
+                  <StyledTableCell>Self</StyledTableCell>
+                  <StyledTableCell>Student</StyledTableCell>
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </Box>
-    </Grid>
-  </Grid>
-);
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => {
+                  return (
+                    <StyledTableRow key={row.school_id}>
+                      <StyledTableCell>{row.faculty}</StyledTableCell>
+                      <StyledTableCell>{row.school_id}</StyledTableCell>
+                      <StyledTableCell>{row.department}</StyledTableCell>
+                      <StyledTableCell>{row.supervisor}</StyledTableCell>
+                      <StyledTableCell>{row.peer}</StyledTableCell>
+                      <StyledTableCell>{row.self}</StyledTableCell>
+                      <StyledTableCell>{row.student}</StyledTableCell>
+                    </StyledTableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+      </Grid>
+    </div>
+  );
+});

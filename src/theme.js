@@ -242,34 +242,34 @@ export const themeSetting = (mode) => {
         fontSize: 16,
       },
     },
-    MuiTableCell: {
-      styleOverrides: {
-        root: {
-          padding: "15px 16px",
-        },
-      },
-    },
-    MuiTableHead: {
-      styleOverrides: {
-        root: {
-          borderBottom: "none",
-          [`& .${tableCellClasses.root}`]: {
-            borderBottom: "none",
-            //backgroundColor: palette.neutral[50],
-            //color: palette.neutral[700],
-            fontSize: 12,
-            fontWeight: 600,
-            lineHeight: 1,
-            letterSpacing: 0.5,
-            textTransform: "uppercase",
-          },
-          [`& .${tableCellClasses.paddingCheckbox}`]: {
-            paddingTop: 4,
-            paddingBottom: 4,
-          },
-        },
-      },
-    },
+    // MuiTableCell: {
+    //   styleOverrides: {
+    //     root: {
+    //       padding: "15px 16px",
+    //     },
+    //   },
+    // },
+    // MuiTableHead: {
+    //   styleOverrides: {
+    //     root: {
+    //       borderBottom: "none",
+    //       [`& .${tableCellClasses.root}`]: {
+    //         borderBottom: "none",
+    //         //backgroundColor: palette.neutral[50],
+    //         //color: palette.neutral[700],
+    //         fontSize: 12,
+    //         fontWeight: 600,
+    //         lineHeight: 1,
+    //         letterSpacing: 0.5,
+    //         textTransform: "uppercase",
+    //       },
+    //       [`& .${tableCellClasses.paddingCheckbox}`]: {
+    //         paddingTop: 4,
+    //         paddingBottom: 4,
+    //       },
+    //     },
+    //   },
+    // },
   };
 };
 

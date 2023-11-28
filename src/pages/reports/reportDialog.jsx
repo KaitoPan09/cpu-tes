@@ -24,29 +24,78 @@ import useFetch from "../../hooks/useFetch";
 import { height } from "@mui/system";
 import { Skeleton } from "survey-react-ui";
 import { useParams } from "react-router";
+import { StudentTab } from "./studentTab";
+import { FacultyTab } from "./facultyTab";
+import { useState } from "react";
 
-const ReportDialog = ({ open, setOpen, handleClose, dialogData }) => {
+const ReportDialog = ({
+  open,
+  setOpen,
+  handleClose,
+  dialogData,
+  tabValue,
+  setTabValue,
+}) => {
   const { evalId } = useParams();
   const { loading, request } = useFetch();
-  const [ratings, setRatings] = React.useState([]);
+  const [studentRatings, setStudentRatings] = useState([]);
+  const [facultyRatings, setFacultyRatings] = useState({});
+  const [result, setResult] = React.useState({});
   useEffect(() => {
     (async () => {
       const response = await request(
         `/api/evaluations/individual_result?evaluation_id=${evalId}&faculty_id=${dialogData?.id}`
       );
       if (response) {
-        setRatings(response.student_ratings);
+        setResult(response);
+        if (tabValue === 0 && response?.student_ratings)
+          setStudentRatings(response.student_ratings);
+        else if (
+          tabValue === 1 &&
+          response?.supervisor_ratings &&
+          response?.self_ratings &&
+          response?.peer_ratings
+        ) {
+          setFacultyRatings({
+            supervisor: response.supervisor_ratings,
+            self: response.self_ratings,
+            peer: response.peer_ratings,
+          });
+        }
       }
     })();
   }, []);
-  const columnColors = ["#e8c1a0", "#f47560", "#f1e15b", "#e8a838", "#61cdbb"];
+
+  const handleChangeTab = (event, newValue) => {
+    if (newValue === 0 && result?.student_ratings?.length > 0) {
+      setStudentRatings(result.student_ratings);
+      setTabValue(newValue);
+    } else if (
+      newValue === 1 &&
+      result?.supervisor_ratings?.length > 0 &&
+      result?.self_ratings?.length > 0 &&
+      result?.peer_ratings?.length > 0
+    ) {
+      setFacultyRatings({
+        supervisor: result.supervisor_ratings,
+        self: result.self_ratings,
+        peer: result.peer_ratings,
+      });
+      setTabValue(newValue);
+    } else if (
+      newValue === 2 &&
+      dialogData?.sentiment_score !== "No comments"
+    ) {
+      setTabValue(newValue);
+    } else window.alert("No data available");
+  };
   return (
     <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="lg">
       <DialogTitle>
         <Grid container spacing={2} justifyContent={"flex-start"}>
           <Grid item>
             <Typography variant="h6" color={"text.secondary"}>
-              Evaluation Results:
+              Faculty:
             </Typography>
           </Grid>
           <Grid item>
@@ -68,72 +117,29 @@ const ReportDialog = ({ open, setOpen, handleClose, dialogData }) => {
           </Grid>
         ) : (
           <>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Tabs
-                  // value={value}
-                  // onChange={handleChange}
-                  indicatorColor="secondary"
-                  textColor="secondary"
-                  variant="scrollable"
-                  scrollButtons="auto"
-                >
-                  <Tab label="Overall" />
-                  <Tab label="By Class" />
-                </Tabs>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <List>
-                  {ratings.map((item, index) => (
-                    <div key={item.category}>
-                      <ListItem divider={true}>
-                        <ListItemText
-                          primary={
-                            item.category + " " + item.weight * 100 + "%"
-                          }
-                          sx={{ textAlign: "left", color: columnColors[index] }}
-                        />
-
-                        <ListItemText
-                          primary={Number(item.rating).toFixed(2)}
-                          sx={{
-                            textAlign: "right",
-                            paddingLeft: 2,
-                            color: item.rating < 4.2 ? "red" : "green",
-                          }}
-                        />
-                      </ListItem>
-                    </div>
-                  ))}
-                </List>
-              </Grid>
-              {ratings && (
-                <Grid item xs={12} md={8}>
-                  <Box height="50vh">
-                    <BarGraph ratings={ratings} />
-                  </Box>
-                </Grid>
-              )}
-            </Grid>
-            <Divider />
-            <Grid item xs={12} container justifyContent="center">
-              <Tabs
-                value={0}
-                // onChange={handleChange}
-                indicatorColor="secondary"
-                textColor="secondary"
-                variant="scrollable"
-                scrollButtons="auto"
-              >
-                <Tab label="Student" sx={{ marginRight: 10 }} />
-                <Tab label="Supervisor" sx={{ marginRight: 10 }} />
-                <Tab label="Peer" sx={{ marginRight: 10 }} />
-                <Tab label="Self" sx={{ marginRight: 10 }} />
-                <Tab label="Sentiment" sx={{ marginRight: 10 }} />
-              </Tabs>
-            </Grid>
+            <TabPanel value={tabValue} index={0}>
+              <StudentTab ratings={studentRatings} dialogData={dialogData} />
+            </TabPanel>
+            <TabPanel value={tabValue} index={1}>
+              <FacultyTab ratings={facultyRatings} dialogData={dialogData} />
+            </TabPanel>
           </>
         )}
+        <Divider />
+        <Grid container justifyContent="center">
+          <Tabs
+            value={tabValue}
+            onChange={handleChangeTab}
+            indicatorColor="secondary"
+            textColor="secondary"
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            <Tab label="Student Evaluation" sx={{ marginRight: 10 }} />
+            <Tab label="Faculty Evaluation" sx={{ marginRight: 10 }} />
+            <Tab label="Sentiment" sx={{ marginRight: 10 }} />
+          </Tabs>
+        </Grid>
       </DialogContent>
       <DialogActions>
         {/* <Box
@@ -164,5 +170,23 @@ const ReportDialog = ({ open, setOpen, handleClose, dialogData }) => {
     </Dialog>
   );
 };
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 export default ReportDialog;
