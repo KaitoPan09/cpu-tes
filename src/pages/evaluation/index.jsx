@@ -194,7 +194,7 @@ const Evaluation = () => {
     );
     return response;
   };
-  
+
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -203,7 +203,7 @@ const Evaluation = () => {
           subtitle="Start or Manage an Ongoing Evaluation"
         />
       </Box>
-      
+
       <CustomDataGrid
         rows={rows}
         columns={columns}

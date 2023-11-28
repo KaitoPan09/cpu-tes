@@ -27,7 +27,6 @@ const Survey = () => {
   const [questionCategories, setQuestionCategories] = React.useState([]);
   useEffect(() => {
     (async () => {
-      
       let faculties = [];
       if (auth.role === "Student") {
         faculties = await request(
@@ -38,8 +37,8 @@ const Survey = () => {
           `/api/evaluations/dept_heads/evaluate?user_id=${userInfo.user_id}`
         );
       } else {
-        faculties = await fetch(
-          `/api/evaluations/faculties/evaluate?user_id=${auth.user_id}&role=${auth.role}&dept_id=${auth.dept_id}`
+        faculties = await request(
+          `/api/evaluations/faculties/evaluate?user_id=${userInfo.user_id}&role=${auth.role}&college_id=${userInfo.college_id}&dept_id=${userInfo.dept_id}`
         );
       }
       setFaculties(faculties ? faculties : []);
@@ -49,14 +48,12 @@ const Survey = () => {
       setQuestionCategories(questionCategories);
     })();
   }, []);
-
+  console.log(faculties)
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="SURVEYS" subtitle="Available Surveys" />
       </Box>
-
-      {/* GRID & CHARTS */}
       {faculties && questionCategories && (
         <Grid container spacing={2} display="flex">
           {faculties.map((faculty) => (

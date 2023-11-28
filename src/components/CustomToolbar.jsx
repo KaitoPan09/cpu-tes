@@ -1,4 +1,4 @@
-import { FileUploadOutlined } from "@mui/icons-material";
+import { FileUploadOutlined, Summarize } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import {
   GridAddIcon,
@@ -8,10 +8,16 @@ import {
   GridToolbarDensitySelector,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
-import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import React from "react";
 
-export const CustomToolbar = ({ handleAdd, btnText, setOpen, handleBack }) => {
+export const CustomToolbar = ({
+  handleAdd,
+  btnText,
+  setOpen,
+  handleBack,
+  handleGenerateReport,
+}) => {
   return (
     <GridToolbarContainer>
       {handleAdd && btnText && (
@@ -49,6 +55,20 @@ export const CustomToolbar = ({ handleAdd, btnText, setOpen, handleBack }) => {
           Import Data
         </Button>
       )}
+      {handleGenerateReport && (
+        <Button
+          color="primary"
+          startIcon={<Summarize />}
+          onClick={handleGenerateReport}
+          sx={{
+            padding: "4px 5px",
+            fontSize: "0.833rem",
+          }}
+        >
+          Generate Report
+        </Button>
+      )}
+
       {handleBack && (
         <Button
           color="primary"
@@ -62,7 +82,6 @@ export const CustomToolbar = ({ handleAdd, btnText, setOpen, handleBack }) => {
           Return
         </Button>
       )}
-
       {/* <Button 
           color="primary" 
           startIcon={<ArrowBackOutlinedIcon />}

@@ -50,6 +50,21 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
             <Grid item container>
               <Grid item xs>
                 <Typography variant="h5" color="text.secondary">
+                  College:
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography
+                  variant="h5"
+                  sx={{ color: colors.yellowAccent[400] }}
+                >
+                  {faculty.college}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item container>
+              <Grid item xs>
+                <Typography variant="h5" color="text.secondary">
                   Department:
                 </Typography>
               </Grid>
@@ -63,13 +78,20 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
               </Grid>
             </Grid>
             {faculty.eval_type ? (
-              <Grid item>
-                <Typography
-                  variant="h5"
-                  sx={{ color: colors.yellowAccent[400] }}
-                >
-                  {faculty.eval_type}
-                </Typography>
+              <Grid item container>
+                <Grid item xs>
+                  <Typography variant="h5" color="text.secondary">
+                    Type:
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography
+                    variant="h5"
+                    sx={{ color: colors.yellowAccent[400] }}
+                  >
+                    {faculty.eval_type} Evaluation
+                  </Typography>
+                </Grid>
               </Grid>
             ) : (
               <>

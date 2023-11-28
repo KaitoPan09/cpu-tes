@@ -13,6 +13,7 @@ const CustomDataGrid = ({
   setOpen,
   handleBack,
   fontSize = "1rem",
+  handleGenerateReport,
   ...props
 }) => {
   const theme = useTheme();
@@ -63,7 +64,13 @@ const CustomDataGrid = ({
         onRowDoubleClick={handleRowDoubleClick}
         slots={{ toolbar: CustomToolbar }}
         slotProps={{
-          toolbar: { handleAdd: handleAdd, btnText: btnText, setOpen: setOpen, handleBack: handleBack },
+          toolbar: {
+            handleAdd: handleAdd,
+            btnText: btnText,
+            setOpen: setOpen,
+            handleBack: handleBack,
+            handleGenerateReport: handleGenerateReport,
+          },
           panel: {
             sx: {
               // "& .MuiFormLabel-root": {

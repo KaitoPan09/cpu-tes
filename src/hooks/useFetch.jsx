@@ -31,18 +31,21 @@ const useFetch = () => {
               "Your session has expired. Please log in again."
             );
           }
-          if (res.msg === "Token has been revoked") {
-            showDialogBox(
-              "Session Invalid",
-              "Please log in again"
-            );
+          // if (res.msg === "Token has been revoked" || res.msg === "") {
+          //   showDialogBox(
+          //     "Session Invalid",
+          //     "Please log in again"
+          //   );
+          // }
+          else {
+            showDialogBox("Session Invalid", "Please log in again");
           }
         } else {
           throw new Error(`HTTP Status: ${response.status}`);
         }
       }
       setLoading(false);
-      return res
+      return res;
     } catch (error) {
       showSnackbar(`Something went wrong. (${error.message})`, "error");
       setLoading(false);
