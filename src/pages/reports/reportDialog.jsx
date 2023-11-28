@@ -27,6 +27,7 @@ import { useParams } from "react-router";
 import { StudentTab } from "./studentTab";
 import { FacultyTab } from "./facultyTab";
 import { useState } from "react";
+import { SentimentTab } from "./sentimentTab";
 
 const ReportDialog = ({
   open,
@@ -40,7 +41,8 @@ const ReportDialog = ({
   const { loading, request } = useFetch();
   const [studentRatings, setStudentRatings] = useState([]);
   const [facultyRatings, setFacultyRatings] = useState({});
-  const [result, setResult] = React.useState({});
+  const [result, setResult] = useState({});
+  const [selectedResult, setSelectedResult] = useState({});
   useEffect(() => {
     (async () => {
       const response = await request(
@@ -60,6 +62,22 @@ const ReportDialog = ({
             supervisor: response.supervisor_ratings,
             self: response.self_ratings,
             peer: response.peer_ratings,
+          });
+        } else if (
+          tabValue === 2 &&
+          response?.sentiment_score !== "No comments"
+        ) {
+          setSelectedResult({
+            faculty: response.faculty,
+            faculty_id: response.faculty_id,
+            // eval_type: eval_type,
+            // ratings: ratings,
+            // score: score,
+            overall: response.overall,
+            separated: response.separated,
+            sentiment:
+              response.sentiment_score >= 0.5 ? "Positive" : "Negative",
+            // evaluation_id: evaluation.id,
           });
         }
       }
@@ -122,6 +140,13 @@ const ReportDialog = ({
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
               <FacultyTab ratings={facultyRatings} dialogData={dialogData} />
+            </TabPanel>
+            <TabPanel value={tabValue} index={2}>
+              <SentimentTab
+                dialogData={dialogData}
+                selectedResult={selectedResult}
+                evalId={evalId}
+              />
             </TabPanel>
           </>
         )}

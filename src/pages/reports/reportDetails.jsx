@@ -85,6 +85,7 @@ const Details = () => {
   const [open, setOpen] = useState(false);
   const [dialogData, setDialogData] = React.useState(null);
   const [tabValue, setTabValue] = React.useState(0);
+  const [selectedResult, setSelectResult] = useState(null);
   const handleOpenDialog = (rowData, tabValue) => {
     setTabValue(tabValue);
     setDialogData(rowData);
@@ -143,13 +144,12 @@ const Details = () => {
       width: 120,
       headerAlign: "right",
       align: "right",
-      hidden: true,
-      // valueFormatter: (params) => {
-      //   if (params.value == null) {
-      //     return 0.0;
-      //   }
-      //   return params.value.toFixed(2) + " %";
-      // },
+      valueFormatter: (params) => {
+        if (params.value == null) {
+          return 0.0;
+        }
+        return params.value.toFixed(2) + " %";
+      },
     },
     {
       field: "supervisor",
@@ -259,7 +259,9 @@ const Details = () => {
             <Button
               variant="text"
               tabIndex={params.hasFocus ? 0 : -1}
-              onClick={() => handleOpenDialog(params.row, 1)}
+              onClick={() => {
+                handleOpenDialog(params.row, 2);
+              }}
               color={params.value >= 0.5 ? "success" : "error"}
             >
               {params.value.toFixed(2)}

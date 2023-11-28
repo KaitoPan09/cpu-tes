@@ -13,7 +13,7 @@ export const FacultyTab = ({ ratings, dialogData }) => {
   const columnColors = ["#e8c1a0", "#f47560", "#f1e15b", "#e8a838", "#61cdbb"];
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Tabs
           value={0}
           // onChange={handleChange}
@@ -22,11 +22,12 @@ export const FacultyTab = ({ ratings, dialogData }) => {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab label="Overall" />
+          <Tab label="Supervisor" />
+          <Tab label="By Class" />
           <Tab label="By Class" />
         </Tabs>
-      </Grid>
-      {ratings && (
+      </Grid> */}
+      {ratings?.length > 0 && (
         <>
           <Grid item xs={12} md={4} container alignItems={"center"}>
             <Grid item>
@@ -54,8 +55,8 @@ export const FacultyTab = ({ ratings, dialogData }) => {
                   <ListItemText
                     primary={"TOTAL SCORE"}
                     sx={{
-                        textAlign: "left",
-                        transform: "uppercase",
+                      textAlign: "left",
+                      transform: "uppercase",
                     }}
                   />
                   <ListItemText

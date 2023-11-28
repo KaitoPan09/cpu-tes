@@ -27,7 +27,7 @@ export const StudentTab = ({ ratings, dialogData }) => {
           <Tab label="By Class" />
         </Tabs>
       </Grid>
-      {ratings && (
+      {ratings?.length > 0 && (
         <>
           <Grid item xs={12} md={4} container alignItems={"center"}>
             <Grid item>
