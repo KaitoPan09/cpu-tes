@@ -37,6 +37,7 @@ import { useAuth } from "../../context/AuthContext/index.jsx";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { PDFReport } from "../../components/generatePDF/template.jsx";
+import Cookies from "js-cookie";
 
 // const CustomToolbar = () => {
 
@@ -322,7 +323,56 @@ const Details = () => {
   if (auth.role === "Admin" && college === undefined) {
     return <Navigate to="/reports" />;
   }
+  const exportResults = async () => {
+    // console.log({
+    //   filter: filterValue,
+    //   faculty_id: selectedFaculty,
+    //   include_question_ratings: checked,
+    // });
+    await fetch(`/api/utils/evaluation/${evalId}/export_evaluation_results`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-csrf-token": Cookies.get("csrf_access_token"),
+      },
+      body: JSON.stringify({
+        // faculty_id: selectedFaculty,
+        include_question_ratings: true,
+        eval_type: "Student",
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          response.blob().then((blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "export.csv");
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+          });
+          handleClose();
+        } else {
+          // Handle the error response here
+          throw new Error("Something went wrong. Please try again later.");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
+    // let response = await fetch(
+    //   `/api/evaluation/${eval_id}/export_evaluation_results`,
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "x-csrf-token": Cookies.get("csrf_access_token"),
+    //     },
+    //   }
+    // );
+  };
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -338,6 +388,7 @@ const Details = () => {
           student_turnout: false,
         }}
         handleGenerateReport={() => handleGenerateReport()}
+        handleExport={() => exportResults()}
       />
       {open && (
         <ReportDialog

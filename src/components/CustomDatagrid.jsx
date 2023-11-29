@@ -14,6 +14,7 @@ const CustomDataGrid = ({
   handleBack,
   fontSize = "1rem",
   handleGenerateReport,
+  handleExport,
   ...props
 }) => {
   const theme = useTheme();
@@ -70,6 +71,7 @@ const CustomDataGrid = ({
             setOpen: setOpen,
             handleBack: handleBack,
             handleGenerateReport: handleGenerateReport,
+            handleExport: handleExport,
           },
           panel: {
             sx: {

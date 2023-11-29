@@ -1,4 +1,4 @@
-import { FileUploadOutlined, Summarize } from "@mui/icons-material";
+import { Download, FileUploadOutlined, Summarize } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import {
   GridAddIcon,
@@ -17,6 +17,7 @@ export const CustomToolbar = ({
   setOpen,
   handleBack,
   handleGenerateReport,
+  handleExport,
 }) => {
   return (
     <GridToolbarContainer>
@@ -66,6 +67,19 @@ export const CustomToolbar = ({
           }}
         >
           Generate Report
+        </Button>
+      )}
+      {handleExport && (
+        <Button
+          color="primary"
+          startIcon={<Download />}
+          onClick={handleExport}
+          sx={{
+            padding: "4px 5px",
+            fontSize: "0.833rem",
+          }}
+        >
+          Export
         </Button>
       )}
 
