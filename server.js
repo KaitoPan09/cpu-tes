@@ -1,5 +1,6 @@
 const express = require("express");
 const https = require("https");
+const http = require("http")
 const fs = require("fs");
 const path = require("path");
 const { createProxyMiddleware } = require("http-proxy-middleware");
@@ -7,7 +8,7 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const app = express();
 const port = process.env.PORT || 3000;
 const apiProxy = createProxyMiddleware("/api", {
-  target: "https://127.0.0.1:5000",
+  target: "http://127.0.0.1:8080",
 });
 
 // Serve static files from the 'build' folder
@@ -26,6 +27,9 @@ const options = {
 };
 
 // Create an HTTPS server
-https.createServer(options, app).listen(port, () => {
+// https.createServer(options, app).listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
+http.createServer(app).listen(port, ()=>{
   console.log(`Server is running on port ${port}`);
 });
