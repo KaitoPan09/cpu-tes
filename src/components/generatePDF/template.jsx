@@ -24,12 +24,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
+    color: theme.palette.common.black,
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
+    // backgroundColor: theme.palette.action.hover,
+    backgroundColor: theme.palette.pdf.main,
+  },
+  "&:nth-of-type(even)": {
+    backgroundColor: theme.palette.pdf.sub,
   },
   // hide last border
   "&:last-child td, &:last-child th": {
