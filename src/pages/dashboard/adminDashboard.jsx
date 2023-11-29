@@ -79,7 +79,7 @@ export const AdminDashboard = () => {
       if (response) {
         setMetrics({
           ...metrics,
-          logins: response?.total_logins_today,
+          totalLoginsToday: response?.total_logins_today,
           activeSessions: response?.active_sessions,
           totalStudentSurveysCompleted:
             response?.total_student_surveys_completed,
