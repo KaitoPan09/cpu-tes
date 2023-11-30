@@ -10,6 +10,7 @@ import {
   ToggleButtonGroup,
   Tooltip,
   Typography,
+  IconButton,
 } from "@mui/material";
 import {
   DataGrid,
@@ -33,6 +34,7 @@ import { FacultyEvalStatusReport } from "../../components/generatePDF/template";
 import generatePdf from "../../components/generatePDF";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { ManageSearchOutlined } from "@mui/icons-material";
 const View = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -80,20 +82,35 @@ const View = () => {
       headerName: "Peer",
       width: 100,
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: "1.25rem" };
         return [
           <Tooltip title="Click to view details">
-            <Typography
-              onClick={() => {
-                setSelectedEval({
-                  type: "Peer",
-                  faculty: row.faculty,
-                  rows: row.peers,
-                });
-                setOpen(true);
-              }}
-            >
-              {row.peer}
-            </Typography>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                onClick={() => {
+                  setSelectedEval({
+                    type: "Peer",
+                    faculty: row.faculty,
+                    rows: row.peers,
+                  });
+                  setOpen(true);
+                }}
+              >
+                {row.peer}
+              </Typography>
+              <IconButton
+                onClick={() => {
+                  setSelectedEval({
+                    type: "Peer",
+                    faculty: row.faculty,
+                    rows: row.peers,
+                  });
+                  setOpen(true);
+                }}
+              >
+                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+              </IconButton>
+            </div>
           </Tooltip>,
         ];
       },
@@ -112,20 +129,35 @@ const View = () => {
       headerName: "Student",
       width: 120,
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: "1.25rem" };
         return [
           <Tooltip title="Click to view details">
-            <Typography
-              onClick={() => {
-                setSelectedEval({
-                  type: "Student",
-                  faculty: row.faculty,
-                  rows: row.classes,
-                });
-                setOpen(true);
-              }}
-            >
-              {row.student}
-            </Typography>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                onClick={() => {
+                  setSelectedEval({
+                    type: "Student",
+                    faculty: row.faculty,
+                    rows: row.classes,
+                  });
+                  setOpen(true);
+                }}
+              >
+                {row.student}
+              </Typography>
+              <IconButton
+                onClick={() => {
+                  setSelectedEval({
+                    type: "Student",
+                    faculty: row.faculty,
+                    rows: row.peers,
+                  });
+                  setOpen(true);
+                }}
+              >
+                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+              </IconButton>
+            </div>
           </Tooltip>,
         ];
       },
