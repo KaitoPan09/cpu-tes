@@ -38,6 +38,8 @@ import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { PDFReport } from "../../components/generatePDF/template.jsx";
 import Cookies from "js-cookie";
+import useFetch from "../../hooks/useFetch.jsx";
+import { useAppContext } from "../../context/AppContext/index.jsx";
 
 // const CustomToolbar = () => {
 
@@ -320,15 +322,20 @@ const Details = () => {
   const handleGenerateReport = useReactToPrint({
     content: () => componentRef.current,
   });
+  const [loading, setLoading] = useState(false);
+  const { showLoader, hideLoader } = useAppContext();
   if (auth.role === "Admin" && college === undefined) {
     return <Navigate to="/reports" />;
   }
+
   const exportResults = async () => {
     // console.log({
     //   filter: filterValue,
     //   faculty_id: selectedFaculty,
     //   include_question_ratings: checked,
     // });
+    setLoading(true);
+    showLoader();
     await fetch(`/api/utils/evaluation/${evalId}/export_evaluation_results`, {
       method: "POST",
       headers: {
@@ -361,7 +368,8 @@ const Details = () => {
       .catch((error) => {
         console.log(error);
       });
-
+    setLoading(false);
+    hideLoader();
     // let response = await fetch(
     //   `/api/evaluation/${eval_id}/export_evaluation_results`,
     //   {
