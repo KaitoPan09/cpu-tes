@@ -169,6 +169,9 @@ const Questionnaire = () => {
     }
 
     const handleAdd = () => {
+        
+    }
+    const handleMod = () => {
         // setOpenAddDialog(true);
     };
     
@@ -353,12 +356,12 @@ const Questionnaire = () => {
                     subtitle="Review and Modify Survey Questionnaire" />
             </Box>
             <Box  display="flex" flexDirection="row">
-                <Box flex=".5" width="30%">
+                <Box flex=".75" width="30%">
                     <CustomDatagrid 
                         rows={dummyQuestionnaireCategory} 
                         columns={columnsCategory} 
                         handleAdd={handleAdd}
-                        btnText={"ADD NEW CATEGORY"}
+                        btnText={"MODIFY CATEGORIES"}
                         onRowClick={handleRowClick}
                         />
                 </Box>

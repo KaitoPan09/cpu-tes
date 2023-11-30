@@ -18,6 +18,7 @@ export const CustomToolbar = ({
   handleBack,
   handleGenerateReport,
   handleExport,
+  handleMod,
 }) => {
   return (
     <GridToolbarContainer>
@@ -26,6 +27,19 @@ export const CustomToolbar = ({
           color="primary"
           startIcon={<GridAddIcon />}
           onClick={handleAdd}
+          sx={{
+            padding: "4px 5px",
+            fontSize: "0.833rem",
+          }}
+        >
+          {btnText}
+        </Button>
+      )}
+      {handleMod && btnText && (
+        <Button
+          color="primary"
+          startIcon={<GridLoadIcon />}
+          onClick={handleMod}
           sx={{
             padding: "4px 5px",
             fontSize: "0.833rem",
@@ -96,16 +110,6 @@ export const CustomToolbar = ({
           Return
         </Button>
       )}
-      {/* <Button 
-          color="primary" 
-          startIcon={<ArrowBackOutlinedIcon />}
-          sx={{
-              padding: "4px 5px",
-              fontSize: "0.6964285714285714rem"
-          }}
-          >
-          RETURN
-      </Button> */}
     </GridToolbarContainer>
   );
 };
