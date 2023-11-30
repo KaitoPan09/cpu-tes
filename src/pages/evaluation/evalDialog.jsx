@@ -65,6 +65,7 @@ export const EvalDialog = ({ open, setOpen, selectedEval }) => {
       setClasses(selectedEval.rows);
       setSelectedClass(selectedEval.rows[0]);
       setStudents(selectedEval.rows[0].students);
+      console.log(selectedEval);
     }
   }, [selectedEval]);
   const [status, setStatus] = useState("All");
@@ -109,15 +110,19 @@ export const EvalDialog = ({ open, setOpen, selectedEval }) => {
                     const class_ = e.target.value;
                     setSelectedClass(class_);
                     setStudents(class_.students);
-                    setStatus("All")
+                    setStatus("All");
                   }}
                 >
                   {classes.map((option, index) => {
-                    console.log(option);
+                    // console.log(option);
                     return (
                       <MenuItem key={index} value={option}>
-                        {option.stub_code} - {option.subject} -
-                        {option.students.length} Students
+                        {option.stub_code +
+                          " - " +
+                          option.subject +
+                          " - " +
+                          option.students.length +
+                          " Students"}
                       </MenuItem>
                     );
                   })}
