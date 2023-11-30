@@ -21,6 +21,7 @@ import Layout from "./components/Layout";
 import RequireAuth from "./wrappers/requireAuth";
 import SurveyForm from "./pages/survey/surveyForm";
 import { MyProSidebarProvider } from "./pages/global/sideBarContext";
+import FAQ from "./pages/faq";
 
 import { AppContextProvider } from "./context/AppContext";
 import ManageDepartment from "./pages/department/manageDepartment";
@@ -110,6 +111,7 @@ function App() {
                 <Route path="/survey" element={<Survey />} />
                 <Route path="/survey/surveyForm" element={<SurveyForm />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/faq" element={<FAQ />} />
               </Route>
 
               {/* </main> */}
