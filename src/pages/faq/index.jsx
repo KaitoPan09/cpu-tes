@@ -110,13 +110,13 @@ const FAQ = () => {
             </AccordionSummary>
             <AccordionDetails>
                 <Typography>
-                    Yes! Above each table is a generate report button that you use to download a pdf file of the tables you can
-                    see in this web system
+                Yes! Above each table, there is a "Generate Report" button that you can use to download a 
+                PDF file of the tables visible in this web system.
                 </Typography>
             </AccordionDetails>
         </Accordion>
 
-        <Accordion expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
+        {/* <Accordion expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
             <AccordionSummary 
                 expandIcon={<ExpandMoreIcon/>}
                 aria-controls="panel6bh-content"
@@ -130,10 +130,10 @@ const FAQ = () => {
             </AccordionSummary>
             <AccordionDetails>
                 <Typography>
-                    You may ask us through etc etc etc
+                    If you have more question, please don't be afraid to ask us for our help directly.
                 </Typography>
             </AccordionDetails>
-        </Accordion>
+        </Accordion> */}
     </Box>
 }
 

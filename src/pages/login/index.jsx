@@ -188,9 +188,9 @@ const Login = () => {
                 Sign In
               </LoadingButton>
             </Box>
-            <Typography mt={2} component="h3" variant="h5">
-              Instructions here
-            </Typography>
+            {/* <Typography mt={2} component="h5" variant="h5">
+              Enter your school
+            </Typography> */}
           </Box>
         </Grid>
       </Grid>
