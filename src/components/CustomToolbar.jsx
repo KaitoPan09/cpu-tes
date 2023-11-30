@@ -48,6 +48,19 @@ export const CustomToolbar = ({
           {btnText}
         </Button>
       )}
+      {handleMod && btnText && (
+        <Button
+          color="primary"
+          startIcon={<GridLoadIcon />}
+          onClick={handleMod}
+          sx={{
+            padding: "4px 5px",
+            fontSize: "0.833rem",
+          }}
+        >
+          {btnText}
+        </Button>
+      )}
       {/* <IconButton size="small">
                 <AddIcon/>
                 ADD NEW USER
