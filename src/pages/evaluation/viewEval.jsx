@@ -10,6 +10,7 @@ import {
   ToggleButtonGroup,
   Tooltip,
   Typography,
+  IconButton,
 } from "@mui/material";
 import {
   DataGrid,
@@ -33,6 +34,7 @@ import { PDFReport } from "../../components/generatePDF/template";
 import generatePdf from "../../components/generatePDF";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import { ManageSearchOutlined } from "@mui/icons-material";
 const View = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -79,22 +81,27 @@ const View = () => {
       field: "peer",
       headerName: "Peer",
       width: 100,
+      align: "right",
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: "1.25rem" };
         return [
-          <Tooltip title="Click to view details">
-            <Typography
-              onClick={() => {
-                setSelectedEval({
-                  type: "Peer",
-                  faculty: row.faculty,
-                  rows: row.peers,
-                });
-                setOpen(true);
-              }}
-            >
-              {row.peer}
-            </Typography>
-          </Tooltip>,
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Typography>{row.peer}</Typography>
+            <Tooltip title="Click to view details">
+              <IconButton
+                onClick={() => {
+                  setSelectedEval({
+                    type: "Peer",
+                    faculty: row.faculty,
+                    rows: row.peers,
+                  });
+                  setOpen(true);
+                }}
+              >
+                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+              </IconButton>
+            </Tooltip>
+          </div>,
         ];
       },
       cellClassName: (params) =>
@@ -111,22 +118,33 @@ const View = () => {
       field: "student",
       headerName: "Student",
       width: 120,
+      align: "right",
       renderCell: ({ row }) => {
+        const iconStyle = { fontSize: "1.25rem" };
         return [
-          <Tooltip title="Click to view details">
-            <Typography
-              onClick={() => {
-                setSelectedEval({
-                  type: "Student",
-                  faculty: row.faculty,
-                  rows: row.classes,
-                });
-                setOpen(true);
-              }}
-            >
-              {row.student}
-            </Typography>
-          </Tooltip>,
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Typography>{row.student}</Typography>
+            <Tooltip title="Click to view details">
+              <IconButton
+                onClick={() => {
+                  setSelectedEval({
+                    type: "Student",
+                    faculty: row.faculty,
+                    rows: row.classes,
+                  });
+                  setOpen(true);
+                }}
+              >
+                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+              </IconButton>
+            </Tooltip>
+          </div>,
         ];
       },
       cellClassName: (params) => {
