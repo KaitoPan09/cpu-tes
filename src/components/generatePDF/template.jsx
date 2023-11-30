@@ -75,7 +75,6 @@ export const PDFReport = React.forwardRef(
         ? 15
         : 10;
     const tables = [];
-    console.log(rows[0]);
     for (let i = 0; i < rows.length; i += nRows) {
       const tableRows = rows.slice(i, i + nRows).map((row) => {
         if (title === "Faculty Evaluation Status Report") {
