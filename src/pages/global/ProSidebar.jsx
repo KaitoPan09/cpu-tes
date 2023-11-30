@@ -24,6 +24,7 @@ import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
 import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import HelpOutlinedIcon from "@mui/icons-material/HelpOutlined";
 import { useAuth } from "../../context/AuthContext";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import { ChevronLeftOutlined } from "@mui/icons-material";
@@ -133,6 +134,12 @@ const ProSidebar = () => {
       name: "Reports",
       path: `/reports/${userInfo.college_id}/reportDetails`,
       icon: <TimelineOutlinedIcon />,
+    },
+    {
+      access: ["Admin","Dean", "Department Head"],
+      name: "FAQ",
+      path: `/faq`,
+      icon: <HelpOutlinedIcon />,
     },
   ];
   return (

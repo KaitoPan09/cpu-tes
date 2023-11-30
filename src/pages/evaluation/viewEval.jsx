@@ -150,7 +150,7 @@ const View = () => {
                   setSelectedEval({
                     type: "Student",
                     faculty: row.faculty,
-                    rows: row.peers,
+                    rows: row.classes,
                   });
                   setOpen(true);
                 }}
