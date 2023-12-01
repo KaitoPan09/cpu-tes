@@ -164,7 +164,7 @@ const Dashboard = () => {
             </Paper>
           </Grid>
         )}
-        {auth.role !== "Admin" && (
+        {(auth.role !== "Admin" && auth.role !== "Secretary") && (
           <Grid item xs={12}>
             <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
               <Grid container spacing={2} p={2}>

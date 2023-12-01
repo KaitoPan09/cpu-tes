@@ -66,7 +66,7 @@ const ReportDialog = ({
         } else if (
           tabValue === 2 &&
           response?.sentiment_score !== "No comments"
-        ) {
+        )
           setSelectedResult({
             faculty: response.faculty,
             faculty_id: response.faculty_id,
@@ -79,7 +79,6 @@ const ReportDialog = ({
               response.sentiment_score >= 0.5 ? "Positive" : "Negative",
             // evaluation_id: evaluation.id,
           });
-        }
       }
     })();
   }, []);

@@ -72,17 +72,32 @@ const SurveyForm = () => {
           });
         }
       }
-      const response = await postData(
-        `/api/evaluations/${faculty.college_id}/submit_evaluation`,
-        {
-          user_id: userInfo.user_id,
-          eval_type: faculty.eval_type ? faculty.eval_type : "Student",
-          faculty_id: faculty.faculty_id,
-          class_id: faculty.id,
-          question_ratings: questionRatings,
-          feedback_answer: feedbackAnswers,
-        }
-      );
+      let eval_type = faculty.eval_type ? faculty.eval_type : "Student";
+      let response = null;
+      if (eval_type === "Student") {
+        response = await postData(
+          `/api/evaluations/${faculty.college_id}/submit_evaluation`,
+          {
+            user_id: userInfo.user_id,
+            eval_type: eval_type,
+            class_id: faculty.id,
+            faculty_id: faculty.faculty_id,
+            question_ratings: questionRatings,
+            feedback_answer: feedbackAnswers,
+          }
+        );
+      } else {
+        response = await postData(
+          `/api/evaluations/${faculty.college_id}/submit_evaluation`,
+          {
+            user_id: userInfo.user_id,
+            eval_type: eval_type,
+            faculty_id: faculty.id,
+            question_ratings: questionRatings,
+            feedback_answer: feedbackAnswers,
+          }
+        );
+      }
       if (response.success) {
         showSnackbar(response.msg, "success");
       } else {
@@ -255,6 +270,7 @@ export default SurveyForm;
 const getSurveyModel = (questionCategories) => {
   const categories = questionCategories.categories;
   const feedbackSection = questionCategories.feedback_section;
+
   const surveyModel = {
     showQuestionNumbers: "off",
     showProgressBar: "top",
@@ -317,6 +333,7 @@ const getSurveyModel = (questionCategories) => {
           isRequired: true,
         };
       } else {
+        console.log(question);
         element = {
           type: "comment",
           name: question.id.toString(),

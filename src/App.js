@@ -61,6 +61,7 @@ function App() {
                 <Route path="/acad_years" element={<AcademicYear />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/questionnaire" element={<Questionnaire />} />
+                <Route path="/evaluations" element={<Evaluation />} />
               </Route>
               <Route element={<RequireAuth allowedRoles={["Admin", "Dean"]} />}>
                 <Route path="/colleges" element={<Colleges />} />
@@ -72,8 +73,6 @@ function App() {
                   path="/colleges/:collegeId/departments"
                   element={<Departments />}
                 />
-                <Route path="/evaluation" element={<Evaluation />} />
-                <Route path="/reports" element={<Reports />} />
               </Route>
               <Route
                 element={
@@ -86,10 +85,19 @@ function App() {
                   path="/departments/:deptId/manage"
                   element={<ManageDepartment />}
                 />
+              </Route>
+              <Route
+                element={
+                  <RequireAuth
+                    allowedRoles={["Admin", "Dean", "Department Head", "Secretary"]}
+                  />
+                }
+              >
                 <Route
                   path="/evaluations/:collegeId/view"
                   element={<ViewEvaluation />}
                 />
+                <Route path="/reports" element={<Reports />} />
                 <Route
                   path="/reports/:evalId/reportDetails"
                   element={<ReportDetails />}
@@ -100,6 +108,42 @@ function App() {
                   <RequireAuth
                     allowedRoles={[
                       "Admin",
+                      "Dean",
+                      "Department Head",
+                      "Secretary",
+                    ]}
+                  />
+                }
+              >
+                <Route
+                  path="/evaluations/:collegeId/view"
+                  element={<ViewEvaluation />}
+                />
+                <Route path="/faq" element={<FAQ />} />
+              </Route>
+              <Route
+                element={
+                  <RequireAuth
+                    allowedRoles={[
+                      "Admin",
+                      "Dean",
+                      "Department Head",
+                      "Teacher",
+                      "Student",
+                      "Secretary",
+                    ]}
+                  />
+                }
+              >
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+              <Route
+                element={
+                  <RequireAuth
+                    allowedRoles={[
+                      "Admin",
+                      "Dean",
                       "Department Head",
                       "Teacher",
                       "Student",
@@ -107,11 +151,8 @@ function App() {
                   />
                 }
               >
-                <Route path="/" element={<Dashboard />} />
                 <Route path="/survey" element={<Survey />} />
                 <Route path="/survey/surveyForm" element={<SurveyForm />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/faq" element={<FAQ />} />
               </Route>
 
               {/* </main> */}

@@ -26,6 +26,7 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
     setOpen(false);
   };
   const navigate = useNavigate();
+  console.log(faculty);
   return (
     <>
       <Card
@@ -197,14 +198,20 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
         <DialogActions>
           <Button
             onClick={() => {
-              if (auth.role === "Student") {
-                navigate("/survey/surveyForm", {
-                  state: {
-                    faculty: faculty,
-                    questionCategories: questionCategories,
-                  },
-                });
-              }
+              // if (auth.role === "Student") {
+              //   navigate("/survey/surveyForm", {
+              //     state: {
+              //       faculty: faculty,
+              //       questionCategories: questionCategories,
+              //     },
+              //   });
+              // }
+              navigate("/survey/surveyForm", {
+                state: {
+                  faculty: faculty,
+                  questionCategories: questionCategories,
+                },
+              });
               setOpen(false);
             }}
             sx={{

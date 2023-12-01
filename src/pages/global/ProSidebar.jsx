@@ -58,7 +58,14 @@ const ProSidebar = () => {
 
   const sideBarList = [
     {
-      access: ["Admin", "Dean", "Department Head", "Teacher", "Student"],
+      access: [
+        "Admin",
+        "Dean",
+        "Department Head",
+        "Secretary",
+        "Teacher",
+        "Student",
+      ],
       name: "Dashboard",
       path: "/",
       icon: <HomeOutlinedIcon />,
@@ -107,12 +114,12 @@ const ProSidebar = () => {
     },
     {
       access: ["Admin"],
-      name: "Evaluation",
-      path: "/evaluation",
+      name: "Evaluations",
+      path: "/evaluations",
       icon: <PollOutlinedIcon />,
     },
     {
-      access: ["Dean", "Department Head"],
+      access: ["Dean", "Department Head", "Secretary"],
       name: "Evaluation",
       path: `/evaluations/${userInfo.college_id}/view`,
       icon: <PollOutlinedIcon />,
@@ -124,19 +131,19 @@ const ProSidebar = () => {
       icon: <BallotOutlinedIcon />,
     },
     {
-      access: ["Admin"],
+      access: ["Admin", "Dean", "Department Head", "Secretary"],
       name: "Reports",
       path: "/reports",
       icon: <TimelineOutlinedIcon />,
     },
+    // {
+    //   access: ["Dean", "Department Head"],
+    //   name: "Reports",
+    //   path: `/reports/${userInfo.college_id}/reportDetails`,
+    //   icon: <TimelineOutlinedIcon />,
+    // },
     {
-      access: ["Dean", "Department Head"],
-      name: "Reports",
-      path: `/reports/${userInfo.college_id}/reportDetails`,
-      icon: <TimelineOutlinedIcon />,
-    },
-    {
-      access: ["Admin","Dean", "Department Head"],
+      access: ["Admin", "Dean", "Department Head", "Secretary"],
       name: "FAQ",
       path: `/faq`,
       icon: <HelpOutlinedIcon />,

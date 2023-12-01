@@ -13,7 +13,7 @@ import CustomDataGrid from "../../components/CustomDatagrid";
 import useData from "../../hooks/useData";
 import { useAuth } from "../../context/AuthContext";
 
-const userLevel = ["Admin", "Dean", "Department Head", "Teacher", "Student"];
+const userLevel = ["Admin", "Dean", "Department Head", "Teacher", "Student", "Secretary"];
 
 const Users = () => {
   const { postData } = useFetch();

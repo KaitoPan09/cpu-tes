@@ -95,6 +95,11 @@ const View = () => {
                     faculty: row.faculty,
                     rows: row.peers,
                   });
+                  console.log({
+                    type: "Peer",
+                    faculty: row.faculty,
+                    rows: row.peers,
+                  });
                   setOpen(true);
                 }}
               >
@@ -235,7 +240,9 @@ const View = () => {
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
-          title={evaluation?.college}
+          title={
+            auth?.role !== "Admin" ? userInfo.college : evaluation?.college
+          }
           subtitle={
             value === 0
               ? "List of faculty members and their evaluation status"
@@ -299,7 +306,9 @@ const View = () => {
           <PDFReport
             rows={facultyRows}
             columnHeaders={facultyColumns.map((column) => column.headerName)}
-            college={evaluation.college}
+            college={
+              auth?.role !== "Admin" ? userInfo.college : evaluation?.college
+            }
             title="Faculty Evaluation Status Report"
             ref={componentRef}
           />
@@ -307,7 +316,9 @@ const View = () => {
           <PDFReport
             rows={studentRows}
             columnHeaders={studentColumns.map((column) => column.headerName)}
-            college={evaluation.college}
+            college={
+              auth?.role !== "Admin" ? userInfo.college : evaluation?.college
+            }
             title="Student Evaluation Status Report"
             ref={componentRef}
           />

@@ -60,12 +60,20 @@ export const EvalDialog = ({ open, setOpen, selectedEval }) => {
   const [selectedClass, setSelectedClass] = useState({});
   const [classes, setClasses] = useState([]);
   const [students, setStudents] = useState([]);
+  const [faculties, setFaculties] = useState([]);
+  const [rows, setRows] = useState([]);
+  const [column, setColumn] = useState([]);
   useEffect(() => {
     if (selectedEval.type === "Student") {
       setClasses(selectedEval.rows);
       setSelectedClass(selectedEval.rows[0]);
-      setStudents(selectedEval.rows[0].students);
+      setRows(selectedEval.rows[0].students);
+      setColumn(colStudEval);
       console.log(selectedEval);
+    } else {
+      setFaculties(selectedEval.rows);
+      setRows(selectedEval.rows);
+      setColumn(colPeerEval);
     }
   }, [selectedEval]);
   const [status, setStatus] = useState("All");
@@ -133,7 +141,7 @@ export const EvalDialog = ({ open, setOpen, selectedEval }) => {
               </FormControl>
             </Grid>
           )}
-          <Grid item xs={12} sm={6}>
+          {selectedEval.type === "Student" && students && (<Grid item xs={12} sm={6}>
             <FormControl sx={{ mt: 2, ml: 2 }}>
               <FormLabel>Status</FormLabel>
               <RadioGroup
@@ -143,23 +151,45 @@ export const EvalDialog = ({ open, setOpen, selectedEval }) => {
                   let status = e.target.value;
                   setStatus(status);
                   if (status === "Completed") {
-                    const filteredStudents = selectedClass.students.filter(
-                      (student) => student.eval === true
-                    );
-                    setStudents(filteredStudents);
+                    if (selectedEval.type === "Student") {
+                      const filteredStudents = selectedClass.students.filter(
+                        (student) => student.eval === true
+                      );
+                      setStudents(filteredStudents);
+                    } else {
+                      const filteredFaculties = faculties.filter(
+                        (faculty) => faculty.eval === true
+                      );
+                      setRows(filteredFaculties);
+                    }
                   }
                   if (status === "Pending") {
-                    const filteredStudents = selectedClass.students.filter(
-                      (student) => student.eval === false
+                    if (selectedEval.type === "Student") {
+                      const filteredStudents = selectedClass.students.filter(
+                        (student) => student.eval === false
+                      );
+                      setStudents(filteredStudents);
+                    }
+                  } else {
+                    const filteredFaculties = faculties.filter(
+                      (faculty) => faculty.eval === false
                     );
-                    setStudents(filteredStudents);
+                    setRows(filteredFaculties);
                   }
                   if (status === "All") {
-                    const filteredStudents = selectedClass.students.filter(
-                      (student) =>
-                        student.eval === true || student.eval === false
+                    if (selectedEval.type === "Student") {
+                      const filteredStudents = selectedClass.students.filter(
+                        (student) =>
+                          student.eval === true || student.eval === false
+                      );
+                      setStudents(filteredStudents);
+                    }
+                  } else {
+                    const filteredFaculties = faculties.filter(
+                      (faculty) =>
+                        faculty.eval === false || faculty.eval === true
                     );
-                    setStudents(filteredStudents);
+                    setRows(filteredFaculties);
                   }
                 }}
               >
@@ -176,16 +206,12 @@ export const EvalDialog = ({ open, setOpen, selectedEval }) => {
                 />
               </RadioGroup>
             </FormControl>
-          </Grid>
+          </Grid>)}
           <Grid item xs={12}>
             <CustomDataGrid
               getRowId={(row) => row.school_id}
-              rows={
-                selectedEval.type === "Student" ? students : selectedEval.rows
-              }
-              columns={
-                selectedEval.type === "Student" ? colStudEval : colPeerEval
-              }
+              rows={selectedEval.type === "Student" ? students : faculties}
+              columns={selectedEval.type === "Student" ? colStudEval : colPeerEval}
               getCellClassName={(params) => {
                 if (params.field === "eval") {
                   return params.value === "Completed" ? "green" : "red";

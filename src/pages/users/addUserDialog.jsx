@@ -9,7 +9,14 @@ import {
   DialogContentText,
   DialogTitle,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
   TextField,
 } from "@mui/material";
 import React from "react";
@@ -19,6 +26,7 @@ import useFetch from "../../hooks/useFetch";
 
 import { useAppContext } from "../../context/AppContext";
 import { LoadingButton } from "@mui/lab";
+import useData from "../../hooks/useData";
 
 export const AddUserDialog = ({ open, setOpen, setUsers }) => {
   const theme = useTheme();
@@ -28,26 +36,51 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
   };
   const { postData, loading } = useFetch();
   const { showSnackbar } = useAppContext();
+  const [departments, setDepartments] = useData("/api/departments");
+  const [colleges, setColleges] = useData("/api/colleges");
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const data = new FormData(event.currentTarget);
-    let response = await postData("/api/users/add_admin_user", {
-      email: data.get("email"),
-      password: data.get("password"),
-      name: data.get("fullName"),
-      school_id: data.get("schoolID"),
-    });
+    let response = null;
+    if (value === "Admin") {
+      response = await postData("/api/users/add_admin_user", {
+        email: data.get("email"),
+        password: data.get("password"),
+        name: data.get("fullName"),
+        school_id: data.get("schoolID"),
+      });
+    } else {
+      response = await postData("/api/users/add_secretary", {
+        email: data.get("email"),
+        password: data.get("password"),
+        name: data.get("fullName"),
+        school_id: data.get("schoolID"),
+        department_id: department.id,
+        college_id: college.id,
+      });
+    }
     setUsers(response ? response : []);
     setOpen(false);
     showSnackbar("User added successfully", "success");
   };
+  const [value, setValue] = React.useState("female");
 
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+  const [college, setCollege] = React.useState({});
+  const handleChangeCollege = (event) => {
+    setCollege(event.target.value);
+  };
+  const [department, setDepartment] = React.useState({});
+  const handleChangeDepartment = (event) => {
+    setDepartment(event.target.value);
+  };
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Add User</DialogTitle>
       <DialogContent>
-        <DialogContentText>Add a new user with admin access</DialogContentText>
+        <DialogContentText>Add a new user</DialogContentText>
         <Box
           id="userForm"
           component="form"
@@ -56,6 +89,22 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormControl>
+                <RadioGroup row value={value} onChange={handleChange}>
+                  <FormControlLabel
+                    value="Admin"
+                    control={<Radio />}
+                    label="Admin"
+                  />
+                  <FormControlLabel
+                    value="Secretary"
+                    control={<Radio />}
+                    label="Secretary"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
@@ -97,6 +146,47 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
                 autoComplete="new-password"
               />
             </Grid>
+
+            {value === "Secretary" && (
+              <>
+                <Grid item xs={12}>
+                  <FormControl fullWidth required>
+                    <InputLabel>College</InputLabel>
+                    <Select
+                      label={"College"}
+                      // defaultValue={defaultValue}
+                      onChange={handleChangeCollege}
+                    >
+                      {colleges.map((option, index) => {
+                        return (
+                          <MenuItem key={index} value={option}>
+                            {option.college}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl fullWidth required>
+                    <InputLabel>Department</InputLabel>
+                    <Select
+                      label={"Department"}
+                      // defaultValue={defaultValue}
+                      onChange={handleChangeDepartment}
+                    >
+                      {departments.map((option, index) => {
+                        return (
+                          <MenuItem key={index} value={option}>
+                            {option.department}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </>
+            )}
           </Grid>
           <Grid item xs={12} mt={2}>
             <Alert severity="info">

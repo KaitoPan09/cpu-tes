@@ -16,8 +16,14 @@ import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import CustomDatagrid from "../../components/CustomDatagrid";
 import useData from "../../hooks/useData";
+import { useAuth } from "../../context/AuthContext";
 const Reports = () => {
-  const [rows, setRows] = useData("/api/evaluations/");
+  const { auth, userInfo } = useAuth();
+  const [rows, setRows] = useData(
+    auth?.role === "Admin"
+      ? "/api/evaluations/"
+      : `/api/evaluations/?college_id=${userInfo?.college_id}`
+  );
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
@@ -32,7 +38,17 @@ const Reports = () => {
       field: "college",
       headerName: "College",
       flex: 1,
-      minWidth: 180,
+      minWidth: 150,
+    },
+    {
+      field: "acad_year",
+      headerName: "Academic Year",
+      width: 140,
+    },
+    {
+      field: "semester",
+      headerName: "Semester",
+      width: 140,
     },
     {
       field: "status",

@@ -32,9 +32,9 @@ const Survey = () => {
         faculties = await request(
           `/api/evaluations/students/evaluate?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
         );
-      } else if (auth.role === "Admin") {
+      } else if (auth.role === "Admin" || auth.role === "Dean") {
         faculties = await request(
-          `/api/evaluations/dept_heads/evaluate?user_id=${userInfo.user_id}`
+          `/api/evaluations/dept_heads/evaluate?college_id=${userInfo.college_id}`
         );
       } else {
         faculties = await request(
