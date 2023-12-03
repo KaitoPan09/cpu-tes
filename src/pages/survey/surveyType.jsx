@@ -7,7 +7,7 @@ export const SurveyType = ({ faculties, questionCategories }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const peers = faculties.filter((faculty) => faculty.eval_type === "Peer");
-  const supervisors = faculties.filter(
+  const supervisor = faculties.filter(
     (faculty) => faculty.eval_type === "Supervisor"
   );
   const self = faculties.filter((faculty) => faculty.eval_type === "Self");
@@ -23,11 +23,12 @@ export const SurveyType = ({ faculties, questionCategories }) => {
           >
             Supervisors</Typography>
         <Grid container spacing={2} display="flex">
-          {supervisors.map((faculty) => (
-            <Grid item sm={12} md={6}>
+          {supervisor.map((faculty) => (
+            <Grid item sm={12} md={6} key={faculty.id}>
               <SurveyCard
                 faculty={faculty}
                 questionCategories={questionCategories}
+                surveyType="Supervisor"
               />
             </Grid>
           ))}
@@ -45,10 +46,11 @@ export const SurveyType = ({ faculties, questionCategories }) => {
             Self</Typography>
         <Grid container spacing={2} display="flex">
           {self.map((faculty) => (
-            <Grid item sm={12} md={6}>
+            <Grid item sm={12} md={6} key={faculty.id}>
               <SurveyCard
                 faculty={faculty}
                 questionCategories={questionCategories}
+                surveyType="Self"
               />
             </Grid>
           ))}
@@ -66,10 +68,11 @@ export const SurveyType = ({ faculties, questionCategories }) => {
             Peers</Typography>
         <Grid container spacing={2} display="flex">
           {peers.map((faculty) => (
-            <Grid item sm={12} md={6}>
+            <Grid item sm={12} md={6} key={faculty.id}>
               <SurveyCard
                 faculty={faculty}
                 questionCategories={questionCategories}
+                surveyType="Peer"
               />
             </Grid>
           ))}

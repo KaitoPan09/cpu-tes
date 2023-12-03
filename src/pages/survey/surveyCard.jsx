@@ -11,13 +11,19 @@ import {
   DialogTitle,
   Grid,
   Typography,
+  CardActionArea,
+  CardMedia,
 } from "@mui/material";
 import React from "react";
 import { tokens } from "../../theme";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
+import supervisorImg from "../../assets/images/cardImages/supervisorSurvey.jpg";
+import selfImg from "../../assets/images/cardImages/selfSurvey.jpg";
+import peerImg from "../../assets/images/cardImages/peerSurvey.jpg";
+import defaultImg from "../../assets/images/cardImages/defaultSurvey.jpg";
 
-export const SurveyCard = ({ faculty, questionCategories }) => {
+export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { auth } = useAuth();
@@ -26,6 +32,31 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
     setOpen(false);
   };
   const navigate = useNavigate();
+  const cardBackgroundColor = () => {
+    switch (surveyType) {
+      case "Supervisor":
+        return colors.orangeAccent[200];
+      case "Self":
+        return colors.yellowAccent[200]; 
+      case "Peer":
+        return colors.greenAccent[200]; 
+      default:
+        return colors.darkBlue[200];
+    }
+  };
+  const cardBackgroundImage = () => {
+    switch (surveyType) {
+      case "Supervisor":
+        return supervisorImg;
+      case "Self":
+        return selfImg;
+      case "Peer":
+        return peerImg;
+      default:
+        return defaultImg;
+    }
+  };
+
   console.log(faculty);
   return (
     <>
@@ -34,10 +65,19 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
         sx={{
           minWidth: 340,
           maxWidth: 580,
-          backgroundColor: colors.darkBlue[400],
+          backgroundColor: cardBackgroundColor(),
         }}
       >
-        <CardContent>
+        <CardMedia
+          component="img"
+          height="140"
+          image={cardBackgroundImage()}
+          alt="survey image"
+        />
+        <CardContent 
+          sx={{ 
+            backgroundColor: theme.palette.background.paper, 
+            mt: theme.spacing(2) }}>
           <Grid container direction="column" spacing={2}>
             <Grid item xs>
               <Typography
