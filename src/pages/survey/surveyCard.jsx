@@ -78,6 +78,7 @@ export const SurveyCard = ({ faculty, questionCategories }) => {
                 </Typography>
               </Grid>
             </Grid>
+            {/* not student */}
             {faculty.eval_type ? (
               <Grid item container>
                 <Grid item xs>

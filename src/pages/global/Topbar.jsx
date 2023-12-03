@@ -146,6 +146,7 @@ const Topbar = () => {
           open={open}
           onClose={handleClose}
         >
+          <MenuItem disabled>Account</MenuItem>
           <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
