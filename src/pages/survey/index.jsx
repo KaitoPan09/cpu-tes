@@ -18,6 +18,7 @@ import { useAuth } from "../../context/AuthContext";
 import { SurveyCard } from "./surveyCard";
 import { useNavigate } from "react-router";
 import useFetch from "../../hooks/useFetch";
+import { YourPage } from "./yourpage";
 const Survey = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -54,17 +55,25 @@ const Survey = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="SURVEYS" subtitle="Available Surveys" />
       </Box>
-      {faculties && questionCategories && (
-        <Grid container spacing={2} display="flex">
-          {faculties.map((faculty) => (
-            <Grid item sm={12} md={6}>
-              <SurveyCard
-                faculty={faculty}
-                questionCategories={questionCategories}
-              />
-            </Grid>
-          ))}
-        </Grid>
+      {auth.role === "Student" ? (
+        faculties &&
+        questionCategories && (
+          <Grid container spacing={2} display="flex">
+            {faculties.map((faculty) => (
+              <Grid item sm={12} md={6}>
+                <SurveyCard
+                  faculty={faculty}
+                  questionCategories={questionCategories}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        )
+      ) : (
+        <YourPage
+          faculties={faculties}
+          questionCategories={questionCategories}
+        />
       )}
     </Box>
   );
