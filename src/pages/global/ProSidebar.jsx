@@ -55,7 +55,7 @@ const ProSidebar = () => {
   const colors = tokens(theme.palette.mode);
   const { auth, userInfo } = useAuth();
   const { toggleSidebar, broken } = useProSidebar();
-  const iconStyle = { fontSize: '1.2rem' };
+  const iconStyle = { fontSize: '2rem' };
 
   const sideBarList = [
     {

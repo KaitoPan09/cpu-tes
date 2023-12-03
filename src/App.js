@@ -11,6 +11,7 @@ import AcademicYear from "./pages/academicyear";
 import Users from "./pages/users";
 import Departments from "./pages/department";
 import Questionnaire from "./pages/questionnaire";
+import ManageQuestionnaire from "./pages/questionnaire/manageQuestionnaire"
 import Evaluation from "./pages/evaluation";
 import ViewEvaluation from "./pages/evaluation/viewEval";
 import Survey from "./pages/survey";
@@ -61,6 +62,7 @@ function App() {
                 <Route path="/acad_years" element={<AcademicYear />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/questionnaire" element={<Questionnaire />} />
+                <Route path="/questionnaire/manage" element={<ManageQuestionnaire />} />
                 <Route path="/evaluations" element={<Evaluation />} />
               </Route>
               <Route element={<RequireAuth allowedRoles={["Admin", "Dean"]} />}>

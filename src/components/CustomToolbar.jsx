@@ -18,7 +18,7 @@ export const CustomToolbar = ({
   handleBack,
   handleGenerateReport,
   handleExport,
-  handleMod,
+  isCategorySelected,
 }) => {
   return (
     <GridToolbarContainer>
