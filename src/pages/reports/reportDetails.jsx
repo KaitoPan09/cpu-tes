@@ -40,6 +40,7 @@ import { PDFReport } from "../../components/generatePDF/template.jsx";
 import Cookies from "js-cookie";
 import useFetch from "../../hooks/useFetch.jsx";
 import { useAppContext } from "../../context/AppContext/index.jsx";
+import { ManageSearchOutlined } from "@mui/icons-material";
 
 // const CustomToolbar = () => {
 
@@ -118,24 +119,28 @@ const Details = () => {
       headerName: "Student",
       description: "60%",
       width: 120,
-      headerAlign: "right",
+      headerAlign: "center",
       align: "right",
       renderCell: (params) => {
+        const iconStyle = { fontSize: "1.25rem" };
         if (params.value == null) {
           return "Pending";
         } else {
-          return (
-            <Button
-              variant="text"
-              tabIndex={params.hasFocus ? 0 : -1}
-              onClick={() => {
-                handleOpenDialog(params.row, 0);
-              }}
-              color={params.value >= 4.2 ? "success" : "error"}
-            >
-              {params.value.toFixed(2)}
-            </Button>
-          );
+          return [
+            <Tooltip title="Click to view student details">
+              <Button
+                variant="text"
+                tabIndex={params.hasFocus ? 0 : -1}
+                onClick={() => {
+                  handleOpenDialog(params.row, 0);
+                }}
+                color={params.value >= 4.2 ? "success" : "error"}
+              >
+                {params.value.toFixed(2)}
+                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+              </Button>
+            </Tooltip>
+          ];
         }
       },
       cellClassName: (params) => {
@@ -166,21 +171,25 @@ const Details = () => {
       headerAlign: "right",
       align: "right",
       renderCell: (params) => {
+        const iconStyle = { fontSize: "1.25rem" };
         if (params.value == null) {
           return "Pending";
         } else {
-          return (
-            <Button
-              variant="text"
-              tabIndex={params.hasFocus ? 0 : -1}
-              onClick={() => {
-                handleOpenDialog(params.row, 1);
-              }}
-              color={params.value >= 4.2 ? "success" : "error"}
-            >
-              {params.value.toFixed(2)}
-            </Button>
-          );
+          return [
+            <Tooltip title="Click to view student details">
+              <Button
+                variant="text"
+                tabIndex={params.hasFocus ? 0 : -1}
+                onClick={() => {
+                  handleOpenDialog(params.row, 1);
+                }}
+                color={params.value >= 4.2 ? "success" : "error"}
+              >
+                {params.value.toFixed(2)}
+                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+              </Button>
+            </Tooltip>
+          ];
         }
       },
       cellClassName: (params) => {
@@ -197,21 +206,25 @@ const Details = () => {
       headerAlign: "right",
       align: "right",
       renderCell: (params) => {
+        const iconStyle = { fontSize: "1.25rem" };
         if (params.value == null) {
           return <Typography variant="body2">Pending</Typography>;
         } else {
-          return (
-            <Button
-              variant="text"
-              tabIndex={params.hasFocus ? 0 : -1}
-              onClick={() => {
-                handleOpenDialog(params.row, 1);
-              }}
-              color={params.value >= 4.2 ? "success" : "error"}
-            >
-              {params.value.toFixed(2)}
-            </Button>
-          );
+          return [
+            <Tooltip title="Click to view student details">
+              <Button
+                variant="text"
+                tabIndex={params.hasFocus ? 0 : -1}
+                onClick={() => {
+                  handleOpenDialog(params.row, 1);
+                }}
+                color={params.value >= 4.2 ? "success" : "error"}
+              >
+                {params.value.toFixed(2)}
+                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+              </Button>
+            </Tooltip>
+          ];
         }
       },
       cellClassName: (params) => {
@@ -228,21 +241,25 @@ const Details = () => {
       headerAlign: "right",
       align: "right",
       renderCell: (params) => {
+        const iconStyle = { fontSize: "1.25rem" };
         if (params.value == null) {
           return "Pending";
         } else {
-          return (
-            <Button
-              variant="text"
-              tabIndex={params.hasFocus ? 0 : -1}
-              onClick={() => {
-                handleOpenDialog(params.row, 1);
-              }}
-              color={params.value >= 4.2 ? "success" : "error"}
-            >
-              {params.value.toFixed(2)}
-            </Button>
-          );
+          return [
+            <Tooltip title="Click to view student details">
+              <Button
+                variant="text"
+                tabIndex={params.hasFocus ? 0 : -1}
+                onClick={() => {
+                  handleOpenDialog(params.row, 1);
+                }}
+                color={params.value >= 4.2 ? "success" : "error"}
+              >
+                {params.value.toFixed(2)}
+                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+              </Button>
+            </Tooltip>
+          ];
         }
       },
       cellClassName: (params) => {
@@ -258,22 +275,26 @@ const Details = () => {
       headerAlign: "right",
       align: "right",
       renderCell: (params) => {
+        const iconStyle = { fontSize: "1.25rem" };
         // return params.value >= 0.5 ? "Positive" : "Negative";
         if (params.value == null) {
           return "No comments";
         } else {
-          return (
-            <Button
-              variant="text"
-              tabIndex={params.hasFocus ? 0 : -1}
-              onClick={() => {
-                handleOpenDialog(params.row, 2);
-              }}
-              color={params.value >= 0.5 ? "success" : "error"}
-            >
-              {params.value.toFixed(2)}
-            </Button>
-          );
+          return [
+            <Tooltip title="Click to view student details">
+              <Button
+                variant="text"
+                tabIndex={params.hasFocus ? 0 : -1}
+                onClick={() => {
+                  handleOpenDialog(params.row, 2);
+                }}
+                color={params.value >= 0.5 ? "success" : "error"}
+              >
+                {params.value.toFixed(2)}
+                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+              </Button>
+            </Tooltip>
+          ];
         }
       },
       cellClassName: (params) => {
