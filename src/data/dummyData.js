@@ -1783,3 +1783,42 @@ export const dummyBarBreakdown = [
     score: 3.9,
   },
 ];
+
+export const dummyQuestionnaireIndex = [
+  {
+    created: "7/13/2022",
+    id: "1",
+    type: "Student",
+    updated: "7/13/2022",
+    revision: "v1",
+    code: "red",
+    status: "Active"
+  },
+  {
+    created: "7/14/2022",
+    id: "2",
+    type: "Faculty",
+    updated: "7/14/2022",
+    revision: "v1",
+    code: "yellow",
+    status: "Active"
+  },
+  {
+    created: "11/6/2022",
+    id: "3",
+    type: "Student",
+    updated: "7/6/2022",
+    revision: "v1",
+    code: "green",
+    status: "Inactive"
+  },
+  {
+    created: "2/7/2023",
+    id: "4",
+    type: "Faculty",
+    updated: "2/7/2023",
+    revision: "v1",
+    code: "blue",
+    status: "Inactive"
+  },
+];
