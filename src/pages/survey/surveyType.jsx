@@ -13,37 +13,41 @@ export const SurveyType = ({ faculties, questionCategories }) => {
   const self = faculties.filter((faculty) => faculty.eval_type === "Self");
   return (
     <>
-      <Grid sx={{ mb: theme.spacing(2)}}>
-        <Divider />
-        <Typography
-          variant="h5"
-          color={colors.yellowAccent[500]}
-          fontWeight="bold"
-          sx={{ mt: theme.spacing(2)}}
+      {supervisor.length > 0 && (
+        <Grid sx={{ mb: theme.spacing(2) }}>
+          <Divider />
+          <Typography
+            variant="h5"
+            color={colors.yellowAccent[500]}
+            fontWeight="bold"
+            sx={{ mt: theme.spacing(2) }}
           >
-            Supervisors</Typography>
-        <Grid container spacing={2} display="flex">
-          {supervisor.map((faculty) => (
-            <Grid item sm={12} md={6} key={faculty.id}>
-              <SurveyCard
-                faculty={faculty}
-                questionCategories={questionCategories}
-                surveyType="Supervisor"
-              />
-            </Grid>
-          ))}
+            Supervisor Survey
+          </Typography>
+          <Grid container spacing={2} display="flex">
+            {supervisor.map((faculty) => (
+              <Grid item sm={12} md={6} key={faculty.id}>
+                <SurveyCard
+                  faculty={faculty}
+                  questionCategories={questionCategories}
+                  surveyType="Supervisor"
+                />
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
 
-      <Grid sx={{ mb: theme.spacing(2)}}>
+      <Grid sx={{ mb: theme.spacing(2) }}>
         <Divider />
         <Typography
           variant="h5"
           color={colors.orangeAccent[500]}
           fontWeight="bold"
-          sx={{ mt: theme.spacing(2)}}
-          >
-            Self</Typography>
+          sx={{ mt: theme.spacing(2) }}
+        >
+          Self Survey
+        </Typography>
         <Grid container spacing={2} display="flex">
           {self.map((faculty) => (
             <Grid item sm={12} md={6} key={faculty.id}>
@@ -57,27 +61,30 @@ export const SurveyType = ({ faculties, questionCategories }) => {
         </Grid>
       </Grid>
 
-      <Grid sx={{ mb: theme.spacing(2)}}>
-        <Divider />
-        <Typography
-          variant="h5"
-          color={colors.greenAccent[500]}
-          fontWeight="bold"
-          sx={{ mt: theme.spacing(2)}}
+      {peers.length > 0 && (
+        <Grid sx={{ mb: theme.spacing(2) }}>
+          <Divider />
+          <Typography
+            variant="h5"
+            color={colors.greenAccent[500]}
+            fontWeight="bold"
+            sx={{ mt: theme.spacing(2) }}
           >
-            Peers</Typography>
-        <Grid container spacing={2} display="flex">
-          {peers.map((faculty) => (
-            <Grid item sm={12} md={6} key={faculty.id}>
-              <SurveyCard
-                faculty={faculty}
-                questionCategories={questionCategories}
-                surveyType="Peer"
-              />
-            </Grid>
-          ))}
+            Peer Survey
+          </Typography>
+          <Grid container spacing={2} display="flex">
+            {peers.map((faculty) => (
+              <Grid item sm={12} md={6} key={faculty.id}>
+                <SurveyCard
+                  faculty={faculty}
+                  questionCategories={questionCategories}
+                  surveyType="Peer"
+                />
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </>
   );
 };

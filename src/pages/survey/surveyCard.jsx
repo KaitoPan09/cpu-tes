@@ -37,9 +37,9 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
       case "Supervisor":
         return colors.orangeAccent[200];
       case "Self":
-        return colors.yellowAccent[200]; 
+        return colors.yellowAccent[200];
       case "Peer":
-        return colors.greenAccent[200]; 
+        return colors.greenAccent[200];
       default:
         return colors.darkBlue[200];
     }
@@ -57,7 +57,6 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
     }
   };
 
-  console.log(faculty);
   return (
     <>
       <Card
@@ -68,16 +67,18 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
           backgroundColor: cardBackgroundColor(),
         }}
       >
-        <CardMedia
+        {/* <CardMedia
           component="img"
           height="140"
           image={cardBackgroundImage()}
           alt="survey image"
-        />
-        <CardContent 
-          sx={{ 
-            backgroundColor: theme.palette.background.paper, 
-            mt: theme.spacing(2) }}>
+        /> */}
+        <CardContent
+          sx={{
+            backgroundColor: theme.palette.background.paper,
+            mt: theme.spacing(2),
+          }}
+        >
           <Grid container direction="column" spacing={2}>
             <Grid item xs>
               <Typography
@@ -129,6 +130,7 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
                 <Grid item xs={8}>
                   <Typography
                     variant="h5"
+                    fontWeight={700}
                     sx={{ color: colors.yellowAccent[400] }}
                   >
                     {faculty.eval_type} Evaluation
