@@ -71,7 +71,7 @@ const Reports = () => {
         const iconStyle = { fontSize: "1.25rem" };
 
         return [
-          <Tooltip title="Details">
+          <Tooltip title="Click Here to See Details">
             <IconButton
               onClick={() => {
                 navigate(`/reports/${row.id}/reportDetails`, { state: row });

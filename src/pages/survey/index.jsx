@@ -19,7 +19,7 @@ import { useAuth } from "../../context/AuthContext";
 import { SurveyCard } from "./surveyCard";
 import { useNavigate } from "react-router";
 import useFetch from "../../hooks/useFetch";
-import { YourPage } from "./yourpage";
+import { SurveyType } from "./surveyType";
 const Survey = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -76,7 +76,7 @@ const Survey = () => {
           </Grid>
         )
       ) : (
-        <YourPage
+        <SurveyType
           faculties={faculties}
           questionCategories={questionCategories}
         />
