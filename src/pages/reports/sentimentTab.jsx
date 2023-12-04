@@ -187,7 +187,7 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleSwitchChange = async (event) => {
-    setLoading(true)
+    setLoading(true);
     let wordcloud = null;
     if (event.target.checked) {
       if (value === "all") {
@@ -205,7 +205,7 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
       }
     }
     setChecked(!checked);
-    setLoading(false)
+    setLoading(false);
   };
   return (
     <Grid container spacing={2} direction="column">
@@ -276,23 +276,25 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
                     </Grow>
                   )}
                 </Grid>
-                <Grid item alignItems="stretch" style={{ display: "flex" }}>
-                  <Grow
-                    in={!disabled}
-                    style={{ transformOrigin: "0 0 0" }}
-                    {...(!disabled ? { timeout: 1000 } : {})}
-                  >
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={checked}
-                          onChange={handleSwitchChange}
-                        />
-                      }
-                      label="WordCloud"
-                    />
-                  </Grow>
-                </Grid>
+                {value != "students" && (
+                  <Grid item alignItems="stretch" style={{ display: "flex" }}>
+                    <Grow
+                      in={!disabled}
+                      style={{ transformOrigin: "0 0 0" }}
+                      {...(!disabled ? { timeout: 1000 } : {})}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={checked}
+                            onChange={handleSwitchChange}
+                          />
+                        }
+                        label="WordCloud"
+                      />
+                    </Grow>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           ) : null}
