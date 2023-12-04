@@ -232,7 +232,7 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  Completed
+                  EVALUATE
                 </Button>
               )}
             </Grid>
