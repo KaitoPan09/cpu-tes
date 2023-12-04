@@ -124,7 +124,7 @@ export const PDFReport = React.forwardRef(
                 {row.peer ? row.peer.toFixed(2) : "Pending"}
               </StyledTableCell>
               <StyledTableCell>
-                {row.self ? row.peer.toFixed(2) : "Pending"}
+                {row.self ? row.self.toFixed(2) : "Pending"}
               </StyledTableCell>
               <StyledTableCell>
                 {row.sentiment_score
