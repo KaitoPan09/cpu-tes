@@ -187,13 +187,13 @@ const Details = () => {
               <Button
                 variant="text"
                 tabIndex={params.hasFocus ? 0 : -1}
-                onClick={() => {
-                  handleOpenDialog(params.row, 1);
-                }}
+                // onClick={() => {
+                //   handleOpenDialog(params.row, 1);
+                // }}
                 color={params.value >= 4.2 ? "success" : "error"}
-                endIcon={
-                  <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
-                }
+                // endIcon={
+                //   <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+                // }
               >
                 {params.value.toFixed(2)}
               </Button>
@@ -224,13 +224,13 @@ const Details = () => {
               <Button
                 variant="text"
                 tabIndex={params.hasFocus ? 0 : -1}
-                onClick={() => {
-                  handleOpenDialog(params.row, 1);
-                }}
+                // onClick={() => {
+                //   handleOpenDialog(params.row, 1);
+                // }}
                 color={params.value >= 4.2 ? "success" : "error"}
-                endIcon={
-                  <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
-                }
+                // endIcon={
+                //   <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+                // }
               >
                 {params.value.toFixed(2)}
               </Button>
@@ -261,13 +261,13 @@ const Details = () => {
               <Button
                 variant="text"
                 tabIndex={params.hasFocus ? 0 : -1}
-                onClick={() => {
-                  handleOpenDialog(params.row, 1);
-                }}
+                // onClick={() => {
+                //   handleOpenDialog(params.row, 1);
+                // }}
                 color={params.value >= 4.2 ? "success" : "error"}
-                endIcon={
-                  <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
-                }
+                // endIcon={
+                //   <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+                // }
               >
                 {params.value.toFixed(2)}
               </Button>

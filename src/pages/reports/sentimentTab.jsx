@@ -218,11 +218,11 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
               </FormLabel>
               <RadioGroup row value={value} onChange={handleChange}>
                 <FormControlLabel value="all" control={<Radio />} label="All" />
-                <FormControlLabel
+                {/* <FormControlLabel
                   value="faculty"
                   control={<Radio />}
                   label="Faculty"
-                />
+                /> */}
                 <FormControlLabel
                   value="students"
                   control={<Radio />}
