@@ -212,8 +212,8 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
                   size="small"
                   variant="outlined"
                   sx={{
-                    // backgroundColor: colors.blueAccent[700],
-                    // color: colors.grey[100],
+                    backgroundColor: colors.grey[700],
+                    color: colors.grey[100],
                     fontSize: "16px",
                     fontWeight: "bold",
                   }}
@@ -232,7 +232,7 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  EVALUATE
+                  Completed
                 </Button>
               )}
             </Grid>
