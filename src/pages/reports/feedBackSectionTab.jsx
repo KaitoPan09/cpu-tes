@@ -82,7 +82,7 @@ export const FeedBackSectionTab = ({ dialogData, selectedResult, evalId }) => {
       <Alert
         icon={<ThumbUp fontSize="inherit" />}
         severity="success"
-        sx={{ fontSize: "1rem", maxWidth: "md" }}
+        sx={{ fontSize: "1rem", maxWidth: "sm" }}
         variant="outlined"
       >
         {yes.length +
@@ -91,7 +91,7 @@ export const FeedBackSectionTab = ({ dialogData, selectedResult, evalId }) => {
       <Alert
         icon={<ThumbDown fontSize="inherit" />}
         severity="error"
-        sx={{ fontSize: "1rem", maxWidth: "md" }}
+        sx={{ fontSize: "1rem", maxWidth: "sm" }}
         variant="outlined"
       >
         {no.length +

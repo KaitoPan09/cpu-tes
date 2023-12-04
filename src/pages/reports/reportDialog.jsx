@@ -90,26 +90,24 @@ const ReportDialog = ({
     if (newValue === 0 && result?.student_ratings?.length > 0) {
       setStudentRatings(result.student_ratings);
       setTabValue(newValue);
-    } 
-    // else if (
-    //   newValue === 1 &&
-    //   result?.supervisor_ratings?.length > 0 &&
-    //   result?.self_ratings?.length > 0 &&
-    //   result?.peer_ratings?.length > 0
-    // ) {
-    //   setFacultyRatings({
-    //     supervisor: result.supervisor_ratings,
-    //     self: result.self_ratings,
-    //     peer: result.peer_ratings,
-    //   });
-    //   setTabValue(newValue);
-    // }
-    else if (
+    } else if (
       newValue === 1 &&
+      result?.supervisor_ratings?.length > 0 &&
+      result?.self_ratings?.length > 0 &&
+      result?.peer_ratings?.length > 0
+    ) {
+      setFacultyRatings({
+        supervisor: result.supervisor_ratings,
+        self: result.self_ratings,
+        peer: result.peer_ratings,
+      });
+      setTabValue(newValue);
+    } else if (
+      newValue === 2 &&
       dialogData?.sentiment_score !== "No comments"
     ) {
       setTabValue(newValue);
-    } else if (newValue === 2) {
+    } else if (newValue === 3) {
       setTabValue(newValue);
     } else window.alert("No data available");
   };
@@ -148,17 +146,17 @@ const ReportDialog = ({
                 dialogData={dialogData}
               />
             </TabPanel>
-            {/* <TabPanel value={tabValue} index={1}>
-              <FacultyTab ratings={facultyRatings} dialogData={dialogData} />
-            </TabPanel> */}
             <TabPanel value={tabValue} index={1}>
+              <FacultyTab ratings={facultyRatings} dialogData={dialogData} />
+            </TabPanel>
+            <TabPanel value={tabValue} index={2}>
               <SentimentTab
                 dialogData={dialogData}
                 selectedResult={result}
                 evalId={evalId}
               />
             </TabPanel>
-            <TabPanel value={tabValue} index={2}>
+            <TabPanel value={tabValue} index={3}>
               <FeedBackSectionTab
                 dialogData={dialogData}
                 selectedResult={result}
@@ -178,6 +176,7 @@ const ReportDialog = ({
             scrollButtons="auto"
           >
             <Tab label="Student Evaluation" sx={{ marginRight: 10 }} />
+            <Tab label="Faculty Evaluation" sx={{ marginRight: 10 }} />
             <Tab label="Sentiment" sx={{ marginRight: 10 }} />
             <Tab label="Feedback Section" sx={{ marginRight: 10 }} />
           </Tabs>
