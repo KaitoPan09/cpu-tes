@@ -16,7 +16,7 @@ export const SurveyType = ({ faculties, questionCategories }) => {
       <Grid sx={{ mb: theme.spacing(2)}}>
         <Divider />
         <Typography
-          variant="h5"
+          variant="h3"
           color={colors.yellowAccent[500]}
           fontWeight="bold"
           sx={{ mt: theme.spacing(2)}}
@@ -38,7 +38,7 @@ export const SurveyType = ({ faculties, questionCategories }) => {
       <Grid sx={{ mb: theme.spacing(2)}}>
         <Divider />
         <Typography
-          variant="h5"
+          variant="h3"
           color={colors.orangeAccent[500]}
           fontWeight="bold"
           sx={{ mt: theme.spacing(2)}}
@@ -60,7 +60,7 @@ export const SurveyType = ({ faculties, questionCategories }) => {
       <Grid sx={{ mb: theme.spacing(2)}}>
         <Divider />
         <Typography
-          variant="h5"
+          variant="h3"
           color={colors.greenAccent[500]}
           fontWeight="bold"
           sx={{ mt: theme.spacing(2)}}
