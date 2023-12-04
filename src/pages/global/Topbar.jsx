@@ -146,7 +146,7 @@ const Topbar = () => {
             vertical: "top",
             horizontal: "left",
           }}
-          slotProps={{ sx: { width: 200 } }}
+          PaperProps={{ sx: { width: 150 } }}
           open={open}
           onClose={handleClose}
         >
@@ -157,7 +157,7 @@ const Topbar = () => {
             }}
           >
             <Typography variant="overline">Account</Typography>
-            <Typography color="primary" variant="body2">
+            <Typography color="secondary" variant="body2">
               {userInfo?.name}
             </Typography>
           </Box>
