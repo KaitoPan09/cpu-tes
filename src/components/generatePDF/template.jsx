@@ -79,11 +79,11 @@ export const PDFReport = React.forwardRef(
     for (let i = 0; i < rows.length; i += nRows) {
       const tableRows = rows.slice(i, i + nRows).map((row) => {
         if (title === "Faculty Evaluation Status Report") {
-          console.log(row);
           return (
             <StyledTableRow key={row.school_id}>
               <StyledTableCell>{row.faculty}</StyledTableCell>
               <StyledTableCell>{row.school_id}</StyledTableCell>
+              <StyledTableCell>{row.role}</StyledTableCell>
               <StyledTableCell>{row.department}</StyledTableCell>
               <StyledTableCell>{row.supervisor}</StyledTableCell>
               <StyledTableCell>{row.peer}</StyledTableCell>
@@ -104,7 +104,6 @@ export const PDFReport = React.forwardRef(
             </StyledTableRow>
           );
         } else if (title === "Evaluation Summary Report") {
-          console.log(row);
           return (
             <StyledTableRow key={row.school_id}>
               <StyledTableCell>{row.faculty}</StyledTableCell>
@@ -113,9 +112,7 @@ export const PDFReport = React.forwardRef(
                 {row.student ? row.student.toFixed(2) : "Pending"}
               </StyledTableCell>
               <StyledTableCell>
-                {row.student_turnout
-                  ? row.student_turnout.toFixed(2) + "%"
-                  : "N/A"}
+                {row.student_turnout ? row.student_turnout.toFixed(2) : "N/A"}
               </StyledTableCell>
               <StyledTableCell>
                 {row.supervisor ? row.supervisor.toFixed(2) : "Pending"}

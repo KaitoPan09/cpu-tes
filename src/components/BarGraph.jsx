@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import { ResponsiveBar } from "@nivo/bar";
+import { Bar, ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../theme";
 import {
   dummyBarData as dataBar,
@@ -7,7 +7,6 @@ import {
 } from "../data/dummyData";
 
 const BarGraph = ({ ratings }) => {
-  console.log(ratings);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columnColors = ["#e8c1a0", "#f47560", "#f1e15b", "#e8a838", "#61cdbb"];
@@ -48,10 +47,10 @@ const BarGraph = ({ ratings }) => {
   const legends = [
     {
       dataFrom: "keys",
-      anchor: "bottom",
+      anchor: "bottom-right",
       direction: "column",
       justify: false,
-      translateX: 120,
+      translateX: 0,
       translateY: 0,
       itemsSpacing: 2,
       itemWidth: 100,
@@ -97,11 +96,12 @@ const BarGraph = ({ ratings }) => {
   //     ];
 
   return (
-    <ResponsiveBar
+    <Bar
       // data={data}
       // data={modifiedData}
       // data={isDashboard ? modifiedData : data}
-      width={600}
+      height={400}
+      width={640}
       data={ratings}
       theme={{
         axis: {
@@ -203,7 +203,7 @@ const BarGraph = ({ ratings }) => {
         tickPadding: 5,
         tickRotation: 0,
         // legend: isDashboard ? undefined : 'food',
-        legend: "rating",
+        legend: "category",
         // legend: axisLabelDisplay,
         legendPosition: "middle",
         legendOffset: -40,
@@ -238,7 +238,21 @@ const BarGraph = ({ ratings }) => {
       //         ]
       //     }
       // ]}
-      //legends={legends}
+      // legends={[
+      //   {
+      //     dataFrom: "indexes",
+      //     anchor: "right",
+      //     direction: "column",
+      //     justify: false,
+      //     translateX: 150,
+      //     translateY: 50,
+      //     itemWidth: 140,
+      //     itemHeight: 20,
+      //     itemsSpacing: 1,
+      //     symbolSize: 20,
+      //     itemDirection: "bottom-to-top",
+      //   },
+      // ]}
       role="application"
       ariaLabel="Nivo bar chart demo"
       // barAriaLabel={e=>e.id+": "+e.formattedValue+" in country: "+e.indexValue}

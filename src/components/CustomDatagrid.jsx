@@ -14,6 +14,7 @@ const CustomDataGrid = ({
   handleBack,
   fontSize = "1rem",
   handleGenerateReport,
+  generateReportText,
   handleExport,
   ...props
 }) => {
@@ -21,7 +22,7 @@ const CustomDataGrid = ({
   const colors = tokens(theme.palette.mode);
   return (
     <Box
-      height="70vh"
+      height="60vh"
       sx={{
         "& .MuiDataGrid-root": { border: "none" },
         "& .MuiDataGrid-cell": { borderBottom: "none" },
@@ -71,6 +72,7 @@ const CustomDataGrid = ({
             setOpen: setOpen,
             handleBack: handleBack,
             handleGenerateReport: handleGenerateReport,
+            generateReportText: generateReportText,
             handleExport: handleExport,
           },
           panel: {

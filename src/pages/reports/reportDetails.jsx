@@ -135,11 +135,13 @@ const Details = () => {
                   handleOpenDialog(params.row, 0);
                 }}
                 color={params.value >= 4.2 ? "success" : "error"}
+                endIcon={
+                  <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+                }
               >
                 {params.value.toFixed(2)}
-                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
               </Button>
-            </Tooltip>
+            </Tooltip>,
           ];
         }
       },
@@ -151,8 +153,8 @@ const Details = () => {
     },
     {
       field: "student_turnout",
-      headerName: "Response Rate",
-      width: 120,
+      headerName: "Response Rate (%)",
+      width: 140,
       headerAlign: "right",
       align: "right",
       visible: false,
@@ -160,7 +162,12 @@ const Details = () => {
         if (params.value == null) {
           return 0.0;
         }
-        return params.value.toFixed(2) + " %";
+        return params.value.toFixed(2);
+      },
+      cellClassName: (params) => {
+        if (params.value <= 70) {
+          return "red";
+        }
       },
     },
     {
@@ -184,11 +191,13 @@ const Details = () => {
                   handleOpenDialog(params.row, 1);
                 }}
                 color={params.value >= 4.2 ? "success" : "error"}
+                endIcon={
+                  <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+                }
               >
                 {params.value.toFixed(2)}
-                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
               </Button>
-            </Tooltip>
+            </Tooltip>,
           ];
         }
       },
@@ -219,11 +228,13 @@ const Details = () => {
                   handleOpenDialog(params.row, 1);
                 }}
                 color={params.value >= 4.2 ? "success" : "error"}
+                endIcon={
+                  <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+                }
               >
                 {params.value.toFixed(2)}
-                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
               </Button>
-            </Tooltip>
+            </Tooltip>,
           ];
         }
       },
@@ -254,11 +265,13 @@ const Details = () => {
                   handleOpenDialog(params.row, 1);
                 }}
                 color={params.value >= 4.2 ? "success" : "error"}
+                endIcon={
+                  <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+                }
               >
                 {params.value.toFixed(2)}
-                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
               </Button>
-            </Tooltip>
+            </Tooltip>,
           ];
         }
       },
@@ -289,11 +302,13 @@ const Details = () => {
                   handleOpenDialog(params.row, 2);
                 }}
                 color={params.value >= 0.5 ? "success" : "error"}
+                endIcon={
+                  <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
+                }
               >
                 {params.value.toFixed(2)}
-                <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
               </Button>
-            </Tooltip>
+            </Tooltip>,
           ];
         }
       },
@@ -422,9 +437,10 @@ const Details = () => {
         rows={rows}
         columns={columns}
         columnVisibilityModel={{
-          student_turnout: false,
+          student_turnout: true,
         }}
         handleGenerateReport={() => handleGenerateReport()}
+        generateReportText={"Generate Evaluation Summary Report"}
         handleExport={() => exportResults()}
       />
       {open && (

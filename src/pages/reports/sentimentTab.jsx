@@ -125,9 +125,6 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
         setValue(event.target.value);
         setDisabled(true);
       } else {
-        console.log(
-          selectedResult?.separated.faculty_comments.faculty_comments.length
-        );
         window.alert("No comments found");
       }
     }
@@ -190,24 +187,25 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleSwitchChange = async (event) => {
+    setLoading(true)
     let wordcloud = null;
     if (event.target.checked) {
       if (value === "all") {
         wordcloud = await generateWordCloud();
         if (!wordcloud) {
+          setLoading(false);
           return;
         }
       } else {
         wordcloud = await generateWordCloud(selectedClass.class_id);
         if (!wordcloud) {
+          setLoading(false);
           return;
         }
       }
-    } else {
-      setRows(selectedClass.comments);
-      setColumns(col);
     }
     setChecked(!checked);
+    setLoading(false)
   };
   return (
     <Grid container spacing={2} direction="column">

@@ -50,73 +50,73 @@ export const StudentTab = ({
     setRatings(selectedClass.ratings);
   };
   return (
-    <Grid container>
-      <Grid item xs={12} container>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="secondary"
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab label="Overall" />
-          <Tab label="By Class" />
-        </Tabs>
-      </Grid>
-      <Grid item container xs={12}>
-        <TabPanel value={value} index={0}>
-          <List>
-            {studentRatings.map((item, index) => (
-              <ListItem key={item.category} divider={true}>
+    <Stack>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        indicatorColor="secondary"
+        textColor="secondary"
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        <Tab label="Overall" />
+        <Tab label="By Class" />
+      </Tabs>
+      <Stack direction={"row"} spacing={2}>
+        <Grid container xs={12} md={6} alignItems={"center"}>
+          <TabPanel value={value} index={0}>
+            <List>
+              {studentRatings.map((item, index) => (
+                <ListItem key={item.category} divider={true}>
+                  <ListItemText
+                    primary={item.category + " " + item.weight * 100 + "%"}
+                    sx={{
+                      textAlign: "left",
+                      color: columnColors[index],
+                    }}
+                  />
+                  <ListItemText
+                    primary={Number(item.rating).toFixed(2)}
+                    sx={{
+                      textAlign: "right",
+                      paddingLeft: 2,
+                      color: item.rating < 4.2 ? "red" : "green",
+                    }}
+                  />
+                </ListItem>
+              ))}
+              <ListItem>
                 <ListItemText
-                  primary={item.category + " " + item.weight * 100 + "%"}
+                  primary={"Total Score"}
                   sx={{
                     textAlign: "left",
-                    color: columnColors[index],
                   }}
                 />
                 <ListItemText
-                  primary={Number(item.rating).toFixed(2)}
+                  primary={Number(dialogData.student).toFixed(2)}
                   sx={{
                     textAlign: "right",
                     paddingLeft: 2,
-                    color: item.rating < 4.2 ? "red" : "green",
+                    color: dialogData.student < 4.2 ? "red" : "green",
                   }}
                 />
               </ListItem>
-            ))}
-            <ListItem>
-              <ListItemText
-                primary={"Total Score"}
-                sx={{
-                  textAlign: "left",
-                }}
-              />
-              <ListItemText
-                primary={Number(dialogData.student).toFixed(2)}
-                sx={{
-                  textAlign: "right",
-                  paddingLeft: 2,
-                  color: dialogData.student < 4.2 ? "red" : "green",
-                }}
-              />
-            </ListItem>
-          </List>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <CustomDataGrid
-            rows={studentRatingsByClass}
-            columns={columns}
-            getRowId={(row) => row.class_id}
-            onRowClick={handleRowClick}
-          />
-        </TabPanel>
-        <Grid container xs={12} md={8} sx={{ height: "60vh" }}>
+            </List>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <CustomDataGrid
+              rows={studentRatingsByClass}
+              columns={columns}
+              getRowId={(row) => row.class_id}
+              onRowClick={handleRowClick}
+            />
+          </TabPanel>
+        </Grid>
+        <Grid container xs={12} md={6} alignContent={"center"}>
           <BarGraph ratings={value === 0 ? studentRatings : ratings} />
         </Grid>
-      </Grid>
-    </Grid>
+      </Stack>
+    </Stack>
   );
 };
 function TabPanel(props) {

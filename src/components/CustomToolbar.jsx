@@ -17,6 +17,7 @@ export const CustomToolbar = ({
   setOpen,
   handleBack,
   handleGenerateReport,
+  generateReportText,
   handleExport,
   isCategorySelected,
 }) => {
@@ -67,7 +68,7 @@ export const CustomToolbar = ({
             fontSize: "0.833rem",
           }}
         >
-          Generate Report
+          {generateReportText}
         </Button>
       )}
       {handleExport && (
@@ -80,7 +81,7 @@ export const CustomToolbar = ({
             fontSize: "0.833rem",
           }}
         >
-          Export
+          Export all data
         </Button>
       )}
 

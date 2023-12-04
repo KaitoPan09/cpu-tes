@@ -28,6 +28,7 @@ import { StudentTab } from "./studentTab";
 import { FacultyTab } from "./facultyTab";
 import { useState } from "react";
 import { SentimentTab } from "./sentimentTab";
+import { FeedBackSectionTab } from "./feedBackSectionTab";
 
 const ReportDialog = ({
   open,
@@ -106,6 +107,8 @@ const ReportDialog = ({
       dialogData?.sentiment_score !== "No comments"
     ) {
       setTabValue(newValue);
+    } else if (newValue === 3) {
+      setTabValue(newValue);
     } else window.alert("No data available");
   };
   return (
@@ -113,12 +116,12 @@ const ReportDialog = ({
       <DialogTitle>
         <Grid container spacing={2} justifyContent={"flex-start"}>
           <Grid item>
-            <Typography variant="h6" color={"text.secondary"}>
+            <Typography variant="h4" color={"text.secondary"}>
               Faculty:
             </Typography>
           </Grid>
           <Grid item>
-            <Typography variant="h6" color={"primary"}>
+            <Typography variant="h4" color={"primary"}>
               {dialogData?.faculty}
             </Typography>
           </Grid>
@@ -153,6 +156,13 @@ const ReportDialog = ({
                 evalId={evalId}
               />
             </TabPanel>
+            <TabPanel value={tabValue} index={3}>
+              <FeedBackSectionTab
+                dialogData={dialogData}
+                selectedResult={result}
+                evalId={evalId}
+              />
+            </TabPanel>
           </>
         )}
         <Divider />
@@ -168,6 +178,7 @@ const ReportDialog = ({
             <Tab label="Student Evaluation" sx={{ marginRight: 10 }} />
             <Tab label="Faculty Evaluation" sx={{ marginRight: 10 }} />
             <Tab label="Sentiment" sx={{ marginRight: 10 }} />
+            <Tab label="Feedback Section" sx={{ marginRight: 10 }} />
           </Tabs>
         </Grid>
       </DialogContent>

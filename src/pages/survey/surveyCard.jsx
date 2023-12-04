@@ -234,7 +234,7 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
             responsible use of such information. CPU will only collect, use, and
             disclose personal information with the student’s or if applicable,
             guardian’s or parent‘s knowledge and consent. For further
-            information, you may access Data Privacy Act of 2012at
+            information, you may access Data Privacy Act of 2012 at
             https://privacy.gov.ph/data-privacy-act/
           </DialogContentText>
         </DialogContent>

@@ -102,11 +102,6 @@ const View = () => {
                     faculty: row.faculty,
                     rows: row.peers,
                   });
-                  console.log({
-                    type: "Peer",
-                    faculty: row.faculty,
-                    rows: row.peers,
-                  });
                   setOpen(true);
                 }}
               >
@@ -296,6 +291,7 @@ const View = () => {
               // setOpenDialog(true);
               handleGenerateReport();
             }}
+            generateReportText={"Generate Faculty Evaluation Status Report"}
           />
         )}
       </TabPanel>
@@ -319,6 +315,7 @@ const View = () => {
               // setOpenDialog(true);
               handleGenerateReport();
             }}
+            generateReportText={"Generate Student Evaluation Status Report"}
           />
         )}
       </TabPanel>
