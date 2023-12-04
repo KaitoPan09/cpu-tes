@@ -15,9 +15,9 @@ export const SurveyType = ({ faculties, questionCategories }) => {
     <>
       {supervisor.length > 0 && (
         <Grid sx={{ mb: theme.spacing(2) }}>
-          <Divider />
+          <Divider sx={{ borderWidth: 2, borderColor : colors.grey[100] }}/>
           <Typography
-            variant="h5"
+            variant="h3"
             color={colors.yellowAccent[500]}
             fontWeight="bold"
             sx={{ mt: theme.spacing(2) }}
@@ -39,7 +39,7 @@ export const SurveyType = ({ faculties, questionCategories }) => {
       )}
 
       <Grid sx={{ mb: theme.spacing(2) }}>
-        <Divider />
+        <Divider sx={{ borderWidth: 2, borderColor : colors.grey[100] }}/>
         <Typography
           variant="h3"
           color={colors.orangeAccent[500]}
@@ -63,9 +63,9 @@ export const SurveyType = ({ faculties, questionCategories }) => {
 
       {peers.length > 0 && (
         <Grid sx={{ mb: theme.spacing(2) }}>
-          <Divider />
+          <Divider sx={{ borderWidth: 2, borderColor : colors.grey[100] }}/>
           <Typography
-            variant="h5"
+            variant="h3"
             color={colors.greenAccent[500]}
             fontWeight="bold"
             sx={{ mt: theme.spacing(2) }}

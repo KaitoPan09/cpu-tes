@@ -37,13 +37,28 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
       case "Supervisor":
         return colors.orangeAccent[200];
       case "Self":
-        return colors.yellowAccent[200];
+        return colors.blueAccent[200];
       case "Peer":
         return colors.greenAccent[200];
       default:
         return colors.darkBlue[200];
     }
   };
+  // const colorPools = {
+  //   Supervisor: [colors.orangeAccent[200], colors.redAccent[200], colors.purpleAccent[200]],
+  //   Self: [colors.yellowAccent[200], colors.yellowAccent[400], colors.yellowAccent[600]],
+  //   Peer: [colors.greenAccent[200], colors.blueAccent[200], colors.purpleAccent[200]],
+  //   Default: [colors.darkBlue[200]],
+  // };
+
+  // const colorPool = colorPools[surveyType] || colorPools.Default;
+  // const storedIndex = localStorage.getItem(`${surveyType}_colorIndex`);
+  // const colorIndex = (storedIndex ? parseInt(storedIndex, 10) : -1) + 1;
+  // const rotatedIndex = colorIndex % colorPool.length;
+  // localStorage.setItem(`${surveyType}_colorIndex`, rotatedIndex);
+
+  // const cardBackgroundColor = colorPool[rotatedIndex];
+
   const cardBackgroundImage = () => {
     switch (surveyType) {
       case "Supervisor":
@@ -64,7 +79,7 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
         sx={{
           minWidth: 340,
           maxWidth: 580,
-          backgroundColor: cardBackgroundColor(),
+          backgroundColor: cardBackgroundColor()
         }}
       >
         {/* <CardMedia
@@ -131,7 +146,7 @@ export const SurveyCard = ({ faculty, questionCategories, surveyType }) => {
                   <Typography
                     variant="h5"
                     fontWeight={700}
-                    sx={{ color: colors.yellowAccent[400] }}
+                    sx={{ color: cardBackgroundColor() }}
                   >
                     {faculty.eval_type} Evaluation
                   </Typography>
