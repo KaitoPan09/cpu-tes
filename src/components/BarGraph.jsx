@@ -6,7 +6,8 @@ import {
   dummyBarBreakdown as dataDetails,
 } from "../data/dummyData";
 
-const BarGraph = ({ isDashboard = false, reportDetails = false, ratings }) => {
+const BarGraph = ({ ratings }) => {
+  console.log(ratings);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columnColors = ["#e8c1a0", "#f47560", "#f1e15b", "#e8a838", "#61cdbb"];
@@ -100,6 +101,7 @@ const BarGraph = ({ isDashboard = false, reportDetails = false, ratings }) => {
       // data={data}
       // data={modifiedData}
       // data={isDashboard ? modifiedData : data}
+      width={600}
       data={ratings}
       theme={{
         axis: {

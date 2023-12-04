@@ -40,6 +40,7 @@ const ReportDialog = ({
   const { evalId } = useParams();
   const { loading, request } = useFetch();
   const [studentRatings, setStudentRatings] = useState([]);
+  const [studentRatingsByClass, setStudentRatingsByClass] = useState([]);
   const [facultyRatings, setFacultyRatings] = useState({});
   const [result, setResult] = useState({});
   const [selectedResult, setSelectedResult] = useState({});
@@ -50,9 +51,10 @@ const ReportDialog = ({
       );
       if (response) {
         setResult(response);
-        if (tabValue === 0 && response?.student_ratings)
+        if (tabValue === 0 && response?.student_ratings) {
           setStudentRatings(response.student_ratings);
-        else if (
+          setStudentRatingsByClass(response.student_ratings_by_class);
+        } else if (
           tabValue === 1 &&
           response?.supervisor_ratings &&
           response?.self_ratings &&
@@ -107,7 +109,7 @@ const ReportDialog = ({
     } else window.alert("No data available");
   };
   return (
-    <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="lg">
+    <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xl">
       <DialogTitle>
         <Grid container spacing={2} justifyContent={"flex-start"}>
           <Grid item>
@@ -135,7 +137,11 @@ const ReportDialog = ({
         ) : (
           <>
             <TabPanel value={tabValue} index={0}>
-              <StudentTab ratings={studentRatings} dialogData={dialogData} />
+              <StudentTab
+                studentRatings={studentRatings}
+                studentRatingsByClass={studentRatingsByClass}
+                dialogData={dialogData}
+              />
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
               <FacultyTab ratings={facultyRatings} dialogData={dialogData} />
@@ -143,7 +149,7 @@ const ReportDialog = ({
             <TabPanel value={tabValue} index={2}>
               <SentimentTab
                 dialogData={dialogData}
-                selectedResult={selectedResult}
+                selectedResult={result}
                 evalId={evalId}
               />
             </TabPanel>
@@ -205,11 +211,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box>{children}</Box>}
     </div>
   );
 }

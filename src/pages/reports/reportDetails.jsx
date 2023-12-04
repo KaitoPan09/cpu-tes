@@ -321,12 +321,11 @@ const Details = () => {
   const componentRef = useRef();
   const handleGenerateReport = useReactToPrint({
     content: () => componentRef.current,
+    documentTitle: `${college}_Evaluation-Report-Summary-${new Date().toLocaleDateString()}`,
   });
   const [loading, setLoading] = useState(false);
   const { showLoader, hideLoader } = useAppContext();
-  if (auth.role === "Admin" && college === undefined) {
-    return <Navigate to="/reports" />;
-  }
+  const [openExportDialog, setOpenExportDialog] = useState(false);
 
   const exportResults = async () => {
     // console.log({
@@ -354,7 +353,10 @@ const Details = () => {
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
-            link.setAttribute("download", "export.csv");
+            link.setAttribute(
+              "download",
+              `${college}_Evaluation-Results-${new Date().toLocaleDateString()}.xlsx`
+            );
             document.body.appendChild(link);
             link.click();
             link.remove();
@@ -381,12 +383,18 @@ const Details = () => {
     //   }
     // );
   };
+  if (auth.role === "Admin" && college === undefined) {
+    return <Navigate to="/reports" />;
+  }
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title={college}
-          subtitle={"Evaluation Summary for " + college}
+          subtitle={
+            "Evaluation Summary for " +
+            (auth.role !== "Department Head" ? college : userInfo.department)
+          }
         />
       </Box>
       <CustomDatagrid

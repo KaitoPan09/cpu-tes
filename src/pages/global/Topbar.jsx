@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Divider, IconButton, MenuList, Typography, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext } from "../../theme";
 // import InputBase from "@mui/material/InputBase";
@@ -32,7 +32,7 @@ const Topbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const { logout } = useAuth();
+  const { auth, userInfo, logout } = useAuth();
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
@@ -53,7 +53,7 @@ const Topbar = () => {
           onClick={() => toggleSidebar()}
           sx={{
             display: broken ? "block" : "none",
-            fontSize: "1.5rem"
+            fontSize: "1.5rem",
           }}
         >
           <MenuOutlinedIcon />
@@ -107,7 +107,10 @@ const Topbar = () => {
 
       {/* ICONS */}
       <Box display="flex">
-        <IconButton onClick={colorMode.toggleColorMode} sx={{ fontSize: "1.5rem" }}>
+        <IconButton
+          onClick={colorMode.toggleColorMode}
+          sx={{ fontSize: "1.5rem" }}
+        >
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />
           ) : (
@@ -143,11 +146,35 @@ const Topbar = () => {
             vertical: "top",
             horizontal: "left",
           }}
+          slotProps={{ sx: { width: 200 } }}
           open={open}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          <Box
+            sx={{
+              py: 1,
+              px: 2,
+            }}
+          >
+            <Typography variant="overline">Account</Typography>
+            <Typography color="primary" variant="body2">
+              {userInfo?.name}
+            </Typography>
+          </Box>
+          <Divider />
+          <MenuList
+            disablePadding
+            dense
+            sx={{
+              p: "8px",
+              "& > *": {
+                borderRadius: 1,
+              },
+            }}
+          >
+            <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
+            <MenuItem onClick={handleLogout}>Sign out</MenuItem>
+          </MenuList>
         </Menu>
       </Box>
     </Box>

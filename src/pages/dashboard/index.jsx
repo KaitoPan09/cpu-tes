@@ -36,9 +36,9 @@ const Dashboard = () => {
         response = await request(
           `/api/evaluations/students/dashboard?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
         );
-      } else if (auth.role === "Teacher") {
+      } else if (auth.role !== "Admin") {
         response = await request(
-          `/api/evaluations/faculty/dashboard?faculty_id=${userInfo.faculty_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}&dept_id=${userInfo.dept_id}`
+          `/api/evaluations/faculty/dashboard?role=${auth.role}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}&dept_id=${userInfo.dept_id}`
         );
       }
       if (response) setEvalInfo(response);
@@ -164,7 +164,7 @@ const Dashboard = () => {
             </Paper>
           </Grid>
         )}
-        {(auth.role !== "Admin" && auth.role !== "Secretary") && (
+        {auth.role !== "Admin" && auth.role !== "Secretary" && (
           <Grid item xs={12}>
             <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
               <Grid container spacing={2} p={2}>

@@ -11,6 +11,8 @@ import {
   Tooltip,
   Typography,
   IconButton,
+  Grid,
+  CircularProgress,
 } from "@mui/material";
 import {
   DataGrid,
@@ -62,6 +64,11 @@ const View = () => {
     {
       field: "school_id",
       headerName: "School ID",
+      width: 120,
+    },
+    {
+      field: "role",
+      headerName: "Role",
       width: 120,
     },
     {
@@ -190,22 +197,20 @@ const View = () => {
       headerName: "Status",
       width: 120,
       renderCell: ({ row }) => {
-        return [
-          <Tooltip title="Click to view details">
-            <Typography
-            // onClick={() => {
-            //   setSelectedEval({
-            //     type: "Student",
-            //     faculty: row.faculty,
-            //     rows: row.classes,
-            //   });
-            //   setOpen(true);
-            // }}
-            >
-              {row.completed} / {row.total}
-            </Typography>
-          </Tooltip>,
-        ];
+        return (
+          <Typography
+          // onClick={() => {
+          //   setSelectedEval({
+          //     type: "Student",
+          //     faculty: row.faculty,
+          //     rows: row.classes,
+          //   });
+          //   setOpen(true);
+          // }}
+          >
+            {row.completed} / {row.total}
+          </Typography>
+        );
       },
       // cellClassName: (params) =>
       //   params.value === "Completed" ? "green" : "red",
@@ -216,9 +221,13 @@ const View = () => {
   const handleChange = async (event, newValue) => {
     setValue(newValue);
     const response = await request(
-      `/api/evaluations/${collegeId}?role=${auth?.role}&type=${
-        newValue === 0 ? "Faculty" : "Students"
-      }`
+      auth?.role === "Department Head"
+        ? `/api/evaluations/${collegeId}?dept_id=${userInfo.dept_id}&type=${
+            newValue === 0 ? "Faculty" : "Students"
+          }`
+        : `/api/evaluations/${collegeId}?type=${
+            newValue === 0 ? "Faculty" : "Students"
+          }`
     );
     if (response) {
       if (value === "Faculty") {
@@ -231,6 +240,9 @@ const View = () => {
   const componentRef = useRef();
   const handleGenerateReport = useReactToPrint({
     content: () => componentRef.current,
+    documentTitle: `${
+      auth.role === "Dean" ? userInfo.college : userInfo.department
+    }_Evaluation-Status-Report-${new Date().toLocaleDateString()}`,
   });
   // const handleGenerateReport = () => {
   //   generatePdf(componentRef);
@@ -241,7 +253,11 @@ const View = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title={
-            auth?.role !== "Admin" ? userInfo.college : evaluation?.college
+            auth?.role !== "Admin"
+              ? auth?.role === "Dean"
+                ? userInfo.college
+                : userInfo.department
+              : evaluation?.college
           }
           subtitle={
             value === 0
@@ -262,28 +278,49 @@ const View = () => {
         <Tab label="Students" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <CustomDataGrid
-          getRowId={(row) => row.school_id}
-          rows={facultyRows}
-          columns={facultyColumns}
-          loading={loading}
-          handleGenerateReport={() => {
-            // setOpenDialog(true);
-            handleGenerateReport();
-          }}
-        />
+        {loading ? (
+          <Grid
+            container
+            justifyContent={"center"}
+            alignContent={"center"}
+            sx={{ height: "60vh" }}
+          >
+            <CircularProgress />
+          </Grid>
+        ) : (
+          <CustomDataGrid
+            getRowId={(row) => row.school_id}
+            rows={facultyRows}
+            columns={facultyColumns}
+            handleGenerateReport={() => {
+              // setOpenDialog(true);
+              handleGenerateReport();
+            }}
+          />
+        )}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <CustomDataGrid
-          getRowId={(row) => row.school_id}
-          rows={studentRows}
-          columns={studentColumns}
-          loading={loading}
-          handleGenerateReport={() => {
-            // setOpenDialog(true);
-            handleGenerateReport();
-          }}
-        />
+        {loading ? (
+          <Grid
+            container
+            justifyContent={"center"}
+            alignContent={"center"}
+            sx={{ height: "60vh" }}
+          >
+            <CircularProgress />
+          </Grid>
+        ) : (
+          <CustomDataGrid
+            getRowId={(row) => row.school_id}
+            rows={studentRows}
+            columns={studentColumns ? studentColumns : []}
+            // loading={loading}
+            handleGenerateReport={() => {
+              // setOpenDialog(true);
+              handleGenerateReport();
+            }}
+          />
+        )}
       </TabPanel>
 
       {selectedEval && (
@@ -309,6 +346,7 @@ const View = () => {
             college={
               auth?.role !== "Admin" ? userInfo.college : evaluation?.college
             }
+            department={auth?.role === "Dean" ? null : userInfo.department}
             title="Faculty Evaluation Status Report"
             ref={componentRef}
           />
@@ -319,6 +357,7 @@ const View = () => {
             college={
               auth?.role !== "Admin" ? userInfo.college : evaluation?.college
             }
+            department={auth?.role === "Dean" ? null : userInfo.department}
             title="Student Evaluation Status Report"
             ref={componentRef}
           />

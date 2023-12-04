@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -23,7 +24,7 @@ const Survey = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { auth, userInfo } = useAuth();
-  const { request } = useFetch();
+  const { request, loading } = useFetch();
   const [faculties, setFaculties] = React.useState([]);
   const [questionCategories, setQuestionCategories] = React.useState([]);
   useEffect(() => {
@@ -33,11 +34,7 @@ const Survey = () => {
         faculties = await request(
           `/api/evaluations/students/evaluate?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
         );
-      } else if (auth.role === "Admin" || auth.role === "Dean") {
-        faculties = await request(
-          `/api/evaluations/dept_heads/evaluate?college_id=${userInfo.college_id}`
-        );
-      } else {
+      } else if (auth.role !== "Admin") {
         faculties = await request(
           `/api/evaluations/faculties/evaluate?user_id=${userInfo.user_id}&role=${auth.role}&college_id=${userInfo.college_id}&dept_id=${userInfo.dept_id}`
         );
@@ -49,13 +46,22 @@ const Survey = () => {
       setQuestionCategories(questionCategories);
     })();
   }, []);
-  console.log(faculties)
+
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="SURVEYS" subtitle="Available Surveys" />
       </Box>
-      {auth.role === "Student" ? (
+      {loading ? (
+        <Grid
+          container
+          justifyContent={"center"}
+          alignContent={"center"}
+          height={"60vh"}
+        >
+          <CircularProgress />
+        </Grid>
+      ) : auth.role === "Student" ? (
         faculties &&
         questionCategories && (
           <Grid container spacing={2} display="flex">

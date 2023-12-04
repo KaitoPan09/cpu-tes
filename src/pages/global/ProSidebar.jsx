@@ -45,7 +45,7 @@ const Item = ({ title, to, icon }) => {
       icon={icon}
       routerLink={<Link to={to} />}
     >
-      <Typography>{title}</Typography>
+      <Typography sx={{ fontSize: "1.25rem" }}>{title}</Typography>
     </MenuItem>
   );
 };
@@ -68,73 +68,73 @@ const ProSidebar = () => {
       ],
       name: "Dashboard",
       path: "/",
-      icon: <HomeOutlinedIcon />,
+      icon: <HomeOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Admin"],
       name: "Academic Year",
       path: "/acad_years",
-      icon: <SchoolOutlinedIcon />,
+      icon: <SchoolOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Admin"],
       name: "Users",
       path: "/users",
-      icon: <PeopleOutlineOutlinedIcon />,
+      icon: <PeopleOutlineOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Admin"],
       name: "Colleges",
       path: "/colleges",
-      icon: <CorporateFareOutlinedIcon />,
+      icon: <CorporateFareOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Dean"],
       name: "College",
       path: `/colleges/${userInfo.college_id}/manage`,
-      icon: <CorporateFareOutlinedIcon />,
+      icon: <CorporateFareOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Dean"],
       name: "Departments",
       path: `/colleges/${userInfo.college_id}/departments`,
-      icon: <CorporateFareOutlinedIcon />,
+      icon: <CorporateFareOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Department Head"],
       name: "Department",
       path: `/departments/${userInfo.dept_id}/manage`,
-      icon: <CorporateFareOutlinedIcon />,
+      icon: <CorporateFareOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Admin"],
       name: "Questionnaire",
       path: "/questionnaire",
-      icon: <QuizOutlinedIcon />,
+      icon: <QuizOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Admin"],
       name: "Evaluations",
       path: "/evaluations",
-      icon: <PollOutlinedIcon />,
+      icon: <PollOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Dean", "Department Head", "Secretary"],
       name: "Evaluation",
       path: `/evaluations/${userInfo.college_id}/view`,
-      icon: <PollOutlinedIcon />,
+      icon: <PollOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Admin", "Dean", "Department Head", "Teacher", "Student"],
       name: "Survey",
       path: "/survey",
-      icon: <BallotOutlinedIcon />,
+      icon: <BallotOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     {
       access: ["Admin", "Dean", "Department Head", "Secretary"],
       name: "Reports",
       path: "/reports",
-      icon: <TimelineOutlinedIcon />,
+      icon: <TimelineOutlinedIcon sx={{ fontSize: 25 }} />,
     },
     // {
     //   access: ["Dean", "Department Head"],
@@ -146,7 +146,7 @@ const ProSidebar = () => {
       access: ["Admin", "Dean", "Department Head", "Secretary"],
       name: "FAQ",
       path: `/faq`,
-      icon: <HelpOutlinedIcon />,
+      icon: <HelpOutlinedIcon sx={{ fontSize: 25 }} />,
     },
   ];
   return (
@@ -278,13 +278,14 @@ const ProSidebar = () => {
                 <Item
                   key={sideBar.name}
                   title={sideBar.name}
-                  to={
-                    auth.role === "Department Head"
-                      ? sideBar.name === "Department"
-                        ? `/colleges/${userInfo.dept_id}` + sideBar.path
-                        : sideBar.path
-                      : sideBar.path
-                  }
+                  // to={
+                  //   auth.role === "Department Head"
+                  //     ? sideBar.name === "Department"
+                  //       ? `/colleges/${userInfo.dept_id}` + sideBar.path
+                  //       : sideBar.path
+                  //     : sideBar.path
+                  // }
+                  to={sideBar.path}
                   icon={sideBar.icon}
                 />
               ) : null

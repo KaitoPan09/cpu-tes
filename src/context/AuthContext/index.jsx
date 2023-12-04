@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) => {
     return response;
   };
   const logout = async () => {
-    const response = await fetch(`api/auth/logout`, {
+    const response = await fetch(`/api/auth/logout`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

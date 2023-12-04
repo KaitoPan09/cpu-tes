@@ -88,7 +88,7 @@ const Reports = () => {
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="REPORTS" subtitle="Evaluation Result Summary" />
+        <Header title="REPORTS" subtitle="List of all evaluations" />
       </Box>
       <CustomDatagrid rows={rows} columns={columns} />
     </Box>

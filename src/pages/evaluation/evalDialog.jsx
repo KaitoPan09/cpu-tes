@@ -57,22 +57,27 @@ const colPeerEval = [
   },
 ];
 export const EvalDialog = ({ open, setOpen, selectedEval }) => {
-  const [selectedClass, setSelectedClass] = useState({});
-  const [classes, setClasses] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [faculties, setFaculties] = useState([]);
+  const [selectedClass, setSelectedClass] = useState(
+    selectedEval.type === "Student" ? selectedEval.rows[0] : []
+  );
+  const [classes, setClasses] = useState(
+    selectedEval.type === "Student" ? selectedEval.rows : []
+  );
+  const [students, setStudents] = useState(
+    selectedEval.type === "Student" ? selectedEval.rows[0].students : []
+  );
+  const [faculties, setFaculties] = useState(
+    selectedEval.type === "Faculty" ? selectedEval.rows : []
+  );
   const [rows, setRows] = useState([]);
   const [column, setColumn] = useState([]);
   useEffect(() => {
     if (selectedEval.type === "Student") {
       setClasses(selectedEval.rows);
       setSelectedClass(selectedEval.rows[0]);
-      setRows(selectedEval.rows[0].students);
       setColumn(colStudEval);
-      console.log(selectedEval);
     } else {
       setFaculties(selectedEval.rows);
-      setRows(selectedEval.rows);
       setColumn(colPeerEval);
     }
   }, [selectedEval]);
@@ -141,77 +146,85 @@ export const EvalDialog = ({ open, setOpen, selectedEval }) => {
               </FormControl>
             </Grid>
           )}
-          {selectedEval.type === "Student" && students && (<Grid item xs={12} sm={6}>
-            <FormControl sx={{ mt: 2, ml: 2 }}>
-              <FormLabel>Status</FormLabel>
-              <RadioGroup
-                row
-                value={status}
-                onChange={(e) => {
-                  let status = e.target.value;
-                  setStatus(status);
-                  if (status === "Completed") {
-                    if (selectedEval.type === "Student") {
-                      const filteredStudents = selectedClass.students.filter(
-                        (student) => student.eval === true
-                      );
-                      setStudents(filteredStudents);
+          {selectedEval.type === "Student" && students && (
+            <Grid item xs={12} sm={6}>
+              <FormControl sx={{ mt: 2, ml: 2 }}>
+                <FormLabel>Status</FormLabel>
+                <RadioGroup
+                  row
+                  value={status}
+                  onChange={(e) => {
+                    let status = e.target.value;
+                    setStatus(status);
+                    if (status === "Completed") {
+                      if (selectedEval.type === "Student") {
+                        const filteredStudents = selectedClass.students.filter(
+                          (student) => student.eval === true
+                        );
+                        setStudents(filteredStudents);
+                      } else {
+                        const filteredFaculties = faculties.filter(
+                          (faculty) => faculty.eval === true
+                        );
+                        setRows(filteredFaculties);
+                      }
+                    }
+                    if (status === "Pending") {
+                      if (selectedEval.type === "Student") {
+                        const filteredStudents = selectedClass.students.filter(
+                          (student) => student.eval === false
+                        );
+                        setStudents(filteredStudents);
+                      }
                     } else {
                       const filteredFaculties = faculties.filter(
-                        (faculty) => faculty.eval === true
+                        (faculty) => faculty.eval === false
                       );
                       setRows(filteredFaculties);
                     }
-                  }
-                  if (status === "Pending") {
-                    if (selectedEval.type === "Student") {
-                      const filteredStudents = selectedClass.students.filter(
-                        (student) => student.eval === false
+                    if (status === "All") {
+                      if (selectedEval.type === "Student") {
+                        const filteredStudents = selectedClass.students.filter(
+                          (student) =>
+                            student.eval === true || student.eval === false
+                        );
+                        setStudents(filteredStudents);
+                      }
+                    } else {
+                      const filteredFaculties = faculties.filter(
+                        (faculty) =>
+                          faculty.eval === false || faculty.eval === true
                       );
-                      setStudents(filteredStudents);
+                      setRows(filteredFaculties);
                     }
-                  } else {
-                    const filteredFaculties = faculties.filter(
-                      (faculty) => faculty.eval === false
-                    );
-                    setRows(filteredFaculties);
-                  }
-                  if (status === "All") {
-                    if (selectedEval.type === "Student") {
-                      const filteredStudents = selectedClass.students.filter(
-                        (student) =>
-                          student.eval === true || student.eval === false
-                      );
-                      setStudents(filteredStudents);
-                    }
-                  } else {
-                    const filteredFaculties = faculties.filter(
-                      (faculty) =>
-                        faculty.eval === false || faculty.eval === true
-                    );
-                    setRows(filteredFaculties);
-                  }
-                }}
-              >
-                <FormControlLabel value="All" control={<Radio />} label="All" />
-                <FormControlLabel
-                  value="Completed"
-                  control={<Radio />}
-                  label="Completed"
-                />
-                <FormControlLabel
-                  value="Pending"
-                  control={<Radio />}
-                  label="Pending"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Grid>)}
+                  }}
+                >
+                  <FormControlLabel
+                    value="All"
+                    control={<Radio />}
+                    label="All"
+                  />
+                  <FormControlLabel
+                    value="Completed"
+                    control={<Radio />}
+                    label="Completed"
+                  />
+                  <FormControlLabel
+                    value="Pending"
+                    control={<Radio />}
+                    label="Pending"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+          )}
           <Grid item xs={12}>
             <CustomDataGrid
               getRowId={(row) => row.school_id}
               rows={selectedEval.type === "Student" ? students : faculties}
-              columns={selectedEval.type === "Student" ? colStudEval : colPeerEval}
+              columns={
+                selectedEval.type === "Student" ? colStudEval : colPeerEval
+              }
               getCellClassName={(params) => {
                 if (params.field === "eval") {
                   return params.value === "Completed" ? "green" : "red";

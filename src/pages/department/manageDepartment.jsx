@@ -19,10 +19,9 @@ import { Classes } from "./classes";
 import { Navigate } from "react-router-dom";
 const ManageDepartment = () => {
   const location = useLocation();
-  const department = location?.state;
-  console.log(location);
   const dept_id = useParams();
-  const { auth } = useAuth();
+  const { auth, userInfo } = useAuth();
+  const department = location?.state ? location.state.department : userInfo.department;
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -33,14 +32,14 @@ const ManageDepartment = () => {
   const [faculties, setFaculties] = useState([]);
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState([]);
-  if (department === null || department === undefined) {
-    return <Navigate to="/departments" replace />;
-  }
+  // if (department === null || department === undefined) {
+  //   return <Navigate to="/departments" replace />;
+  // }
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
-          title={department.department}
+          title={department}
           //subtitle={department.department}
         />
       </Box>
