@@ -10,6 +10,11 @@ import {
   Typography,
   Tooltip,
   IconButton,
+  Alert,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
 } from "@mui/material";
 import {
   DataGrid,
@@ -92,9 +97,11 @@ const Details = () => {
   const [open, setOpen] = useState(false);
   const [dialogData, setDialogData] = React.useState(null);
   const [tabValue, setTabValue] = React.useState(0);
+  const [facultyTabValue, setFacultyTabValue] = useState("");
   const [selectedResult, setSelectResult] = useState(null);
-  const handleOpenDialog = (rowData, tabValue) => {
+  const handleOpenDialog = (rowData, tabValue, facultyTabValue) => {
     setTabValue(tabValue);
+    setFacultyTabValue(facultyTabValue);
     setDialogData(rowData);
     setOpen(true);
   };
@@ -127,7 +134,7 @@ const Details = () => {
           return "Pending";
         } else {
           return [
-            <Tooltip title="Click to view student details">
+            <Tooltip title="Click to view details">
               <Button
                 variant="text"
                 tabIndex={params.hasFocus ? 0 : -1}
@@ -167,6 +174,8 @@ const Details = () => {
       cellClassName: (params) => {
         if (params.value <= 70) {
           return "red";
+        } else {
+          return "green";
         }
       },
     },
@@ -183,12 +192,12 @@ const Details = () => {
           return "Pending";
         } else {
           return [
-            <Tooltip title="Click to view student details">
+            <Tooltip title="Click to view details">
               <Button
                 variant="text"
                 tabIndex={params.hasFocus ? 0 : -1}
                 onClick={() => {
-                  handleOpenDialog(params.row, 1);
+                  handleOpenDialog(params.row, 1, "supervisor");
                 }}
                 color={params.value >= 4.2 ? "success" : "error"}
                 endIcon={
@@ -220,12 +229,12 @@ const Details = () => {
           return <Typography variant="body2">Pending</Typography>;
         } else {
           return [
-            <Tooltip title="Click to view student details">
+            <Tooltip title="Click to view details">
               <Button
                 variant="text"
                 tabIndex={params.hasFocus ? 0 : -1}
                 onClick={() => {
-                  handleOpenDialog(params.row, 1);
+                  handleOpenDialog(params.row, 1, "peer");
                 }}
                 color={params.value >= 4.2 ? "success" : "error"}
                 endIcon={
@@ -257,12 +266,12 @@ const Details = () => {
           return "Pending";
         } else {
           return [
-            <Tooltip title="Click to view student details">
+            <Tooltip title="Click to view details">
               <Button
                 variant="text"
                 tabIndex={params.hasFocus ? 0 : -1}
                 onClick={() => {
-                  handleOpenDialog(params.row, 1);
+                  handleOpenDialog(params.row, 1, "self");
                 }}
                 color={params.value >= 4.2 ? "success" : "error"}
                 endIcon={
@@ -294,7 +303,7 @@ const Details = () => {
           return "No comments";
         } else {
           return [
-            <Tooltip title="Click to view student details">
+            <Tooltip title="Click to view details">
               <Button
                 variant="text"
                 tabIndex={params.hasFocus ? 0 : -1}
@@ -362,27 +371,33 @@ const Details = () => {
   const [loading, setLoading] = useState(false);
   const { showLoader, hideLoader } = useAppContext();
   const [openExportDialog, setOpenExportDialog] = useState(false);
-
+  const handleExport = () => {
+    setOpenExportDialog(true);
+  };
   const exportResults = async () => {
     // console.log({
     //   filter: filterValue,
     //   faculty_id: selectedFaculty,
     //   include_question_ratings: checked,
     // });
+    setOpenExportDialog(false);
     setLoading(true);
     showLoader();
-    await fetch(`/api/utils/evaluation/${evalId}/export_evaluation_results`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-csrf-token": Cookies.get("csrf_access_token"),
-      },
-      body: JSON.stringify({
-        // faculty_id: selectedFaculty,
-        include_question_ratings: true,
-        eval_type: "Student",
-      }),
-    })
+    await fetch(
+      `/api/utils/evaluation/${evalId}/export_evaluation_results?eval_type=${evalType}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-csrf-token": Cookies.get("csrf_access_token"),
+        },
+        body: JSON.stringify({
+          // faculty_id: selectedFaculty,
+          include_question_ratings: true,
+          eval_type: "Student",
+        }),
+      }
+    )
       .then((response) => {
         if (response.ok) {
           response.blob().then((blob) => {
@@ -391,7 +406,7 @@ const Details = () => {
             link.href = url;
             link.setAttribute(
               "download",
-              `${college}_Evaluation-Results-${new Date().toLocaleDateString()}.xlsx`
+              `${college}_Evaluation-Results-${evalType}-${new Date().toLocaleDateString()}.xlsx`
             );
             document.body.appendChild(link);
             link.click();
@@ -419,6 +434,7 @@ const Details = () => {
     //   }
     // );
   };
+  const [evalType, setEvalType] = useState("Student");
   if (auth.role === "Admin" && college === undefined) {
     return <Navigate to="/reports" />;
   }
@@ -439,9 +455,9 @@ const Details = () => {
         columnVisibilityModel={{
           student_turnout: true,
         }}
-        handleGenerateReport={() => handleGenerateReport()}
+        handleGenerateReport={handleGenerateReport}
         generateReportText={"Generate Evaluation Summary Report"}
-        handleExport={() => exportResults()}
+        handleExport={handleExport}
       />
       {open && (
         <ReportDialog
@@ -450,6 +466,8 @@ const Details = () => {
           dialogData={dialogData}
           tabValue={tabValue}
           setTabValue={setTabValue}
+          facultyTabValue={facultyTabValue}
+          setFacultyTabValue={setFacultyTabValue}
         />
       )}
       <div style={{ display: "none" }}>
@@ -463,6 +481,45 @@ const Details = () => {
           ref={componentRef}
         />
       </div>
+      <Dialog
+        open={openExportDialog}
+        onClose={() => setOpenExportDialog(false)}
+      >
+        <DialogTitle>
+          <Typography variant="h4">Export Evaluation Results </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="h5">
+            This will export the evaluation results of all faculty members in{" "}
+            {college} under the college
+          </Typography>
+          <Alert severity="info" sx={{ my: 2 }}>
+            Department Heads can only export the evaluation results of faculty
+            members from their own department.
+          </Alert>
+          <FormControl fullWidth required>
+            <InputLabel>Select type of evaluation results</InputLabel>
+            <Select
+              label={"Select type of evaluation results"}
+              value={evalType}
+              onChange={(e) => {
+                setEvalType(e.target.value);
+              }}
+            >
+              <MenuItem value={"Student"}>Student</MenuItem>
+              <MenuItem value={"Faculty"}>
+                Faculty (supervisor, peer, and self)
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenExportDialog(false)}>Cancel</Button>
+          <Button onClick={exportResults} disabled={loading}>
+            Export
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

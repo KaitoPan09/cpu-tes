@@ -42,7 +42,17 @@ const ManageCollege = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title={college.college}
-          //subtitle={department.department}
+          subtitle={
+            value === 0
+              ? "List of faculties under the college"
+              : value === 1
+              ? "List of students under the college"
+              : value === 2
+              ? "List of courses under the college"
+              : value === 3
+              ? "List of subjects under the college"
+              : "List of classes under the college"
+          }
         />
       </Box>
       <Tabs

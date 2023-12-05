@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Box,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -102,6 +103,7 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
   const [value, setValue] = useState("all");
   const [disabled, setDisabled] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
+  console.log(selectedResult);
   const handleChange = (event) => {
     setChecked(false);
     setColumns(col);
@@ -187,7 +189,7 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleSwitchChange = async (event) => {
-    setLoading(true)
+    setLoading(true);
     let wordcloud = null;
     if (event.target.checked) {
       if (value === "all") {
@@ -203,9 +205,17 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
           return;
         }
       }
+    } else {
+      if (value === "all") {
+        setRows(selectedResult?.overall.comments);
+      } else {
+        setRows(selectedClass.comments);
+      }
+
+      setColumns(col);
     }
     setChecked(!checked);
-    setLoading(false)
+    setLoading(false);
   };
   return (
     <Grid container spacing={2} direction="column">
@@ -298,13 +308,42 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
           ) : null}
         </Grid>
       </Grid>
-      <Grid item>
-        <Grid container direction="row" spacing={2} minHeight="60vh">
-          <Grid item xs={checked ? 4 : 12} md={checked ? 6 : 12}>
-            <CustomDataGrid rows={rows ? rows : []} columns={columns} />
-          </Grid>
-
-          {!checked ? (
+      {loading ? (
+        <Grid
+          container
+          justifyContent={"center"}
+          alignContent={"center"}
+          sx={{ height: "60vh" }}
+        >
+          <CircularProgress />
+        </Grid>
+      ) : (
+        <Grid item>
+          <Grid container direction="row" spacing={2} minHeight="60vh">
+            <Grid item xs={checked ? 4 : 12} md={checked ? 6 : 12}>
+              <CustomDataGrid rows={rows ? rows : []} columns={columns} />
+            </Grid>
+            {checked ? (
+              <Grid
+                item
+                xs={8}
+                md={6}
+                container
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Box
+                  component="img"
+                  sx={{
+                    maxHeight: "60vh",
+                    width: "100%",
+                  }}
+                  alt="WordCloud"
+                  src={image}
+                />
+              </Grid>
+            ) : null}
+            {/* {!checked ? (
             <></>
           ) : //   <ResponsiveContainer width="100%" height="100%">
           //     <BarChart
@@ -328,7 +367,14 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
           //     </BarChart>
           //   </ResponsiveContainer>
           loading ? (
-            <Loading />
+            <Grid
+              container
+              justifyContent={"center"}
+              alignContent={"center"}
+              sx={{ height: "50%" }}
+            >
+              <CircularProgress />
+            </Grid>
           ) : (
             <Grid
               item
@@ -348,9 +394,9 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
                 src={image}
               />
             </Grid>
-          )}
+          )} */}
 
-          {/* <Grid container direction="row" spacing={2} minHeight="60vh">
+            {/* <Grid container direction="row" spacing={2} minHeight="60vh">
           <Grid item xs={8} md={6}>
             <Grid
               component={Paper}
@@ -438,8 +484,9 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
             )}
           </Grid>
         </Grid> */}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Grid>
   );
 };

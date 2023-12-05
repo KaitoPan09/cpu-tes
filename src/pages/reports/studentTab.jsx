@@ -18,6 +18,7 @@ export const StudentTab = ({
   studentRatings,
   studentRatingsByClass,
   dialogData,
+  open,
 }) => {
   const columnColors = ["#e8c1a0", "#f47560", "#f1e15b", "#e8a838", "#61cdbb"];
   const [ratings, setRatings] = useState([]);
@@ -113,7 +114,9 @@ export const StudentTab = ({
           </TabPanel>
         </Grid>
         <Grid container xs={12} md={6} alignContent={"center"}>
-          <BarGraph ratings={value === 0 ? studentRatings : ratings} />
+          {open && (
+            <BarGraph ratings={value === 0 ? studentRatings : ratings} />
+          )}
         </Grid>
       </Stack>
     </Stack>

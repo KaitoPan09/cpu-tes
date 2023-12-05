@@ -4,6 +4,7 @@ import CustomDataGrid from "../../components/CustomDatagrid";
 import {
   Alert,
   FormControlLabel,
+  Grid,
   Radio,
   RadioGroup,
   Stack,
@@ -76,41 +77,55 @@ export const FeedBackSectionTab = ({ dialogData, selectedResult, evalId }) => {
   return (
     <Stack spacing={2}>
       <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-        Feedback Section
+        Student Feedback Section
       </Typography>
-
-      <Alert
-        icon={<ThumbUp fontSize="inherit" />}
-        severity="success"
-        sx={{ fontSize: "1rem", maxWidth: "sm" }}
-        variant="outlined"
+      <Grid
+        container
+        spacing={2}
+        justifyContent={"center"}
+        alignItems={"center"}
       >
-        {yes.length +
-          " student/s want to be taught this teacher again in another course or subject"}
-      </Alert>
-      <Alert
-        icon={<ThumbDown fontSize="inherit" />}
-        severity="error"
-        sx={{ fontSize: "1rem", maxWidth: "sm" }}
-        variant="outlined"
-      >
-        {no.length +
-          " student/s do not want to be taught this teacher again in another course or subject"}
-      </Alert>
-      <RadioGroup
-        row
-        value={value}
-        onChange={handleChange}
-        sx={{ fontSize: "1.25rem" }}
-      >
-        <FormControlLabel
-          value="0"
-          control={<Radio />}
-          label="Best Practices"
-        />
-        <FormControlLabel value="1" control={<Radio />} label="Bad Practices" />
-      </RadioGroup>
-      <CustomDataGrid rows={rows} columns={columns} />
+        <Grid item xs={12} md={8}>
+          <RadioGroup
+            row
+            value={value}
+            onChange={handleChange}
+            sx={{ fontSize: "1.25rem" }}
+          >
+            <FormControlLabel
+              value="0"
+              control={<Radio />}
+              label="Best Practices"
+            />
+            <FormControlLabel
+              value="1"
+              control={<Radio />}
+              label="Bad Practices"
+            />
+          </RadioGroup>
+          <CustomDataGrid rows={rows} columns={columns} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Alert
+            icon={<ThumbUp fontSize="inherit" />}
+            severity="success"
+            sx={{ fontSize: "1rem", marginBottom: 2, maxWidth: "sm" }}
+            variant="outlined"
+          >
+            {yes.length +
+              " student/s want to be taught this teacher again in another course or subject"}
+          </Alert>
+          <Alert
+            icon={<ThumbDown fontSize="inherit" />}
+            severity="error"
+            sx={{ fontSize: "1rem", maxWidth: "sm" }}
+            variant="outlined"
+          >
+            {no.length +
+              " student/s do not want to be taught this teacher again in another course or subject"}
+          </Alert>
+        </Grid>
+      </Grid>
     </Stack>
   );
 };

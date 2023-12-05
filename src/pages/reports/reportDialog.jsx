@@ -37,6 +37,8 @@ const ReportDialog = ({
   dialogData,
   tabValue,
   setTabValue,
+  facultyTabValue,
+  setFacultyTabValue,
 }) => {
   const { evalId } = useParams();
   const { loading, request } = useFetch();
@@ -52,55 +54,52 @@ const ReportDialog = ({
       );
       if (response) {
         setResult(response);
-        if (tabValue === 0 && response?.student_ratings) {
-          setStudentRatings(response.student_ratings);
-          setStudentRatingsByClass(response.student_ratings_by_class);
-        } else if (
-          tabValue === 1 &&
-          response?.supervisor_ratings &&
-          response?.self_ratings &&
-          response?.peer_ratings
-        ) {
-          setFacultyRatings({
-            supervisor: response.supervisor_ratings,
-            self: response.self_ratings,
-            peer: response.peer_ratings,
-          });
-        } else if (
-          tabValue === 2 &&
-          response?.sentiment_score !== "No comments"
-        )
-          setSelectedResult({
-            faculty: response.faculty,
-            faculty_id: response.faculty_id,
-            // eval_type: eval_type,
-            // ratings: ratings,
-            // score: score,
-            overall: response.overall,
-            separated: response.separated,
-            sentiment:
-              response.sentiment_score >= 0.5 ? "Positive" : "Negative",
-            // evaluation_id: evaluation.id,
-          });
+        setStudentRatings(response.student_ratings);
+        setStudentRatingsByClass(response.student_ratings_by_class);
+        setFacultyRatings({
+          supervisor: response.sup_ratings,
+          supervisor_score: response.sup_score,
+          self: response.self_ratings,
+          self_score: response.self_score,
+          peer: response.peer_ratings,
+          peer_score: response.peer_score,
+        });
+        setSelectedResult({
+          faculty: response.faculty,
+          faculty_id: response.faculty_id,
+          // eval_type: eval_type,
+          // ratings: ratings,
+          // score: score,
+          overall: response.overall,
+          separated: response.separated,
+          sentiment: response.sentiment_score >= 0.5 ? "Positive" : "Negative",
+          // evaluation_id: evaluation.id,
+        });
       }
     })();
   }, []);
 
   const handleChangeTab = (event, newValue) => {
     if (newValue === 0 && result?.student_ratings?.length > 0) {
-      setStudentRatings(result.student_ratings);
       setTabValue(newValue);
     } else if (
-      newValue === 1 &&
-      result?.supervisor_ratings?.length > 0 &&
-      result?.self_ratings?.length > 0 &&
-      result?.peer_ratings?.length > 0
+      newValue === 1
+      // result?.supervisor_ratings?.length > 0 &&
+      // result?.self_ratings?.length > 0 &&
+      // result?.peer_ratings?.length > 0
     ) {
-      setFacultyRatings({
-        supervisor: result.supervisor_ratings,
-        self: result.self_ratings,
-        peer: result.peer_ratings,
-      });
+      if (facultyTabValue === "supervisor" && result?.supervisor?.length <= 0) {
+        window.alert("No data available");
+        return;
+      }
+      if (facultyTabValue === "self" && result?.self?.length <= 0) {
+        window.alert("No data available");
+        return;
+      }
+      if (facultyTabValue === "peer" && result?.peer?.length <= 0) {
+        window.alert("No data available");
+        return;
+      }
       setTabValue(newValue);
     } else if (
       newValue === 2 &&
@@ -112,7 +111,7 @@ const ReportDialog = ({
     } else window.alert("No data available");
   };
   return (
-    <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="xl">
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xl">
       <DialogTitle>
         <Grid container spacing={2} justifyContent={"flex-start"}>
           <Grid item>
@@ -144,10 +143,16 @@ const ReportDialog = ({
                 studentRatings={studentRatings}
                 studentRatingsByClass={studentRatingsByClass}
                 dialogData={dialogData}
+                open={open}
               />
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
-              <FacultyTab ratings={facultyRatings} dialogData={dialogData} />
+              <FacultyTab
+                ratings={facultyRatings}
+                dialogData={dialogData}
+                open={open}
+                facultyTabValue={facultyTabValue}
+              />
             </TabPanel>
             <TabPanel value={tabValue} index={2}>
               <SentimentTab
