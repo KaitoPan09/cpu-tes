@@ -5,79 +5,110 @@ import {
   List,
   ListItem,
   ListItemText,
+  Stack,
   Tab,
   Tabs,
 } from "@mui/material";
 import BarGraph from "../../components/BarGraph";
-export const FacultyTab = ({ ratings, dialogData }) => {
+import { useState } from "react";
+import { TabPanel } from "@mui/lab";
+export const FacultyTab = ({ ratings, dialogData, open, facultyTabValue }) => {
   const columnColors = ["#e8c1a0", "#f47560", "#f1e15b", "#e8a838", "#61cdbb"];
+  const [tabValue, setTabValue] = useState(
+    facultyTabValue === "supervisor" ? 0 : facultyTabValue === "peer" ? 1 : 2
+  );
+  const [facultyRatings, setFacultyRatings] = useState(
+    facultyTabValue === "supervisor"
+      ? ratings.supervisor
+      : facultyTabValue === "peer"
+      ? ratings.peer
+      : ratings.self
+  );
+  const [facultyScore, setFacultyScore] = useState(
+    facultyTabValue === "supervisor"
+      ? ratings.sup_score
+      : facultyTabValue === "peer"
+      ? ratings.peer_score
+      : ratings.self_score
+  );
+  const handleChangeTab = (event, newValue) => {
+    if (newValue === 0 && ratings.supervisor.length > 0) {
+      setFacultyRatings(ratings.supervisor);
+      setFacultyScore(ratings.sup_score);
+      setTabValue(newValue);
+    } else if (newValue === 1 && ratings.peer.length > 0) {
+      setFacultyRatings(ratings.peer);
+      setFacultyScore(ratings.peer_score);
+      setTabValue(newValue);
+    } else if (newValue === 2 && ratings.self.length > 0) {
+      setFacultyRatings(ratings.self);
+      setFacultyScore(ratings.self_score);
+      setTabValue(newValue);
+    } else {
+      window.alert("No data available");
+    }
+  };
+  if (!facultyRatings) return null;
   return (
-    <Grid container spacing={2}>
-      {/* <Grid item xs={12}>
-        <Tabs
-          value={0}
-          // onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="secondary"
-          variant="scrollable"
-          scrollButtons="auto"
-        >
-          <Tab label="Supervisor" />
-          <Tab label="By Class" />
-          <Tab label="By Class" />
-        </Tabs>
-      </Grid> */}
-      {ratings?.length > 0 && (
-        <>
-          <Grid item xs={12} md={4} container alignItems={"center"}>
-            <Grid item>
-              <List>
-                {ratings.map((item, index) => (
-                  <ListItem key={item.category} divider={true}>
-                    <ListItemText
-                      primary={item.category + " " + item.weight * 100 + "%"}
-                      sx={{
-                        textAlign: "left",
-                        color: columnColors[index],
-                      }}
-                    />
-                    <ListItemText
-                      primary={Number(item.rating).toFixed(2)}
-                      sx={{
-                        textAlign: "right",
-                        paddingLeft: 2,
-                        color: item.rating < 4.2 ? "red" : "green",
-                      }}
-                    />
-                  </ListItem>
-                ))}
-                <ListItem divider={true}>
+    <Stack>
+      <Tabs
+        value={tabValue}
+        onChange={handleChangeTab}
+        indicatorColor="secondary"
+        textColor="secondary"
+        variant="scrollable"
+        scrollButtons="auto"
+      >
+        <Tab label="Supervisor" value={0} />
+        <Tab label="Peer" value={1} />
+        <Tab label="Self" value={2} />
+      </Tabs>
+      <Stack direction={"row"} spacing={2}>
+        <Grid container xs={12} md={6} alignItems={"center"}>
+          {facultyRatings?.length > 0 && (
+            <List>
+              {facultyRatings?.map((item, index) => (
+                <ListItem key={item.category} divider={true}>
                   <ListItemText
-                    primary={"TOTAL SCORE"}
+                    primary={item.category}
                     sx={{
                       textAlign: "left",
-                      transform: "uppercase",
+                      color: columnColors[index],
                     }}
                   />
                   <ListItemText
-                    primary={Number(dialogData.student).toFixed(2)}
+                    primary={Number(item.rating).toFixed(2)}
                     sx={{
                       textAlign: "right",
                       paddingLeft: 2,
-                      color: dialogData.student < 4.2 ? "red" : "green",
+                      color: item.rating < 4.2 ? "red" : "green",
                     }}
                   />
                 </ListItem>
-              </List>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Box height="60vh">
-              <BarGraph ratings={ratings} />
-            </Box>
-          </Grid>
-        </>
-      )}
-    </Grid>
+              ))}
+              <ListItem>
+                <ListItemText
+                  primary={"Score"}
+                  sx={{
+                    textAlign: "left",
+                  }}
+                />
+                <ListItemText
+                  primary={Number(facultyScore ? facultyScore : 0).toFixed(2)}
+                  sx={{
+                    textAlign: "right",
+                    paddingLeft: 2,
+                    color: dialogData.student < 4.2 ? "red" : "green",
+                  }}
+                />
+              </ListItem>
+            </List>
+          )}
+        </Grid>
+        <Grid container xs={12} md={6} alignContent={"center"}>
+          {open && <BarGraph ratings={facultyRatings} type={"faculty"} />}
+        </Grid>
+      </Stack>
+    </Stack>
   );
 };

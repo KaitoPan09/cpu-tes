@@ -21,7 +21,9 @@ const ManageDepartment = () => {
   const location = useLocation();
   const dept_id = useParams();
   const { auth, userInfo } = useAuth();
-  const department = location?.state ? location.state.department : userInfo.department;
+  const department = location?.state
+    ? location.state.department
+    : userInfo.department;
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -40,7 +42,13 @@ const ManageDepartment = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title={department}
-          //subtitle={department.department}
+          subtitle={
+            value === 0
+              ? "List of faculties under the department"
+              : value === 1
+              ? "List of students under the department"
+              : "List of classes under the department"
+          }
         />
       </Box>
       <Tabs
