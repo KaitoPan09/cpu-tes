@@ -32,7 +32,7 @@ const FAQ = () => {
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
-                Go to the "Evaluation" link in the sidebar. Inside the Evaluation Page, click on the "Magnefying Glass" icon
+                Go to the "Evaluation" link in the sidebar. Inside the Evaluation Page, click on the "Magnifying Glass" icon
                 to view the current status of your college's surveys.
             </AccordionDetails>
         </Accordion>
@@ -51,7 +51,7 @@ const FAQ = () => {
             </AccordionSummary>
             <AccordionDetails>
                 <Typography>
-                    Under the Student or Teacher Column, click on the "Magnefying Glass" Icon next to the number where you can see
+                    Under the Student or Teacher Column, click on the "Magnifying Glass" Icon next to the number where you can see
                     the current survey count of that specific teacher.
                 </Typography>
             </AccordionDetails>
