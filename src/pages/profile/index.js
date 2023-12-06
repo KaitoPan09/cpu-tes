@@ -99,8 +99,8 @@ export const Profile = () => {
               margin="dense"
               label="Current Password"
               variant="outlined"
-              type={showPassword ? "text" : "password"}
-              value={password.currentPassword}
+              // type={showPassword ? "text" : "password"}
+              type={"password"}
               onChange={(e) =>
                 setPassword({ ...password, currentPassword: e.target.value })
               }
@@ -119,21 +119,22 @@ export const Profile = () => {
               onChange={(e) =>
                 setPassword({ ...password, newPassword: e.target.value })
               }
-              type={showPassword ? "text" : "password"}
+              // type={showPassword ? "text" : "password"}
+              type={"password"}
               sx={{ maxWidth: "360px" }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+              // InputProps={{
+              //   endAdornment: (
+              //     <InputAdornment position="end">
+              //       <IconButton
+              //         aria-label="toggle password visibility"
+              //         onClick={() => setShowPassword((prev) => !prev)}
+              //         edge="end"
+              //       >
+              //         {showPassword ? <VisibilityOff /> : <Visibility />}
+              //       </IconButton>
+              //     </InputAdornment>
+              //   ),
+              // }}
             />
           </Grid>
           <Grid item xs={12} alignContent={"center"}>

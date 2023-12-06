@@ -46,7 +46,7 @@ const View = () => {
   const { auth, userInfo } = useAuth();
   const { request, loading } = useFetch();
   const [facultyRows, setFacultyRows] = useData(
-    auth?.role === "Department Head"
+    auth?.role === "Department Head" || auth?.role === "Department Secretary"
       ? `/api/evaluations/${collegeId}?type=Faculty&dept_id=${userInfo.dept_id}`
       : `/api/evaluations/${collegeId}?type=Faculty`
   );
@@ -216,7 +216,8 @@ const View = () => {
   const handleChange = async (event, newValue) => {
     setValue(newValue);
     const response = await request(
-      auth?.role === "Department Head"
+      auth?.role === "Department Head" ||
+        (auth?.role === "Secretary" && userInfo.dept_id != null)
         ? `/api/evaluations/${collegeId}?dept_id=${userInfo.dept_id}&type=${
             newValue === 0 ? "Faculty" : "Students"
           }`

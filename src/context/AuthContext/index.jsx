@@ -68,13 +68,16 @@ export const AuthProvider = ({ children }) => {
         school_id: response.school_id,
         isAuthenticated: true,
       };
-      const academicYear = {
-        id: response.acad_year.id,
-        semester: response.acad_year.semester,
-        start_date: dayjs(response.acad_year.start_date).format("MM-DD-YYYY"),
-        end_date: dayjs(response.acad_year.end_date).format("MM-DD-YYYY"),
-        year: response.acad_year.year,
-      };
+      let academicYear = {};
+      if (response?.acad_year?.id) {
+        academicYear = {
+          id: response.acad_year.id,
+          semester: response.acad_year.semester,
+          start_date: dayjs(response.acad_year.start_date).format("MM-DD-YYYY"),
+          end_date: dayjs(response.acad_year.end_date).format("MM-DD-YYYY"),
+          year: response.acad_year.year,
+        };
+      }
       const userInfo = {
         user_id: response.user_id,
         student_id: response.student_id,

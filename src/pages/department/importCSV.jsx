@@ -97,11 +97,12 @@ export const ImportCSV = ({ open, setOpen, departments }) => {
   ];
   const facultyClassColumns = [
     { field: "stub_code", headerName: "Stub Code", width: 80 },
-    { field: "subject_code", headerName: "Subject Code", width: 80 },
+    { field: "subject_code", headerName: "Subject Code", width: 100 },
     { field: "subject", headerName: "Subject", flex: 2, minWidth: 100 },
     { field: "school_id", headerName: "School ID", width: 100 },
-    { field: "dept_code", headerName: "Department Code", width: 100 },
-    { field: "class_time", headerName: "Class Time", flex: 1, minWidth: 100 },
+    { field: "type", headerName: "Type", width: 80 },
+    { field: "dept_code", headerName: "Department Code", width: 150 },
+    { field: "class_time", headerName: "Class Time", flex: 1, minWidth: 150 },
   ];
   const studentClassColumns = [
     { field: "school_id", headerName: "School ID", flex: 1, minWidth: 100 },
@@ -119,10 +120,9 @@ export const ImportCSV = ({ open, setOpen, departments }) => {
     { field: "department", headerName: "Department", flex: 1, minWidth: 100 },
   ];
   const subjectsColumns = [
-    { field: "subject_code", headerName: "Subject Code", width: 100 },
-    { field: "subject", headerName: "Subject", flex: 1, minWidth: 100 },
-    { field: "college_code", headerName: "College Code", width: 100 },
-    { field: "dept_code", headerName: "Department Code", width: 100 },
+    { field: "dept_code", headerName: "Department Code", width: 200 },
+    { field: "subject_code", headerName: "Subject Code", width: 200 },
+    { field: "subject", headerName: "Subject", flex: 1, minWidth: 200 },
   ];
 
   const [rows, setRows] = useState([]);
@@ -162,6 +162,7 @@ export const ImportCSV = ({ open, setOpen, departments }) => {
               "subject_code",
               "subject",
               "school_id",
+              "type",
               "dept_code",
               "class_time",
             ];
@@ -173,7 +174,7 @@ export const ImportCSV = ({ open, setOpen, departments }) => {
             headers = ["course_code", "course", "department"];
             setColumns(coursesColumns);
           } else if (value === "subjects") {
-            headers = ["subject_code", "subject", "college_code", "dept_code"];
+            headers = ["dept_code", "subject_code", "subject"];
             setColumns(subjectsColumns);
           }
           const parsedData = result.data
@@ -219,9 +220,10 @@ export const ImportCSV = ({ open, setOpen, departments }) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="lg">
+      <DialogTitle>Import CSV</DialogTitle>
       <DialogContent>
-        <Grid container direction={"column"} spacing={2}>
+        <Grid container direction={"column"} spacing={2} mt={2}>
           <Grid
             item
             container
@@ -322,7 +324,7 @@ export const ImportCSV = ({ open, setOpen, departments }) => {
               //   (value === "class" && !classValue)
               // }
               disabled={value === "class" && !classValue}
-              sx={{ maxWidth: "200px" }}
+              sx={{ maxWidth: "320px" }}
             />
           </Grid>
           {file && (

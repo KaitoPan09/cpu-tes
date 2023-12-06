@@ -36,7 +36,7 @@ const Dashboard = () => {
         response = await request(
           `/api/evaluations/students/dashboard?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
         );
-      } else if (auth.role !== "Admin") {
+      } else if (auth.role !== "Admin" && auth.role !== "Department Secretary" && auth.role !== "College Secretary") {
         response = await request(
           `/api/evaluations/faculty/dashboard?role=${auth.role}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}&dept_id=${userInfo.dept_id}`
         );
@@ -91,14 +91,18 @@ const Dashboard = () => {
               {auth.role !== "Student" && auth.role !== "Admin" && (
                 <Grid item xs={12} md={6}>
                   <Typography variant="h4" fontWeight={700}>
-                    {userInfo.college + " - " + userInfo.department}
+                    {userInfo.college ? userInfo.college : ""}
+                    {userInfo.college && userInfo.department ? " - " : ""}
+                    {userInfo.department ? userInfo.department : ""}
                   </Typography>
                   <Typography
                     color={colors.yellowAccent[500]}
                     variant="h6"
                     fontWeight={700}
                   >
-                    COLLEGE AND DEPARTMENT
+                    {userInfo.college && "COLLEGE"}{" "}
+                    {userInfo.college && userInfo.department && "-"}
+                    {userInfo.department && "DEPARTMENT"}
                   </Typography>
                 </Grid>
               )}
@@ -164,28 +168,30 @@ const Dashboard = () => {
             </Paper>
           </Grid>
         )}
-        {auth.role !== "Admin" && auth.role !== "Secretary" && (
-          <Grid item xs={12}>
-            <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
-              <Grid container spacing={2} p={2}>
-                <Grid item xs={12}>
-                  <Typography variant="h5" fontWeight={700}>
-                    Surveys
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <Link to="/survey">
-                    <Typography variant="h6">
-                      {"You have " +
-                        (evalInfo?.total - evalInfo?.completed) +
-                        " surveys to answer."}
+        {auth.role !== "Admin" &&
+          auth.role !== "Department Secretary" &&
+          auth.role !== "College Secretary" && (
+            <Grid item xs={12}>
+              <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
+                <Grid container spacing={2} p={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h5" fontWeight={700}>
+                      Surveys
                     </Typography>
-                  </Link>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Link to="/survey">
+                      <Typography variant="h6">
+                        {"You have " +
+                          (evalInfo?.total - evalInfo?.completed) +
+                          " surveys to answer."}
+                      </Typography>
+                    </Link>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-        )}
+              </Paper>
+            </Grid>
+          )}
         {auth.role === "Admin" && (
           <Grid item xs={12}>
             <AdminDashboard />
