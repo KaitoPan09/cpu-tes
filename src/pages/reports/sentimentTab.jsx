@@ -286,23 +286,25 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
                     </Grow>
                   )}
                 </Grid>
-                <Grid item alignItems="stretch" style={{ display: "flex" }}>
-                  <Grow
-                    in={!disabled}
-                    style={{ transformOrigin: "0 0 0" }}
-                    {...(!disabled ? { timeout: 1000 } : {})}
-                  >
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={checked}
-                          onChange={handleSwitchChange}
-                        />
-                      }
-                      label="WordCloud"
-                    />
-                  </Grow>
-                </Grid>
+                {value != "students" && (
+                  <Grid item alignItems="stretch" style={{ display: "flex" }}>
+                    <Grow
+                      in={!disabled}
+                      style={{ transformOrigin: "0 0 0" }}
+                      {...(!disabled ? { timeout: 1000 } : {})}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={checked}
+                            onChange={handleSwitchChange}
+                          />
+                        }
+                        label="WordCloud"
+                      />
+                    </Grow>
+                  </Grid>
+                )}
               </Grid>
             </Grid>
           ) : null}
