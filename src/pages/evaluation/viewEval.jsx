@@ -37,7 +37,10 @@ import generatePdf from "../../components/generatePDF";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { ManageSearchOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+
 const View = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { collegeId } = useParams();
@@ -243,6 +246,10 @@ const View = () => {
   //   generatePdf(componentRef);
   // };
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -292,6 +299,7 @@ const View = () => {
               handleGenerateReport();
             }}
             generateReportText={"Generate Faculty Evaluation Status Report"}
+            handleBack={handleBack}
           />
         )}
       </TabPanel>
@@ -316,6 +324,7 @@ const View = () => {
               handleGenerateReport();
             }}
             generateReportText={"Generate Student Evaluation Status Report"}
+            handleBack={handleBack}
           />
         )}
       </TabPanel>
