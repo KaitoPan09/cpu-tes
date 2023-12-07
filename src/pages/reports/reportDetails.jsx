@@ -90,7 +90,7 @@ const Details = () => {
   const college =
     auth.role === "Admin" ? location.state?.college : userInfo.college;
   const [rows, setRows] = useData(
-    auth.role === "Department Head"
+    auth.role === "Department Head" || auth.role === "Department Secretary"
       ? `/api/evaluations/results?evaluation_id=${evalId}&&dept_id=${userInfo.dept_id}`
       : `/api/evaluations/results?evaluation_id=${evalId}`
   );

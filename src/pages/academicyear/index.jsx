@@ -50,7 +50,7 @@ const AcademicYear = () => {
     console.log(data);
     setOpenUpdateAcadYear(false);
   };
-
+  if (academicYear === undefined) return null;
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">

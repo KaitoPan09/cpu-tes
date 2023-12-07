@@ -73,9 +73,7 @@ const Login = () => {
             color: "white",
             display: { xs: "none", sm: "none", md: "flex" },
           }}
-        >
-          
-        </Grid>
+        ></Grid>
         <Grid
           item
           xs={12}
@@ -150,7 +148,7 @@ const Login = () => {
                 >
                   <Typography variant="body">{"TEACHER'S"}</Typography>
                   <Typography variant="body">{"EVALUATION"}</Typography>
-                  <Typography variant="body">{"SYSTEM"}</Typography>
+                  <Typography variant="body">{"SCALE"}</Typography>
                 </Box>
               </Box>
             </Box>
@@ -168,14 +166,15 @@ const Login = () => {
                 name="schoolID"
               />
               <TextField
-                //required
+                required
                 fullWidth
                 margin="normal"
                 name="password"
                 label="Password"
+                variant="outlined"
                 type="password"
                 id="password"
-                autoComplete="password"
+                //autoComplete="password"
               />
               <FormHelperText error={error}>{errorMsg}</FormHelperText>
               <LoadingButton

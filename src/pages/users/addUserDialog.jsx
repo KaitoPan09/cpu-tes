@@ -50,14 +50,17 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
         school_id: data.get("schoolID"),
       });
     } else {
-      response = await postData("/api/users/add_secretary", {
-        email: data.get("email"),
-        password: data.get("password"),
-        name: data.get("fullName"),
-        school_id: data.get("schoolID"),
-        department_id: department.id,
-        college_id: college.id,
-      });
+      response = await postData(
+        type === "College"
+          ? `/api/users/add_secretary?college_id=${college.id}`
+          : `/api/users/add_secretary?dept_id=${department.id}`,
+        {
+          email: data.get("email"),
+          password: data.get("password"),
+          name: data.get("fullName"),
+          school_id: data.get("schoolID"),
+        }
+      );
     }
     setUsers(response ? response : []);
     setOpen(false);
@@ -75,6 +78,10 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
   const [department, setDepartment] = React.useState({});
   const handleChangeDepartment = (event) => {
     setDepartment(event.target.value);
+  };
+  const [type, setType] = React.useState("College");
+  const handleChangeType = (event) => {
+    setType(event.target.value);
   };
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -105,6 +112,24 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
+            {value === "Secretary" && (
+              <Grid item xs={12}>
+                <FormControl>
+                  <RadioGroup row value={type} onChange={handleChangeType}>
+                    <FormControlLabel
+                      value="College"
+                      control={<Radio />}
+                      label="College"
+                    />
+                    <FormControlLabel
+                      value="Department"
+                      control={<Radio />}
+                      label="Department"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
@@ -127,7 +152,7 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                required
+                // required
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -149,42 +174,49 @@ export const AddUserDialog = ({ open, setOpen, setUsers }) => {
 
             {value === "Secretary" && (
               <>
-                <Grid item xs={12}>
-                  <FormControl fullWidth required>
-                    <InputLabel>College</InputLabel>
-                    <Select
-                      label={"College"}
-                      // defaultValue={defaultValue}
-                      onChange={handleChangeCollege}
+                {type === "College" && (
+                  <Grid item xs={12}>
+                    <FormControl fullWidth required>
+                      <InputLabel>College</InputLabel>
+                      <Select
+                        label={"College"}
+                        // defaultValue={defaultValue}
+                        onChange={handleChangeCollege}
+                      >
+                        {colleges.map((option, index) => {
+                          return (
+                            <MenuItem key={index} value={option}>
+                              {option.college}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                )}
+                {type === "Department" && (
+                  <Grid item xs={12}>
+                    <FormControl
+                      fullWidth
+                      // required
                     >
-                      {colleges.map((option, index) => {
-                        return (
-                          <MenuItem key={index} value={option}>
-                            {option.college}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth required>
-                    <InputLabel>Department</InputLabel>
-                    <Select
-                      label={"Department"}
-                      // defaultValue={defaultValue}
-                      onChange={handleChangeDepartment}
-                    >
-                      {departments.map((option, index) => {
-                        return (
-                          <MenuItem key={index} value={option}>
-                            {option.department}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Grid>
+                      <InputLabel>Department</InputLabel>
+                      <Select
+                        label={"Department"}
+                        // defaultValue={defaultValue}
+                        onChange={handleChangeDepartment}
+                      >
+                        {departments.map((option, index) => {
+                          return (
+                            <MenuItem key={index} value={option}>
+                              {option.department}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                )}
               </>
             )}
           </Grid>

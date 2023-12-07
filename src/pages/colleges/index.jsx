@@ -186,6 +186,7 @@ export const Colleges = () => {
       college_code: data.college_code,
       dean_id: data.dean.id,
     });
+    console.log(data)
     const response = await postData(
       `/api/colleges/${selectedCollege.id}/update`,
       {
@@ -244,11 +245,13 @@ export const Colleges = () => {
             type: "textField",
             label: "College Name",
             name: "college",
+            defaultValue: selectedCollege?.college,
           },
           {
             type: "textField",
             label: "College Code",
             name: "college_code",
+            defaultValue: selectedCollege?.college_code,
           },
           {
             type: "comboBox",

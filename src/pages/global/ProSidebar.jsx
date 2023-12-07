@@ -38,7 +38,7 @@ const Item = ({ title, to, icon }) => {
   return (
     <MenuItem
       active={location.pathname === to}
-      style={{ color: colors.grey[100] }}
+      sx={{ color: colors.grey[100] }}
       onClick={() => {
         toggleSidebar();
       }}
@@ -55,7 +55,7 @@ const ProSidebar = () => {
   const colors = tokens(theme.palette.mode);
   const { auth, userInfo } = useAuth();
   const { toggleSidebar, broken } = useProSidebar();
-  const iconStyle = { fontSize: '2rem' };
+  const iconStyle = { fontSize: "2rem" };
 
   const sideBarList = [
     {
@@ -63,79 +63,92 @@ const ProSidebar = () => {
         "Admin",
         "Dean",
         "Department Head",
-        "Secretary",
+        "College Secretary",
+        "Department Secretary",
         "Teacher",
         "Student",
       ],
       name: "Dashboard",
       path: "/",
-      icon: <HomeOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <HomeOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: ["Admin"],
       name: "Academic Year",
       path: "/acad_years",
-      icon: <SchoolOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <SchoolOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: ["Admin"],
       name: "Users",
       path: "/users",
-      icon: <PeopleOutlineOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <PeopleOutlineOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: ["Admin"],
       name: "Colleges",
       path: "/colleges",
-      icon: <CorporateFareOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <CorporateFareOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: ["Dean"],
       name: "College",
       path: `/colleges/${userInfo.college_id}/manage`,
-      icon: <CorporateFareOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <CorporateFareOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: ["Dean"],
       name: "Departments",
       path: `/colleges/${userInfo.college_id}/departments`,
-      icon: <CorporateFareOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <CorporateFareOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: ["Department Head"],
       name: "Department",
       path: `/departments/${userInfo.dept_id}/manage`,
-      icon: <CorporateFareOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <CorporateFareOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: ["Admin"],
       name: "Questionnaire",
       path: "/questionnaire",
-      icon: <QuizOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <QuizOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: ["Admin"],
       name: "Evaluations",
       path: "/evaluations",
-      icon: <PollOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <PollOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
-      access: ["Dean", "Department Head", "Secretary"],
+      access: [
+        "Dean",
+        "Department Head",
+        "College Secretary",
+        "Department Secretary",
+      ],
       name: "Evaluation",
       path: `/evaluations/${userInfo.college_id}/view`,
-      icon: <PollOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <PollOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: ["Admin", "Dean", "Department Head", "Teacher", "Student"],
       name: "Survey",
       path: "/survey",
-      icon: <BallotOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <BallotOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
-      access: ["Admin", "Dean", "Department Head", "Secretary"],
+      access: [
+        "Admin",
+        "Dean",
+        "Department Head",
+        "Secretary",
+        "College Secretary",
+        "Department Secretary",
+      ],
       name: "Reports",
       path: "/reports",
-      icon: <TimelineOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <TimelineOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     // {
     //   access: ["Dean", "Department Head"],
@@ -144,10 +157,16 @@ const ProSidebar = () => {
     //   icon: <TimelineOutlinedIcon />,
     // },
     {
-      access: ["Admin", "Dean", "Department Head", "Secretary"],
+      access: [
+        "Admin",
+        "Dean",
+        "Department Head",
+        "College Secretary",
+        "Department Secretary",
+      ],
       name: "FAQ",
       path: `/faq`,
-      icon: <HelpOutlinedIcon sx={{ fontSize: iconStyle }}/>,
+      icon: <HelpOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
   ];
   return (
@@ -267,7 +286,7 @@ const ProSidebar = () => {
                   letterSpacing: "0.16rem",
                 }}
               >
-                TEACHER'S EVALUATION SYSTEM
+                TEACHER'S EVALUATION SCALE
               </Typography>
             </Grid>
           </Grid>
