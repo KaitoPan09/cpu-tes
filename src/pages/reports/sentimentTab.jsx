@@ -103,7 +103,7 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
   const [value, setValue] = useState("all");
   const [disabled, setDisabled] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
-  console.log(selectedResult);
+
   const handleChange = (event) => {
     setChecked(false);
     setColumns(col);

@@ -36,7 +36,11 @@ const Dashboard = () => {
         response = await request(
           `/api/evaluations/students/dashboard?student_id=${userInfo.student_id}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}`
         );
-      } else if (auth.role !== "Admin" && auth.role !== "Department Secretary" && auth.role !== "College Secretary") {
+      } else if (
+        auth.role !== "Admin" &&
+        auth.role !== "Department Secretary" &&
+        auth.role !== "College Secretary"
+      ) {
         response = await request(
           `/api/evaluations/faculty/dashboard?role=${auth.role}&user_id=${userInfo.user_id}&college_id=${userInfo.college_id}&dept_id=${userInfo.dept_id}`
         );
@@ -157,11 +161,15 @@ const Dashboard = () => {
                 <Grid item xs={12}>
                   <Typography variant="h6" color="text.primary">
                     {evalInfo?.announcement || "No announcements."}
-                    <br />
-                    <br />
-                    {evalInfo?.dean}
-                    <br />
-                    Dean
+                    {evalInfo?.announcement ? (
+                      <>
+                        <br />
+                        <br />
+                        {evalInfo?.dean}
+                      </>
+                    ) : null}
+                    {evalInfo?.announcement ? <br /> : null}
+                    {evalInfo?.announcement ? "Dean" : null}
                   </Typography>
                 </Grid>
               </Grid>

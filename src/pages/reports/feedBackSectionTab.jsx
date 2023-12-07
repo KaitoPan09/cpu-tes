@@ -38,7 +38,7 @@ export const FeedBackSectionTab = ({ dialogData, selectedResult, evalId }) => {
           response: item.response,
         });
       } else if (item.type === 1) {
-        if (item.response === "Yes") {
+        if (item.response === "1") {
           yes.push({
             id: item.id,
             response: item.response,
