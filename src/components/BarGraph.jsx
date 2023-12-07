@@ -95,6 +95,8 @@ const BarGraph = ({ ratings, type }) => {
   //       },
   //     ];
 
+  // const yAxisTickValues = [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.2, 3.4, 3.6, 3.8, 4.0, 4.2, 4.4, 4.6, 4.8, 5.0];
+
   return (
     <Bar
       // data={data}
@@ -143,6 +145,7 @@ const BarGraph = ({ ratings, type }) => {
       //margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       margin={{ top: 0, right: 50, bottom: 120, left: 50 }}
       padding={0.3}
+      maxValue={5}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
       // colors={{ scheme: 'nivo' }}
@@ -173,24 +176,11 @@ const BarGraph = ({ ratings, type }) => {
       }}
       axisTop={null}
       axisLeft={null}
-      // axisBottom={{
-      //   tickSize: 5,
-      //   tickPadding: 5,
-      //   tickRotation: 7,
-      //   // legend: isDashboard ? undefined : 'country',
-      //   // legend: 'category',
-      //   // legend: axisLabelDisplay,
-      //   legendPosition: "middle",
-      //   legendOffset: 32,
-      // }}
       axisBottom={null}
       axisRight={{
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        // legend: isDashboard ? undefined : 'food',
-        // legend: "category",
-        // legend: axisLabelDisplay,
         legendPosition: "middle",
         legendOffset: 0,
       }}
