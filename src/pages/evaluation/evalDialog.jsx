@@ -56,7 +56,7 @@ const colPeerEval = [
     },
   },
 ];
-export const EvalDialog = ({ open, setOpen, selectedEval }) => {
+export const EvalDialog = ({ open, setOpen, selectedEval, setSelectedEval }) => {
   const [selectedClass, setSelectedClass] = useState(
     selectedEval.type === "Student" ? selectedEval.rows[0] : []
   );
@@ -83,7 +83,10 @@ export const EvalDialog = ({ open, setOpen, selectedEval }) => {
   }, [selectedEval]);
   const [status, setStatus] = useState("All");
   return (
-    <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="lg">
+    <Dialog open={open} onClose={() => {
+      setSelectedEval(null)
+      setOpen(false)
+    }} fullWidth maxWidth="lg">
       <DialogTitle>
         <Grid container spacing={2} justifyContent={"flex-start"}>
           <Grid item>

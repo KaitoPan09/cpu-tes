@@ -331,7 +331,12 @@ const View = () => {
       </TabPanel>
 
       {selectedEval && (
-        <EvalDialog open={open} setOpen={setOpen} selectedEval={selectedEval} />
+        <EvalDialog
+          open={open}
+          setOpen={setOpen}
+          selectedEval={selectedEval}
+          setSelectedEval={setSelectedEval}
+        />
       )}
       {/* <Dialog open={true} fullWidth maxWidth="md">
         <FacultyEvalStatusReport
