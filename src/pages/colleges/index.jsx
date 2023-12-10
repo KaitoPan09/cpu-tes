@@ -23,11 +23,11 @@ export const Colleges = () => {
   const { showLoader, hideLoader, showSnackbar } = useAppContext();
   const [rows, setRows] = useData("/api/colleges/");
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 80,
-    },
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   width: 80,
+    // },
     {
       field: "college",
       headerName: "College",

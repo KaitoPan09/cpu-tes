@@ -29,6 +29,7 @@ import { FacultyTab } from "./facultyTab";
 import { useState } from "react";
 import { SentimentTab } from "./sentimentTab";
 import { FeedBackSectionTab } from "./feedBackSectionTab";
+import { useTheme } from "@emotion/react";
 
 const ReportDialog = ({
   open,
@@ -47,6 +48,7 @@ const ReportDialog = ({
   const [facultyRatings, setFacultyRatings] = useState({});
   const [result, setResult] = useState({});
   const [selectedResult, setSelectedResult] = useState({});
+  const theme = useTheme();
   useEffect(() => {
     (async () => {
       const response = await request(
@@ -180,10 +182,30 @@ const ReportDialog = ({
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab label="Student Evaluation" sx={{ marginRight: 10 }} />
-            <Tab label="Faculty Evaluation" sx={{ marginRight: 10 }} />
-            <Tab label="Sentiment" sx={{ marginRight: 10 }} />
-            <Tab label="Feedback Section" sx={{ marginRight: 10 }} />
+            <Tab 
+              label="Student Evaluation" 
+              sx={{ 
+                marginRight: 10,
+                backgroundColor: tabValue === 0 ? theme.palette.neutral.main : theme.palette.primary.sub,
+                }} />
+            <Tab 
+              label="Faculty Evaluation" 
+              sx={{ 
+                marginRight: 10,
+                backgroundColor: tabValue === 1 ? theme.palette.neutral.main : theme.palette.primary.sub, 
+                }} />
+            <Tab 
+              label="Sentiment" 
+              sx={{ 
+                marginRight: 10,
+                backgroundColor: tabValue === 2 ? theme.palette.neutral.main : theme.palette.primary.sub, 
+                }} />
+            <Tab 
+              label="Feedback Section" 
+              sx={{ 
+                marginRight: 10,
+                backgroundColor: tabValue === 3 ? theme.palette.neutral.main : theme.palette.primary.sub,  
+                }} />
           </Tabs>
         </Grid>
       </DialogContent>

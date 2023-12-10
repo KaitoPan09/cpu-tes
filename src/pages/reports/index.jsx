@@ -29,11 +29,11 @@ const Reports = () => {
   const navigate = useNavigate();
 
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 80,
-    },
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   width: 80,
+    // },
     {
       field: "college",
       headerName: "College",

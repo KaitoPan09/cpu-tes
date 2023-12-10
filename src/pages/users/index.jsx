@@ -58,11 +58,11 @@ const Users = () => {
   };
 
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      minWidth: 80,
-    },
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   minWidth: 80,
+    // },
     {
       field: "school_id",
       headerName: "School ID",

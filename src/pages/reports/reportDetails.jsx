@@ -46,6 +46,7 @@ import Cookies from "js-cookie";
 import useFetch from "../../hooks/useFetch.jsx";
 import { useAppContext } from "../../context/AppContext/index.jsx";
 import { ManageSearchOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 // const CustomToolbar = () => {
 
@@ -82,6 +83,7 @@ import { ManageSearchOutlined } from "@mui/icons-material";
 // };
 
 const Details = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { evalId } = useParams();
@@ -108,13 +110,16 @@ const Details = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   const columns = [
     {
       field: "faculty",
       headerName: "Faculty",
       flex: 1,
-      minWidth: 200,
+      minWidth: 175,
     },
     {
       field: "school_id",
@@ -458,6 +463,7 @@ const Details = () => {
         handleGenerateReport={handleGenerateReport}
         generateReportText={"Generate Evaluation Summary Report"}
         handleExport={handleExport}
+        handleBack={handleBack}
       />
       {open && (
         <ReportDialog
