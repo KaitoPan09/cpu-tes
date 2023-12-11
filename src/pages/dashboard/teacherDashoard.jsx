@@ -55,6 +55,8 @@ export const TeacherDashoard = () => {
       cellClassName: "red",
     },
   ];
+  if (rows.length <= 0) return null;
+
   return (
     <Grid container spacing={2}>
       {/* <Grid item xs={4}>

@@ -8,11 +8,19 @@ import {
   Stack,
   Tab,
   Tabs,
+  Typography,
 } from "@mui/material";
 import BarGraph from "../../components/BarGraph";
 import { useState } from "react";
 import { TabPanel } from "@mui/lab";
-export const FacultyTab = ({ ratings, dialogData, open, facultyTabValue }) => {
+export const FacultyTab = ({
+  ratings,
+  dialogData,
+  open,
+  facultyTabValue,
+  n_peer_respondents,
+  scores,
+}) => {
   const columnColors = ["#e8c1a0", "#f47560", "#f1e15b", "#e8a838", "#61cdbb"];
   const [tabValue, setTabValue] = useState(
     facultyTabValue === "supervisor" ? 0 : facultyTabValue === "peer" ? 1 : 2
@@ -48,7 +56,13 @@ export const FacultyTab = ({ ratings, dialogData, open, facultyTabValue }) => {
       window.alert("No data available");
     }
   };
-  if (!facultyRatings) return null;
+  if (!facultyRatings)
+    return (
+      <Grid container justifyContent={"center"}>
+        <Typography>No Data Available</Typography>
+      </Grid>
+    );
+
   return (
     <Stack>
       <Tabs
@@ -67,6 +81,21 @@ export const FacultyTab = ({ ratings, dialogData, open, facultyTabValue }) => {
         <Grid container xs={12} md={6} alignItems={"center"}>
           {facultyRatings?.length > 0 && (
             <List>
+              <ListItem>
+                <ListItemText
+                  primary={"No. of Peer Respondents"}
+                  sx={{
+                    textAlign: "left",
+                  }}
+                />
+                <ListItemText
+                  primary={n_peer_respondents}
+                  sx={{
+                    textAlign: "right",
+                    paddingLeft: 2,
+                  }}
+                />
+              </ListItem>
               {facultyRatings?.map((item, index) => (
                 <ListItem key={item.category} divider={true}>
                   <ListItemText
@@ -94,7 +123,13 @@ export const FacultyTab = ({ ratings, dialogData, open, facultyTabValue }) => {
                   }}
                 />
                 <ListItemText
-                  primary={Number(facultyScore ? facultyScore : 0).toFixed(2)}
+                  primary={Number(
+                    tabValue === 0
+                      ? scores.supervisor
+                      : tabValue === 1
+                      ? scores.peer
+                      : scores.self
+                  ).toFixed(2)}
                   sx={{
                     textAlign: "right",
                     paddingLeft: 2,

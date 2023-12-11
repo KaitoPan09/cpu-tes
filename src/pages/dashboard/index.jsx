@@ -208,7 +208,7 @@ const Dashboard = () => {
             <AdminDashboard />
           </Grid>
         )}
-        {auth.role !== "Admin" && (
+        {auth.role !== "Admin" && auth.role !== "Student" && (
           <Grid item xs={12}>
             <TeacherDashoard />
           </Grid>

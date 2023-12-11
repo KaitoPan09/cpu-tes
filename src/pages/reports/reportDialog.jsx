@@ -79,6 +79,7 @@ const ReportDialog = ({
           separated: response.separated,
           sentiment: response.sentiment_score >= 0.5 ? "Positive" : "Negative",
           // evaluation_id: evaluation.id,
+          n_peer_respondents: response.n_peer_respondents,
         });
       }
     })();
@@ -161,6 +162,12 @@ const ReportDialog = ({
                 dialogData={dialogData}
                 open={open}
                 facultyTabValue={facultyTabValue}
+                n_peer_respondents={result.n_peer_respondents}
+                scores={{
+                  peer: result.peer_score,
+                  self: result.self_score,
+                  supervisor: result.sup_score,
+                }}
               />
             </TabPanel>
             <TabPanel value={tabValue} index={2}>

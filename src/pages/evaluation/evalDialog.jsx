@@ -72,7 +72,6 @@ export const EvalDialog = ({
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  console.log(selectedEval);
   const { request, loading } = useFetch();
   const { auth, userInfo } = useAuth();
   const [selectedClass, setSelectedClass] = useState(
@@ -110,6 +109,7 @@ export const EvalDialog = ({
       getStudentEvalProgress();
     } else {
       setFaculties(selectedEval.rows);
+      setRows(selectedEval.rows);
       setColumn(colPeerEval);
     }
   }, [selectedEval]);
@@ -351,8 +351,14 @@ export const EvalDialog = ({
                 columns={
                   selectedEval.type === "Student" ? colStudEval : colPeerEval
                 }
-                handleGenerateReport={handleGenerateReport}
-                generateReportText={"Generate Class Evaluation Status Report"}
+                handleGenerateReport={
+                  selectedEval.type === "Student" ? handleGenerateReport : null
+                }
+                generateReportText={
+                  selectedEval.type === "Student"
+                    ? "Generate Class Evaluation Status Report"
+                    : null
+                }
                 getCellClassName={(params) => {
                   if (params.field === "eval") {
                     return params.value === "Completed" ? "green" : "red";
