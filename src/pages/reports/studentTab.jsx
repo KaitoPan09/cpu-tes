@@ -63,7 +63,8 @@ export const StudentTab = ({
         <Tab label="Overall" />
         <Tab label="By Class" />
       </Tabs>
-      <Stack direction={"row"} spacing={2}>
+      <Stack direction={{ xs: "column", md: "row"}} spacing={2}>
+      {/* <Stack direction={"row"} spacing={2}> */}
         <Grid container xs={12} md={6} alignItems={"center"}>
           <TabPanel value={value} index={0}>
             <List>
@@ -105,12 +106,14 @@ export const StudentTab = ({
             </List>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <CustomDataGrid
-              rows={studentRatingsByClass}
-              columns={columns}
-              getRowId={(row) => row.class_id}
-              onRowClick={handleRowClick}
-            />
+            <Grid item xs={6} md={10} lg={12}>
+              <CustomDataGrid
+                rows={studentRatingsByClass}
+                columns={columns}
+                getRowId={(row) => row.class_id}
+                onRowClick={handleRowClick}
+              />
+            </Grid>
           </TabPanel>
         </Grid>
         <Grid container xs={12} md={6} alignContent={"center"}>
