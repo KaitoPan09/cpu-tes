@@ -22,6 +22,7 @@ import { AdminDashboard } from "./adminDashboard";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 import useFetch from "../../hooks/useFetch";
 import { useEffect } from "react";
+import { TeacherDashoard } from "./teacherDashoard";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -188,13 +189,15 @@ const Dashboard = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Link to="/survey">
-                      <Typography variant="h6">
-                        {"You have " +
-                          (evalInfo?.total - evalInfo?.completed) +
-                          " surveys to answer."}
-                      </Typography>
-                    </Link>
+                    <Typography variant="h5">
+                      You have{" "}
+                      {
+                        <Link to="/survey">
+                          {evalInfo?.total - evalInfo?.completed} surveys
+                        </Link>
+                      }{" "}
+                      to answer.
+                    </Typography>
                   </Grid>
                 </Grid>
               </Paper>
@@ -203,6 +206,11 @@ const Dashboard = () => {
         {auth.role === "Admin" && (
           <Grid item xs={12}>
             <AdminDashboard />
+          </Grid>
+        )}
+        {auth.role !== "Admin" && (
+          <Grid item xs={8}>
+            <TeacherDashoard />
           </Grid>
         )}
       </Grid>

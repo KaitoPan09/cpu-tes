@@ -19,11 +19,13 @@ import { tokens } from "../../theme";
 import { useAuth } from "../../context/AuthContext";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: theme.palette.pdf.main,
+    color: theme.palette.common.black,
+    fontWeight: 700,
+    fontSize: 18,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: 16,
     color: theme.palette.common.black,
   },
 }));
@@ -31,10 +33,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     // backgroundColor: theme.palette.action.hover,
-    backgroundColor: theme.palette.pdf.main,
+    backgroundColor: theme.palette.common.white,
   },
   "&:nth-of-type(even)": {
-    backgroundColor: theme.palette.pdf.sub,
+    backgroundColor: theme.palette.pdf.main,
   },
   // hide last border
   "&:last-child td, &:last-child th": {
@@ -43,7 +45,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const PDFReport = React.forwardRef(
-  ({ rows, columnHeaders, college, department, title }, ref) => {
+  ({ rows, columnHeaders, college, department, title, faculty }, ref) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { auth, userInfo, academicYear } = useAuth();
@@ -89,6 +91,16 @@ export const PDFReport = React.forwardRef(
               <StyledTableCell>{row.peer}</StyledTableCell>
               <StyledTableCell>{row.self}</StyledTableCell>
               <StyledTableCell>{row.student}</StyledTableCell>
+            </StyledTableRow>
+          );
+        } else if (title === "Class Evaluation Status Report") {
+          return (
+            <StyledTableRow key={row.stub_code}>
+              <StyledTableCell>{row.subject}</StyledTableCell>
+              <StyledTableCell>{row.stub_code}</StyledTableCell>
+              <StyledTableCell>{row.completed}</StyledTableCell>
+              <StyledTableCell>{row.pending}</StyledTableCell>
+              <StyledTableCell>{row.total}</StyledTableCell>
             </StyledTableRow>
           );
         } else if (title === "Student Evaluation Status Report") {
@@ -145,7 +157,14 @@ export const PDFReport = React.forwardRef(
           key={i}
           sx={{ pageBreakAfter: "always" }}
         >
-          <Grid item container justifyContent={"center"} xs={12}>
+          <Grid
+            item
+            container
+            justifyContent={"center"}
+            alignContent={"center"}
+            alignItems={"center"}
+            direction={"column"}
+          >
             <Typography
               variant="h3"
               fontWeight={500}
@@ -153,6 +172,15 @@ export const PDFReport = React.forwardRef(
             >
               {title}
             </Typography>
+            {faculty && (
+              <Typography
+                variant="h3"
+                fontWeight={500}
+                sx={{ color: colors.darkBlue[500] }}
+              >
+                {faculty}
+              </Typography>
+            )}
           </Grid>
           <Grid item container justifyContent={"center"} xs={12}>
             <TableContainer component={Paper}>

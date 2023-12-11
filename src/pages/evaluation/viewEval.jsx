@@ -41,8 +41,7 @@ import { useNavigate } from "react-router-dom";
 
 const View = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+
   const { collegeId } = useParams();
   const location = useLocation();
   const evaluation = location.state;
@@ -58,6 +57,7 @@ const View = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedEval, setSelectedEval] = React.useState(null);
   const facultyColumns = [
+    { field: "id" },
     {
       field: "faculty",
       headerName: "Faculty",
@@ -129,7 +129,7 @@ const View = () => {
       headerName: "Student",
       width: 120,
       align: "right",
-      renderCell: ({ row }) => {
+      renderCell: (params) => {
         const iconStyle = { fontSize: "1.25rem" };
         return [
           <div
@@ -139,17 +139,22 @@ const View = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Typography>{row.student}</Typography>
+            <Typography>{params.row.student}</Typography>
             <Tooltip title="Click to view details">
               <IconButton
                 onClick={() => {
+                  console.log(params);
                   setSelectedEval({
+                    id: params.row.id,
                     type: "Student",
-                    faculty: row.faculty,
-                    rows: row.classes,
+                    faculty: params.row.faculty,
+                    rows: params.row.classes,
+                    completed: params.row.n_students_completed,
+                    pending: params.row.n_students_pending,
                   });
                   setOpen(true);
                 }}
+                disabled={params.value === "No Students"}
               >
                 <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
               </IconButton>
@@ -167,6 +172,8 @@ const View = () => {
         }
       },
     },
+    { field: "n_students_completed" },
+    { field: "n_students_pending" },
   ];
   const studentColumns = [
     {
@@ -292,7 +299,7 @@ const View = () => {
           </Grid>
         ) : (
           <CustomDataGrid
-            getRowId={(row) => row.school_id}
+            getRowId={(row) => row.id}
             rows={facultyRows}
             columns={facultyColumns}
             handleGenerateReport={() => {
@@ -301,6 +308,11 @@ const View = () => {
             }}
             generateReportText={"Generate Faculty Evaluation Status Report"}
             handleBack={handleBack}
+            columnVisibilityModel={{
+              id: false,
+              n_students_pending: false,
+              n_students_completed: false,
+            }}
           />
         )}
       </TabPanel>
