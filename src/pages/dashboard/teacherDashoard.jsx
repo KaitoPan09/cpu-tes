@@ -11,13 +11,18 @@ import {
   TableRow,
   Typography,
   paperClasses,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 import CustomDataGrid from "../../components/CustomDatagrid";
 import { useAuth } from "../../context/AuthContext";
 import useData from "../../hooks/useData";
+import ProgressCircle from "../../components/ProgressCircle";
+import { tokens } from "../../theme";
 
 export const TeacherDashoard = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const { auth, userInfo } = useAuth();
   const [rows, setRows] = useData(
     `/api/evaluations/faculty/class_eval_progress?user_id=${userInfo.user_id}`
@@ -52,38 +57,43 @@ export const TeacherDashoard = () => {
   ];
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        {/* <Card
-          sx={{
-            height: "100%",
-            backgroundColor: "primary.sub",
-          }}
-        >
+      {/* <Grid item xs={4}>
+        <Card sx={{ height: "100%", backgroundColor: "primary.sub" }}>
           <CardContent>
-            <Stack spacing={1}>
-              <Typography variant="h5" fontWeight={700}>
-                Class Evaluation Progress
+            <Typography variant="h5" fontWeight={700}>
+              Class Evaluation Progress
+            </Typography>
+            <Stack
+              container
+              alignItems="center"
+              direction="column"
+              justifyContent="center"
+              alignContent={"center"}
+              spacing={1}
+              mt={3}
+            >
+              <ProgressCircle progress={0.24} size={125} />
+              <Typography variant="body2" color={colors.yellowAccent[500]}>
+                Surveys Completed: {952}
               </Typography>
-              <CustomDataGrid rows={rows ? rows : []} columns={columns} />
+              <Typography variant="body2" color={colors.redAccent[500]}>
+                Pending Surveys: {123213}
+              </Typography>
             </Stack>
           </CardContent>
-        </Card> */}
-
+        </Card>
+      </Grid> */}
+      <Grid item xs={8}>
         <Card
           sx={{
-            height: "100%",
+            height: "800",
             backgroundColor: "primary.sub",
-            //borderRadius: 20,
-            [`&.${paperClasses.elevation1}`]: {
-              boxShadow:
-                "0px 5px 22px rgba(0, 0, 0, 0.04), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.03)",
-            },
           }}
         >
           <CardContent>
             <Stack spacing={1}>
               <Typography variant="h5" fontWeight={700}>
-                Class Evaluation Progress
+                Evaluation Progress Per Class
               </Typography>
               {rows.length > 0 ? (
                 <Table>
