@@ -30,6 +30,8 @@ import { useState } from "react";
 import { SentimentTab } from "./sentimentTab";
 import { FeedBackSectionTab } from "./feedBackSectionTab";
 import { useTheme } from "@emotion/react";
+import { grey } from "@mui/material/colors";
+import { tokens } from "../../theme";
 
 const ReportDialog = ({
   open,
@@ -49,6 +51,7 @@ const ReportDialog = ({
   const [result, setResult] = useState({});
   const [selectedResult, setSelectedResult] = useState({});
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   useEffect(() => {
     (async () => {
       const response = await request(
@@ -90,15 +93,19 @@ const ReportDialog = ({
       // result?.self_ratings?.length > 0 &&
       // result?.peer_ratings?.length > 0
     ) {
-      if (facultyTabValue === "supervisor" && result?.supervisor?.length <= 0) {
+      console.log(result);
+      if (
+        facultyTabValue === "supervisor" &&
+        result?.supervisor_ratings?.length <= 0
+      ) {
         window.alert("No data available");
         return;
       }
-      if (facultyTabValue === "self" && result?.self?.length <= 0) {
+      if (facultyTabValue === "self" && result?.self_ratings?.length <= 0) {
         window.alert("No data available");
         return;
       }
-      if (facultyTabValue === "peer" && result?.peer?.length <= 0) {
+      if (facultyTabValue === "peer" && result?.peer_ratings?.length <= 0) {
         window.alert("No data available");
         return;
       }
@@ -173,7 +180,7 @@ const ReportDialog = ({
           </>
         )}
         <Divider />
-        <Grid container justifyContent="center">
+        <Grid container justifyContent="center" mt={2}>
           <Tabs
             value={tabValue}
             onChange={handleChangeTab}
@@ -182,30 +189,42 @@ const ReportDialog = ({
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab 
-              label="Student Evaluation" 
-              sx={{ 
+            <Tab
+              label="Student Evaluation"
+              sx={{
                 marginRight: 10,
-                backgroundColor: tabValue === 0 ? theme.palette.neutral.main : theme.palette.primary.sub,
-                }} />
-            <Tab 
-              label="Faculty Evaluation" 
-              sx={{ 
+                borderLeft: "1px solid",
+                borderRight: "1px solid",
+                fontWeight: tabValue === 0 && 700,
+              }}
+            />
+            <Tab
+              label="Faculty Evaluation"
+              sx={{
                 marginRight: 10,
-                backgroundColor: tabValue === 1 ? theme.palette.neutral.main : theme.palette.primary.sub, 
-                }} />
-            <Tab 
-              label="Sentiment" 
-              sx={{ 
+                borderLeft: "1px solid",
+                borderRight: "1px solid",
+                fontWeight: tabValue === 1 && 700,
+              }}
+            />
+            <Tab
+              label="Sentiment"
+              sx={{
                 marginRight: 10,
-                backgroundColor: tabValue === 2 ? theme.palette.neutral.main : theme.palette.primary.sub, 
-                }} />
-            <Tab 
-              label="Feedback Section" 
-              sx={{ 
+                borderLeft: "1px solid",
+                borderRight: "1px solid",
+                fontWeight: tabValue === 2 && 700,
+              }}
+            />
+            <Tab
+              label="Feedback Section"
+              sx={{
                 marginRight: 10,
-                backgroundColor: tabValue === 3 ? theme.palette.neutral.main : theme.palette.primary.sub,  
-                }} />
+                borderLeft: "1px solid",
+                borderRight: "1px solid",
+                fontWeight: tabValue === 3 && 700,
+              }}
+            />
           </Tabs>
         </Grid>
       </DialogContent>
