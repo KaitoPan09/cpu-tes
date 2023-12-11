@@ -54,11 +54,11 @@ const Evaluation = () => {
   const [openUpdDialog, setOpenUpdDialog] = useState(false);
   const [selectedEvaluation, setSelectedEvaluation] = useState(null);
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 50,
-    },
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   width: 50,
+    // },
     { field: "college_id", headerName: "College ID", width: 50 },
     {
       field: "college",

@@ -321,8 +321,8 @@ export const SentimentTab = ({ dialogData, selectedResult, evalId }) => {
         </Grid>
       ) : (
         <Grid item>
-          <Grid container direction="row" spacing={2} minHeight="60vh">
-            <Grid item xs={checked ? 4 : 12} md={checked ? 6 : 12}>
+          <Grid container direction="row" spacing={2} minWidth="60vh">
+            <Grid item xs={checked ? 4 : 12} md={checked ? 6 : 12} >
               <CustomDataGrid rows={rows ? rows : []} columns={columns} />
             </Grid>
             {checked ? (

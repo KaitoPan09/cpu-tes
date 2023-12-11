@@ -125,11 +125,11 @@ const Departments = () => {
     setOpenUpdateDialog(true);
   };
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 80,
-    },
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   width: 80,
+    // },
     {
       field: "department",
       headerName: "Department",

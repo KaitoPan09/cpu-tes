@@ -259,10 +259,11 @@ const ProSidebar = () => {
                 src={`../../assets/cpu-logo.png`}
                 sx={{
                   cursor: "pointer",
-                  border: "1px solid #fff",
+                  // border: "1px solid #fff",
                   width: "64px",
                   height: "64px",
                   mb: "10px",
+                  backgroundColor: "#fff",
                 }}
               />
             </Grid>
