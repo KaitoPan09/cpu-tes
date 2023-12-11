@@ -41,6 +41,15 @@ export const StudentTab = ({
     },
     { field: "class_time", headerName: "Class Time", width: 140 },
     { field: "score", headerName: "Score", width: 80, type: "Number" },
+    {
+      field: "response_rate",
+      headerName: "Response Rate",
+      width: 120,
+      type: "Number",
+      valueFormatter: (params) => {
+        return Number(params.value).toFixed(2) + "%";
+      },
+    },
   ];
   const handleRowClick = (row) => {
     // setRatings(studentRatingsByClass[row.id]);
@@ -63,8 +72,8 @@ export const StudentTab = ({
         <Tab label="Overall" />
         <Tab label="By Class" />
       </Tabs>
-      <Stack direction={{ xs: "column", md: "row"}} spacing={2}>
-      {/* <Stack direction={"row"} spacing={2}> */}
+      <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
+        {/* <Stack direction={"row"} spacing={2}> */}
         <Grid container xs={12} md={6} alignItems={"center"}>
           <TabPanel value={value} index={0}>
             <List>
