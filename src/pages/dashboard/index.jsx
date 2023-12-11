@@ -209,7 +209,7 @@ const Dashboard = () => {
           </Grid>
         )}
         {auth.role !== "Admin" && (
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             <TeacherDashoard />
           </Grid>
         )}

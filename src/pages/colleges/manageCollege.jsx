@@ -20,10 +20,9 @@ import { Subjects } from "../department/subjects";
 import { Classes } from "../department/classes";
 const ManageCollege = () => {
   const location = useLocation();
-  const college = location?.state;
-  console.log(location);
+  const college = location?.state
   const { collegeId } = useParams();
-  const { auth } = useAuth();
+  const { auth, userInfo } = useAuth();
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -34,14 +33,14 @@ const ManageCollege = () => {
   const [faculties, setFaculties] = useState([]);
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState([]);
-  if (college === null || college === undefined) {
-    return <Navigate to="/colleges" replace />;
-  }
+  // if (college === null || college === undefined) {
+  //   return <Navigate to="/colleges" replace />;
+  // }
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
-          title={college.college}
+          title={auth.role === "Admin" ? college.college : userInfo.college}
           subtitle={
             value === 0
               ? "List of faculties under the college"

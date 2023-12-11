@@ -43,13 +43,20 @@ import {
   ManageSearch,
   ManageSearchOutlined,
 } from "@mui/icons-material";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import FormDialog from "../../components/FormDialog";
 import { ImportCSV } from "./importCSV";
+import { useAuth } from "../../context/AuthContext";
 const Departments = () => {
   const college = useLocation().state;
   const { collegeId } = useParams();
   const navigate = useNavigate();
+  const { auth, userInfo } = useAuth();
   const { postData, deleteData } = useFetch();
   const { showLoader, hideLoader, showSnackbar } = useAppContext();
   const [rows, setRows] = useData(`/api/departments?college_id=${collegeId}`);
@@ -155,7 +162,7 @@ const Departments = () => {
       headerName: "Manage",
       width: 90,
       renderCell: ({ row }) => {
-        const iconStyle = { fontSize: '1.25rem' };
+        const iconStyle = { fontSize: "1.25rem" };
         return [
           <Tooltip title="Manage">
             <IconButton
@@ -167,7 +174,7 @@ const Departments = () => {
                 );
               }}
             >
-              <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }}/>
+              <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }} />
             </IconButton>
           </Tooltip>,
         ];
@@ -179,11 +186,11 @@ const Departments = () => {
       headerName: "Actions",
       width: 100,
       renderCell: ({ row }) => {
-        const iconStyle = { fontSize: '1.25rem' };
+        const iconStyle = { fontSize: "1.25rem" };
         return [
           <Tooltip title="Edit">
             <IconButton onClick={() => handleUpdate(row)}>
-              <BorderColorOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+              <BorderColorOutlinedIcon sx={{ fontSize: iconStyle.fontSize }} />
             </IconButton>
           </Tooltip>,
           <Tooltip title="Delete">
@@ -192,30 +199,32 @@ const Departments = () => {
                 handleDelete(row);
               }}
             >
-              <DeleteOutlineOutlinedIcon sx={{ fontSize: iconStyle.fontSize }}/>
+              <DeleteOutlineOutlinedIcon
+                sx={{ fontSize: iconStyle.fontSize }}
+              />
             </IconButton>
           </Tooltip>,
-        //   <Tooltip title="Manage">
-        //   <IconButton
-        //     onClick={() => {
-        //       navigate(
-        //         `/departments/${row.id}/manage`,
-        //         { state: row },
-        //         { replace: true }
-        //       );
-        //     }}
-        //   >
-        //     <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }}/>
-        //   </IconButton>
-        // </Tooltip>,
+          //   <Tooltip title="Manage">
+          //   <IconButton
+          //     onClick={() => {
+          //       navigate(
+          //         `/departments/${row.id}/manage`,
+          //         { state: row },
+          //         { replace: true }
+          //       );
+          //     }}
+          //   >
+          //     <ManageSearchOutlined sx={{ fontSize: iconStyle.fontSize }}/>
+          //   </IconButton>
+          // </Tooltip>,
         ];
       },
     },
   ];
   const [open, setOpen] = useState(false);
-  if (college === null || college === undefined) {
-    return (college === null || college === undefined) && <Navigate to="/colleges" replace />;
-  }
+  // if (college === null || college === undefined) {
+  //   return (college === null || college === undefined) && <Navigate to="/colleges" replace />;
+  // }
   const handleBack = () => {
     navigate(-1);
   };
@@ -224,8 +233,7 @@ const Departments = () => {
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
-          title={college.college}
-
+          title={auth.role === "Admin" ? college.college : userInfo.college}
           subtitle="List of Departments and their Department Heads"
         />
       </Box>
