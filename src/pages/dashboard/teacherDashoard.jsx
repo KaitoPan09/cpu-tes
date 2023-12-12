@@ -85,6 +85,7 @@ export const TeacherDashoard = () => {
           </CardContent>
         </Card>
       </Grid> */}
+
       <Grid item xs={8}>
         <Card
           sx={{
@@ -118,13 +119,25 @@ export const TeacherDashoard = () => {
                         <TableRow hover key={row.id}>
                           <TableCell>{row.stub_code}</TableCell>
                           <TableCell>
-                            {row.subject_code} : {row.subject}
+                            <Typography
+                              color={colors.yellowAccent[500]} 
+                              variant="h5" 
+                              fontWeight="600"
+                              >
+                              {row.subject}
+                            </Typography>
+                            <Typography
+                              color={colors.grey[100]} 
+                              >
+                              {row.subject_code}
+                            </Typography>
+                            {/* {row.subject_code} : {row.subject} */}
                           </TableCell>
                           <TableCell>{row.n_students}</TableCell>
-                          <TableCell sx={{ color: "green" }}>
+                          <TableCell sx={{ color: colors.greenAccent[500] }}>
                             {row.completed}
                           </TableCell>
-                          <TableCell sx={{ color: "red" }}>
+                          <TableCell sx={{ color: colors.redAccent[500] }}>
                             {row.pending}
                           </TableCell>
                         </TableRow>
