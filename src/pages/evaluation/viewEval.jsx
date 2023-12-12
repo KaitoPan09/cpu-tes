@@ -50,6 +50,8 @@ const View = () => {
   const [facultyRows, setFacultyRows] = useData(
     auth?.role === "Department Head" || auth?.role === "Department Secretary"
       ? `/api/evaluations/${collegeId}?type=Faculty&dept_id=${userInfo.dept_id}`
+      : auth.role === "Dean" || auth.role === "College Secretary"
+      ? `/api/evaluations/${userInfo.college_id}?type=Faculty`
       : `/api/evaluations/${collegeId}?type=Faculty`
   );
   // const [facultyRows, setFacultyRows] = useState([]);
@@ -227,8 +229,12 @@ const View = () => {
     setValue(newValue);
     const response = await request(
       auth?.role === "Department Head" ||
-        (auth?.role === "Secretary" && userInfo.dept_id != null)
-        ? `/api/evaluations/${collegeId}?dept_id=${userInfo.dept_id}&type=${
+        (auth?.role === "Department Secretary" && userInfo.dept_id != null)
+        ? `/api/evaluations/${userInfo.college_id}?dept_id=${
+            userInfo.dept_id
+          }&type=${newValue === 0 ? "Faculty" : "Students"}`
+        : auth.role === "Dean" || auth.role === "College Secretary"
+        ? `/api/evaluations/${userInfo.college_id}?type=${
             newValue === 0 ? "Faculty" : "Students"
           }`
         : `/api/evaluations/${collegeId}?type=${
@@ -264,7 +270,7 @@ const View = () => {
         <Header
           title={
             auth?.role !== "Admin"
-              ? auth?.role === "Dean"
+              ? auth?.role === "Dean" || auth?.role === "College Secretary"
                 ? userInfo.college
                 : userInfo.department
               : evaluation?.college

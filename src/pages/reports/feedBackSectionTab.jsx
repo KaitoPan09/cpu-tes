@@ -103,7 +103,13 @@ export const FeedBackSectionTab = ({ dialogData, selectedResult, evalId }) => {
               label="Bad Practices"
             />
           </RadioGroup>
-          <CustomDataGrid rows={rows} columns={columns} />
+          <CustomDataGrid
+            rows={rows}
+            columns={columns}
+            columnVisibilityModel={{
+              id: false,
+            }}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
           <Alert
@@ -113,7 +119,7 @@ export const FeedBackSectionTab = ({ dialogData, selectedResult, evalId }) => {
             variant="outlined"
           >
             {yes.length +
-              " student/s want to be taught this teacher again in another course or subject"}
+              " student/s want to be taught by this teacher again in another course or subject"}
           </Alert>
           <Alert
             icon={<ThumbDown fontSize="inherit" />}
@@ -122,7 +128,7 @@ export const FeedBackSectionTab = ({ dialogData, selectedResult, evalId }) => {
             variant="outlined"
           >
             {no.length +
-              " student/s do not want to be taught this teacher again in another course or subject"}
+              " student/s do not want to be taught by this teacher again in another course or subject"}
           </Alert>
         </Grid>
       </Grid>

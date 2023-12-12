@@ -193,7 +193,7 @@ const Dashboard = () => {
                       You have{" "}
                       {
                         <Link to="/survey">
-                          {evalInfo?.total - evalInfo?.completed} surveys
+                          {evalInfo?.total - evalInfo?.completed} survey/s
                         </Link>
                       }{" "}
                       to answer.
@@ -208,11 +208,15 @@ const Dashboard = () => {
             <AdminDashboard />
           </Grid>
         )}
-        {auth.role !== "Admin" && auth.role !== "Student" && (
-          <Grid item xs={12}>
-            <TeacherDashoard />
-          </Grid>
-        )}
+        {auth.role !== "Admin" &&
+          auth.role !== "Student" &&
+          // auth.role !== "College Secretary" &&
+          // auth.role !== "Department Secretary" &&
+          (
+            <Grid item xs={12}>
+              <TeacherDashoard />
+            </Grid>
+          )}
       </Grid>
     </Box>
   );
