@@ -49,6 +49,9 @@ export const PDFReport = React.forwardRef(
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { auth, userInfo, academicYear } = useAuth();
+    const columnHeaders_ = columnHeaders.filter(
+      (header) => header !== undefined
+    );
     // const getPageMargins = () => {
     //   return `@page { margin: ${10} ${10} ${10} ${10} !important; }`;
     // };
@@ -124,7 +127,7 @@ export const PDFReport = React.forwardRef(
                 {row.student ? row.student.toFixed(2) : "Pending"}
               </StyledTableCell>
               <StyledTableCell>
-                {row.student_turnout ? row.student_turnout.toFixed(2) : "N/A"}
+                {row.response_rate ? row.response_rate.toFixed(2) : "N/A"}
               </StyledTableCell>
               <StyledTableCell>
                 {row.supervisor ? row.supervisor.toFixed(2) : "Pending"}
@@ -187,14 +190,9 @@ export const PDFReport = React.forwardRef(
               <Table>
                 <TableHead>
                   <TableRow>
-                    {columnHeaders.map(
-                      (header) =>
-                        header !== undefined && (
-                          <StyledTableCell key={header}>
-                            {header}
-                          </StyledTableCell>
-                        )
-                    )}
+                    {columnHeaders_.map((header) => (
+                      <StyledTableCell key={header}>{header}</StyledTableCell>
+                    ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>{tableRows}</TableBody>
