@@ -8,6 +8,7 @@ import {
   Stack,
   Tab,
   Tabs,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import BarGraph from "../../components/BarGraph";
@@ -77,6 +78,23 @@ export const StudentTab = ({
         <Grid container xs={12} md={6} alignItems={"center"}>
           <TabPanel value={value} index={0}>
             <List>
+              <ListItem divider={true}>
+                <ListItemText
+                  primary={
+                    "Respondents: " +
+                    dialogData.n_student_surveys +
+                    " out of " +
+                    dialogData.n_students +
+                    " students"
+                  }
+                  secondary={"Response rate: " + dialogData.response_rate + "%"}
+                  sx={{
+                    textAlign: "left",
+                    fontWeight: "bold",
+                    fontSize: "1.25rem",
+                  }}
+                />
+              </ListItem>
               {studentRatings.map((item, index) => (
                 <ListItem key={item.category} divider={true}>
                   <ListItemText
@@ -98,9 +116,11 @@ export const StudentTab = ({
               ))}
               <ListItem>
                 <ListItemText
-                  primary={"Total Score"}
+                  primary={"Overall Score"}
                   sx={{
                     textAlign: "left",
+                    fontWeight: "bold",
+                    fontSize: "1.25rem",
                   }}
                 />
                 <ListItemText
@@ -108,6 +128,8 @@ export const StudentTab = ({
                   sx={{
                     textAlign: "right",
                     paddingLeft: 2,
+                    fontWeight: "bold",
+                    fontSize: "1.25rem",
                     color: dialogData.student < 4.2 ? "red" : "green",
                   }}
                 />

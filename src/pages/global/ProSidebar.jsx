@@ -115,6 +115,12 @@ const ProSidebar = () => {
       icon: <QuizOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
+      access: ["Dean", "Department Head", "Teacher", "Student"],
+      name: "Survey",
+      path: "/survey",
+      icon: <BallotOutlinedIcon sx={{ fontSize: iconStyle }} />,
+    },
+    {
       access: ["Admin"],
       name: "Evaluations",
       path: "/evaluations",
@@ -130,12 +136,6 @@ const ProSidebar = () => {
       name: "Evaluation",
       path: `/evaluations/${userInfo.college_id}/view`,
       icon: <PollOutlinedIcon sx={{ fontSize: iconStyle }} />,
-    },
-    {
-      access: ["Admin", "Dean", "Department Head", "Teacher", "Student"],
-      name: "Survey",
-      path: "/survey",
-      icon: <BallotOutlinedIcon sx={{ fontSize: iconStyle }} />,
     },
     {
       access: [

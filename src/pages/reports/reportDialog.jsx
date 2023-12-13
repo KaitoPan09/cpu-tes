@@ -186,12 +186,22 @@ const ReportDialog = ({
             </TabPanel>
           </>
         )}
-        <Divider />
-        <Grid container justifyContent="center" mt={2}>
+        {/* <Divider sx={{ marginTop: 2 }} /> */}
+        <Grid
+          container
+          justifyContent="center"
+          marginTop={2}
+          // sx={{
+          //   width: "100%",
+          //   position: "sticky",
+          //   bottom: 0,
+          //   backgroundColor: "inherit",
+          // }}
+        >
           <Tabs
             value={tabValue}
             onChange={handleChangeTab}
-            indicatorColor="secondary"
+            indicatorColor="primary"
             textColor="secondary"
             variant="scrollable"
             scrollButtons="auto"
@@ -199,36 +209,40 @@ const ReportDialog = ({
             <Tab
               label="Student Evaluation"
               sx={{
-                marginRight: 10,
-                borderLeft: "1px solid",
-                borderRight: "1px solid",
+                // marginRight: 5,
+                // borderLeft: "1px solid",
+                // borderRight: "1px solid",
+                border: tabValue === 0 && "2px solid",
                 fontWeight: tabValue === 0 && 700,
               }}
             />
             <Tab
               label="Faculty Evaluation"
               sx={{
-                marginRight: 10,
-                borderLeft: "1px solid",
-                borderRight: "1px solid",
+                // marginRight: 5,
+                // borderLeft: "1px solid",
+                // borderRight: "1px solid",
+                border: tabValue === 1 && "2px solid",
                 fontWeight: tabValue === 1 && 700,
               }}
             />
             <Tab
               label="Sentiment"
               sx={{
-                marginRight: 10,
-                borderLeft: "1px solid",
-                borderRight: "1px solid",
+                // marginRight: 5,
+                // borderLeft: "1px solid",
+                // borderRight: "1px solid",
+                border: tabValue === 2 && "2px solid",
                 fontWeight: tabValue === 2 && 700,
               }}
             />
             <Tab
               label="Feedback Section"
               sx={{
-                marginRight: 10,
-                borderLeft: "1px solid",
-                borderRight: "1px solid",
+                // marginRight: 5,
+                // borderLeft: "1px solid",
+                // borderRight: "1px solid",
+                border: tabValue === 3 && "2px solid",
                 fontWeight: tabValue === 3 && 700,
               }}
             />

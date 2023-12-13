@@ -164,12 +164,17 @@ const Details = () => {
       },
     },
     {
-      field: "student_turnout",
+      field: "n_students",
+    },
+    {
+      field: "n_student_surveys",
+    },
+    {
+      field: "response_rate",
       headerName: "Response Rate (%)",
       width: 140,
       headerAlign: "right",
       align: "right",
-      visible: false,
       valueFormatter: (params) => {
         if (params.value == null) {
           return 0.0;
@@ -450,7 +455,10 @@ const Details = () => {
           title={college}
           subtitle={
             "Evaluation Summary for " +
-            (auth.role !== "Department Head" ? college : userInfo.department)
+            (auth.role !== "Department Head" ||
+            auth.role !== "Department Secretary"
+              ? college
+              : userInfo.department)
           }
         />
       </Box>
@@ -459,6 +467,8 @@ const Details = () => {
         columns={columns}
         columnVisibilityModel={{
           student_turnout: true,
+          n_students: false,
+          n_student_surveys: false,
         }}
         handleGenerateReport={handleGenerateReport}
         generateReportText={"Generate Evaluation Summary Report"}

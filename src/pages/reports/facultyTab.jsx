@@ -81,21 +81,18 @@ export const FacultyTab = ({
         <Grid container xs={12} md={6} alignItems={"center"}>
           {facultyRatings?.length > 0 && (
             <List>
-              <ListItem>
-                <ListItemText
-                  primary={"No. of Peer Respondents"}
-                  sx={{
-                    textAlign: "left",
-                  }}
-                />
-                <ListItemText
-                  primary={n_peer_respondents}
-                  sx={{
-                    textAlign: "right",
-                    paddingLeft: 2,
-                  }}
-                />
-              </ListItem>
+              {tabValue === 1 && (
+                <ListItem>
+                  <ListItemText
+                    primary={"No. of Peer Respondents: " + n_peer_respondents}
+                    sx={{
+                      textAlign: "left",
+                      fontWeight: "bold",
+                      fontSize: "1.25rem",
+                    }}
+                  />
+                </ListItem>
+              )}
               {facultyRatings?.map((item, index) => (
                 <ListItem key={item.category} divider={true}>
                   <ListItemText
@@ -117,9 +114,11 @@ export const FacultyTab = ({
               ))}
               <ListItem>
                 <ListItemText
-                  primary={"Score"}
+                  primary={"Overall Score"}
                   sx={{
                     textAlign: "left",
+                    fontWeight: "bold",
+                    fontSize: "1.25rem",
                   }}
                 />
                 <ListItemText
@@ -133,6 +132,8 @@ export const FacultyTab = ({
                   sx={{
                     textAlign: "right",
                     paddingLeft: 2,
+                    fontWeight: "bold",
+                    fontSize: "1.25rem",
                     color: dialogData.student < 4.2 ? "red" : "green",
                   }}
                 />
