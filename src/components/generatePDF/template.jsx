@@ -187,9 +187,14 @@ export const PDFReport = React.forwardRef(
               <Table>
                 <TableHead>
                   <TableRow>
-                    {columnHeaders.map((header) => (
-                      <StyledTableCell key={header}>{header}</StyledTableCell>
-                    ))}
+                    {columnHeaders.map(
+                      (header) =>
+                        header !== undefined && (
+                          <StyledTableCell key={header}>
+                            {header}
+                          </StyledTableCell>
+                        )
+                    )}
                   </TableRow>
                 </TableHead>
                 <TableBody>{tableRows}</TableBody>
