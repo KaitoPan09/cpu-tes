@@ -38,6 +38,7 @@ import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import { ManageSearchOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import ClassesPopover from "./classesPopover";
 
 const View = () => {
   const navigate = useNavigate();
@@ -129,10 +130,13 @@ const View = () => {
     {
       field: "student",
       headerName: "Student",
-      width: 120,
+      width: 140,
       align: "right",
       renderCell: (params) => {
         const iconStyle = { fontSize: "1.25rem" };
+        const classes = facultyRows.find(
+          (faculty) => faculty.id === params.row.id
+        ).classes;
         return [
           <div
             style={{
@@ -141,7 +145,12 @@ const View = () => {
               justifyContent: "flex-end",
             }}
           >
-            <Typography>{params.row.student}</Typography>
+            {/* <Typography>{params.row.student}</Typography> */}
+            {params.value === "No Students" ? (
+              <Typography>{params.value}</Typography>
+            ) : (
+              <ClassesPopover classes={classes} status={params.row.student} />
+            )}
             <Tooltip title="Click to view details">
               <IconButton
                 onClick={() => {
