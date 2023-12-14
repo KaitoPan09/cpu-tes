@@ -30,7 +30,7 @@ export const FeedBackSectionTab = ({ dialogData, selectedResult, evalId }) => {
         });
       } else if (
         item.question ===
-          "Please list down you teacher’s classroom practices that did not enhance your learning experience, thus recommending that your teacher must NOT DO them anymore." &&
+          "Please list down you teacher's classroom practices that did not enhance your learning experience, thus recommending that your teacher must NOT DO them anymore." &&
         item.response != null
       ) {
         badPractices.push({
