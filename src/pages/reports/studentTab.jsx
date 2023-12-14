@@ -143,6 +143,9 @@ export const StudentTab = ({
                 columns={columns}
                 getRowId={(row) => row.class_id}
                 onRowClick={handleRowClick}
+                columnVisibilityModel={{
+                  class_id: false,
+                }}
               />
             </Grid>
           </TabPanel>
