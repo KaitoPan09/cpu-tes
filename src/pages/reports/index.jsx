@@ -58,12 +58,22 @@ const Reports = () => {
       flex: 2,
       minWidth: 120,
     },
+    // {
+    //   field: "student_completion",
+    //   headerName: "Student Completion (%)",
+    //   flex: 1,
+    //   minWidth: 120,
+    //   type: "number",
+    // },
     {
-      field: "response_rate",
-      headerName: "Student Completion (%)",
+      field: "survey_completion",
+      headerName: "Survey Completion (%)",
       flex: 1,
       minWidth: 120,
       type: "number",
+      valueFormatter: (params) => {
+        return params.value.toFixed(2) + "%";
+      }
     },
     {
       field: "score",
