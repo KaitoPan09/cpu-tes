@@ -10,10 +10,12 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import BarGraph from "../../components/BarGraph";
 import CustomDataGrid from "../../components/CustomDatagrid";
 import { useEffect } from "react";
+import { PDFReport } from "../../components/generatePDF/template";
+import { useReactToPrint } from "react-to-print";
 
 export const StudentTab = ({
   studentRatings,
@@ -42,13 +44,24 @@ export const StudentTab = ({
     },
     { field: "class_time", headerName: "Class Time", width: 140 },
     { field: "score", headerName: "Score", width: 80, type: "Number" },
+    { field: "students", headerName: "Students", width: 140 },
     {
       field: "response_rate",
       headerName: "Response Rate",
       width: 120,
       type: "Number",
       valueFormatter: (params) => {
-        return Number(params.value).toFixed(2) + "%";
+        if (params.value == null) {
+          return 0.0;
+        }
+        return params.value.toFixed(2);
+      },
+      cellClassName: (params) => {
+        if (params.value < 50) {
+          return "red";
+        } else {
+          return "green";
+        }
       },
     },
   ];
@@ -60,6 +73,11 @@ export const StudentTab = ({
     );
     setRatings(selectedClass.ratings);
   };
+  const componentRef = useRef();
+  const handleGenerateReport = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: `${dialogData.college}_Faculty-Class-Evaluation-Report_${new Date().toLocaleDateString()}`,
+  });
   return (
     <Stack>
       <Tabs
@@ -137,12 +155,19 @@ export const StudentTab = ({
             </List>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <Grid item xs={6} md={10} lg={12}>
+            <Grid item xs={6} md={8} lg={12}>
               <CustomDataGrid
                 rows={studentRatingsByClass}
                 columns={columns}
                 getRowId={(row) => row.class_id}
                 onRowClick={handleRowClick}
+                handleGenerateReport={handleGenerateReport}
+                generateReportText={
+                  "Generate Faculty Class Evaluation Report"
+                }
+                columnVisibilityModel={{
+                  class_id: false,
+                }}
               />
             </Grid>
           </TabPanel>
@@ -153,6 +178,17 @@ export const StudentTab = ({
           )}
         </Grid>
       </Stack>
+      <div style={{ display: "none" }}>
+        <PDFReport
+          rows={studentRatingsByClass}
+          columnHeaders={columns
+            .filter((column) => column.type !== "actions")
+            .map((column) => column.headerName)}
+          college={dialogData.college}
+          title="Faculty Class Evaluation Report"
+          ref={componentRef}
+        />
+      </div>
     </Stack>
   );
 };

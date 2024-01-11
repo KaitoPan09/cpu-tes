@@ -181,13 +181,6 @@ const Details = () => {
         }
         return params.value.toFixed(2);
       },
-      cellClassName: (params) => {
-        if (params.value <= 70) {
-          return "red";
-        } else {
-          return "green";
-        }
-      },
     },
     {
       field: "supervisor",

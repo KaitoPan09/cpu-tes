@@ -49,9 +49,18 @@ export const PDFReport = React.forwardRef(
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { auth, userInfo, academicYear } = useAuth();
-    const columnHeaders_ = columnHeaders.filter(
+    let columnHeaders_ = columnHeaders.filter(
       (header) => header !== undefined
     );
+    if (title === "Faculty Class Evaluation Report") {
+      columnHeaders_ = [
+        "Subject",
+        "Stub Code",
+        "Completed",
+        "Pending",
+        "Total",
+      ];
+    }
     // const getPageMargins = () => {
     //   return `@page { margin: ${10} ${10} ${10} ${10} !important; }`;
     // };
@@ -96,14 +105,22 @@ export const PDFReport = React.forwardRef(
               <StyledTableCell>{row.student}</StyledTableCell>
             </StyledTableRow>
           );
-        } else if (title === "Class Evaluation Status Report") {
+        } else if (
+          title === "Class Evaluation Status Report" ||
+          title === "Faculty Class Evaluation Report"
+        ) {
           return (
             <StyledTableRow key={row.stub_code}>
               <StyledTableCell>{row.subject}</StyledTableCell>
               <StyledTableCell>{row.stub_code}</StyledTableCell>
               <StyledTableCell>{row.completed}</StyledTableCell>
               <StyledTableCell>{row.pending}</StyledTableCell>
-              <StyledTableCell>{row.total}</StyledTableCell>
+              {title === "Class Evaluation Status Report" && (
+                <StyledTableCell>{row.total}</StyledTableCell>
+              )}
+              {title === "Faculty Class Evaluation Report" && (
+                <StyledTableCell>{row.completed + row.pending}</StyledTableCell>
+              )}
             </StyledTableRow>
           );
         } else if (title === "Student Evaluation Status Report") {
