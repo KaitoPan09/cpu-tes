@@ -9,6 +9,7 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  Typography,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import NewReleasesOutlinedIcon from "@mui/icons-material/NewReleasesOutlined";
@@ -61,6 +62,8 @@ const Survey = () => {
         >
           <CircularProgress />
         </Grid>
+      ) : faculties.length === 0 ? (
+        <Typography variant="h5">No Surveys Available.</Typography>
       ) : auth.role === "Student" ? (
         faculties &&
         questionCategories && (

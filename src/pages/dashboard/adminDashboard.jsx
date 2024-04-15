@@ -230,7 +230,9 @@ export const AdminDashboard = () => {
               spacing={1}
               mt={3}
             >
-              <ProgressCircle progress={metrics?.progress} size={125} />
+              {!isNaN(metrics.progress) && (
+                <ProgressCircle progress={metrics?.progress} size={125} />
+              )}
               <Typography variant="body2" color={colors.yellowAccent[500]}>
                 Surveys Completed: {metrics.totalStudentSurveysCompleted}
               </Typography>

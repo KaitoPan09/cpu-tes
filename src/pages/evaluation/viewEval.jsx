@@ -136,7 +136,7 @@ const View = () => {
         const iconStyle = { fontSize: "1.25rem" };
         const classes = facultyRows.find(
           (faculty) => faculty.id === params.row.id
-        ).classes;
+        )?.classes;
         return [
           <div
             style={{

@@ -113,6 +113,7 @@ export const ImportCSV = ({ open, setOpen, departments }) => {
       flex: 1,
       minWidth: 100,
     },
+    { field: "type", headerName: "Type", flex: 1, minWidth: 100 },
   ];
   const coursesColumns = [
     { field: "course_code", headerName: "Course Code", width: 100 },
@@ -168,7 +169,7 @@ export const ImportCSV = ({ open, setOpen, departments }) => {
             ];
             setColumns(facultyClassColumns);
           } else if (value === "class" && classValue === "studentClass") {
-            headers = ["school_id", "stub_code", "subject_code"];
+            headers = ["school_id", "stub_code", "subject_code", "type"];
             setColumns(studentClassColumns);
           } else if (value === "courses") {
             headers = ["course_code", "course", "department"];
