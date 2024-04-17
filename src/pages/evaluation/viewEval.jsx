@@ -129,14 +129,34 @@ const View = () => {
     },
     {
       field: "student",
-      headerName: "Student",
+      headerName: "Classes",
       width: 140,
       align: "right",
       renderCell: (params) => {
         const iconStyle = { fontSize: "1.25rem" };
-        const classes = facultyRows.find(
+        // const classes = facultyRows.find(
+        //   (faculty) => faculty.id === params.row.id
+        // )?.classes;
+
+        const faculty = facultyRows.find(
           (faculty) => faculty.id === params.row.id
-        )?.classes;
+        );
+      
+        // Retrieve classes array
+        const classes = faculty?.classes || [];
+
+        // Calculate the number of classes
+        const numberOfClasses = classes.length;
+
+        // Calculate the number of classes with a score of 50% or greater
+        const surveyThreshold = classes.filter(row => {
+          const completionRate = (row.completed / row.students) * 100;
+          return completionRate >= 50;
+        }).length;
+
+        // Determine the value to display
+        const classValue = surveyThreshold + '/' + numberOfClasses;
+  
         return [
           <div
             style={{
@@ -149,7 +169,8 @@ const View = () => {
             {params.value === "No Students" ? (
               <Typography>{params.value}</Typography>
             ) : (
-              <ClassesPopover classes={classes} status={params.row.student} />
+              // <ClassesPopover classes={classes} status={params.row.student} />
+              <ClassesPopover classes={classes} status={classValue} />
             )}
             <Tooltip title="Click to view details">
               <IconButton
