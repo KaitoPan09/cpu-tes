@@ -128,8 +128,8 @@ const View = () => {
         params.value === "Completed" ? "green" : "red",
     },
     {
-      field: "student",
-      headerName: "Student",
+      field: "class_completion",
+      headerName: "Status",
       width: 140,
       align: "right",
       renderCell: (params) => {
@@ -146,11 +146,12 @@ const View = () => {
             }}
           >
             {/* <Typography>{params.row.student}</Typography> */}
-            {params.value === "No Students" ? (
+            {/* {params.value !== "No Students" ? (
               <Typography>{params.value}</Typography>
             ) : (
               <ClassesPopover classes={classes} status={params.row.student} />
-            )}
+            )} */}
+            <ClassesPopover classes={classes} status={params.row.class_completion} />
             <Tooltip title="Click to view details">
               <IconButton
                 onClick={() => {

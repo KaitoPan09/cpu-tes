@@ -86,7 +86,11 @@ export default function ClassesPopover({ classes, status }) {
                       </StyledTableCell>
                       <StyledTableCell>
                         {((row.completed / row.students) * 100).toFixed(2) +
-                          "%"}
+                          "% (" +
+                          row.completed +
+                          "/" +
+                          row.students +
+                          ")"}
                       </StyledTableCell>
                     </StyledTableRow>
                   );
