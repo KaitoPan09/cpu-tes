@@ -58,6 +58,13 @@ const CustomDataGrid = ({
       }}
     >
       <DataGrid
+        initialState={{
+          filter: {
+            filterModel: {
+              items: [{ field: 'status', value: 'ongoing' }],
+            },
+          },
+        }}
         sx={{ fontSize: fontSize }}
         getRowHeight={() => "auto"}
         rowHeight="52px"

@@ -55,7 +55,7 @@ const Reports = () => {
     {
       field: "status",
       headerName: "Status",
-      flex: 2,
+      flex: 1,
       minWidth: 120,
     },
     // {
@@ -68,7 +68,7 @@ const Reports = () => {
     {
       field: "survey_completion",
       headerName: "Survey Completion (%)",
-      flex: 1,
+      flex: 2,
       minWidth: 120,
       type: "number",
       valueFormatter: (params) => {
