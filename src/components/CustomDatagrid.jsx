@@ -1,4 +1,4 @@
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { CustomToolbar } from "./CustomToolbar";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../theme";
@@ -16,6 +16,7 @@ const CustomDataGrid = ({
   handleGenerateReport,
   generateReportText,
   handleExport,
+  quickFilterVisible = true,
   ...props
 }) => {
   const theme = useTheme();
@@ -58,13 +59,16 @@ const CustomDataGrid = ({
       }}
     >
       <DataGrid
-        initialState={{
-          filter: {
-            filterModel: {
-              items: [{ field: 'status', value: 'ongoing' }],
-            },
-          },
-        }}
+        // initialState={{
+        //   filter: {
+        //     filterModel: {
+        //       items: [{ field: 'status', value: 'ongoing' }],
+        //     },
+        //   },
+        // }}
+        disableColumnFilter
+        disableColumnSelector
+        disableDensitySelector
         sx={{ fontSize: fontSize }}
         getRowHeight={() => "auto"}
         rowHeight="52px"
@@ -81,6 +85,8 @@ const CustomDataGrid = ({
             handleGenerateReport: handleGenerateReport,
             generateReportText: generateReportText,
             handleExport: handleExport,
+            ...props.slotProps?.toolbar,
+            showQuickFilter: quickFilterVisible,
           },
           panel: {
             sx: {
@@ -100,6 +106,7 @@ const CustomDataGrid = ({
           },
         }}
         {...props}
+        {...(quickFilterVisible ? { slots: { toolbar: GridToolbar } } : {})}
       />
     </Box>
   );
