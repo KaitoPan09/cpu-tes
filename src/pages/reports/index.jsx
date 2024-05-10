@@ -39,6 +39,7 @@ const Reports = () => {
       headerName: "College",
       flex: 3,
       minWidth: 240,
+      filterOperators: ["is", "isNot", "isAnyOf"],
     },
     {
       field: "acad_year",
@@ -49,7 +50,7 @@ const Reports = () => {
     {
       field: "semester",
       headerName: "Semester",
-      flex: 2,
+      flex: 1,
       minWidth: 140,
     },
     {
@@ -78,7 +79,7 @@ const Reports = () => {
     {
       field: "score",
       headerName: "Overall Score",
-      flex: 1,
+      flex: 1.5,
       minWidth: 120,
       type: "number",
     },

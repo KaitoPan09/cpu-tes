@@ -1,3 +1,4 @@
+import React from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { CustomToolbar } from "./CustomToolbar";
 import { useTheme } from "@emotion/react";
@@ -66,7 +67,6 @@ const CustomDataGrid = ({
         //     },
         //   },
         // }}
-        disableColumnFilter
         disableColumnSelector
         disableDensitySelector
         sx={{ fontSize: fontSize }}
