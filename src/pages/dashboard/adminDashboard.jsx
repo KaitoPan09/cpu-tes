@@ -96,7 +96,14 @@ export const AdminDashboard = () => {
     })();
   }, []);
   return (
-    <Grid container spacing={2}>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+      }}
+    >
+    <Grid container spacing={1.75}>
       <Grid item xs={12} sm={4}>
         <Card sx={{ height: "100%", backgroundColor: "primary.sub" }}>
           <CardContent>
@@ -218,7 +225,7 @@ export const AdminDashboard = () => {
         </Card>
       </Grid>
       <Grid item xs={12} sm={6}>
-        <Card sx={{ height: "100%", backgroundColor: "primary.sub" }}>
+        <Card sx={{ height: "95%", backgroundColor: "primary.sub" }}>
           <CardContent>
             <Typography color="text.secondary" variant="overline">
               Student Evaluation Progress
@@ -228,7 +235,7 @@ export const AdminDashboard = () => {
               direction="column"
               justifyContent="space-between"
               spacing={1}
-              mt={3}
+              mt={0}
             >
               {!isNaN(metrics.progress) && (
                 <ProgressCircle progress={metrics?.progress} size={125} />
@@ -244,6 +251,7 @@ export const AdminDashboard = () => {
         </Card>
       </Grid>
     </Grid>
+    </Box>
     // <Box
     //   display="grid"
     //   gridTemplateColumns="repeat(12, 1fr)"

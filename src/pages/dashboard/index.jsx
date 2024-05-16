@@ -52,12 +52,12 @@ const Dashboard = () => {
 
   const { auth, userInfo, academicYear } = useAuth();
   return (
-    <Box m="20px">
+    <Box m="0px 20px">
       <Header title="DASHBOARD" subtitle={`Welcome, ${auth.role}`} />
-      <Grid container spacing={2}>
+      <Grid container spacing={1.75}>
         <Grid item xs={12}>
           <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
-            <Grid container spacing={2} p={2}>
+            <Grid container spacing={1.75} p={2}>
               <Grid item xs={12} md={6}>
                 <Typography
                   variant="h4"
@@ -149,7 +149,7 @@ const Dashboard = () => {
         {auth.role === "Student" && (
           <Grid item xs={12}>
             <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
-              <Grid container spacing={2} p={2}>
+              <Grid container spacing={1.75} p={2}>
                 <Grid item xs={12}>
                   <Typography
                     variant="h5"
@@ -182,7 +182,7 @@ const Dashboard = () => {
           auth.role !== "College Secretary" && (
             <Grid item xs={12}>
               <Paper variant="outlined" sx={{ backgroundColor: "primary.sub" }}>
-                <Grid container spacing={2} p={2}>
+                <Grid container spacing={1.75} p={2}>
                   <Grid item xs={12}>
                     <Typography variant="h5" fontWeight={700}>
                       Surveys
