@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Popover } from '@mui/material';
 import axios from 'axios';
 
-const ForgotPasswordPopover = ({ anchorEl, handleClose }) => {
+const PasswordPopover = ({ anchorEl, handleClose }) => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
 
@@ -55,4 +55,4 @@ const ForgotPasswordPopover = ({ anchorEl, handleClose }) => {
     );
 };
 
-export default ForgotPasswordPopover;
+export default PasswordPopover;

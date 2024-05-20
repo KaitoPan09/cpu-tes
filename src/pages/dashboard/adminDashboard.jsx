@@ -28,6 +28,7 @@ import ArrowDownIcon from "@heroicons/react/24/solid/ArrowDownIcon";
 import ArrowUpIcon from "@heroicons/react/24/solid/ArrowUpIcon";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import ProgressCircle from "../../components/ProgressCircle";
+import { loginIssues } from "../../data/dummyData";
 export const AdminDashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -246,6 +247,65 @@ export const AdminDashboard = () => {
               <Typography variant="body2" color={colors.redAccent[500]}>
                 Pending Surveys: {metrics.pendingSurveys}
               </Typography>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <Card sx={{ height: "95%", backgroundColor: "primary.sub" }}>
+          <CardContent>
+            <Typography color="text.secondary" variant="overline">
+              Login Issues
+            </Typography>
+            <Stack
+              alignItems="center"
+              direction="column"
+              justifyContent="space-between"
+              spacing={1}
+              mt={0}
+            >
+              <Grid 
+                backgroundColor={colors.darkBlue[400]}
+                sx={{
+                  maxHeight: '180px', // Adjust this height as needed to fit 3 rows
+                  overflowY: 'auto',
+                  width: '100%'
+                }}
+                >
+                {loginIssues.map((loginIssues, i) => (
+                    <Box
+                        key={`${loginIssues.txId}-${i}`}
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        borderBottom={`4px solid ${colors.darkBlue[500]}`}
+                        p="15px"
+                        >
+                        <Box>
+                            <Typography 
+                                color={colors.greenAccent[500]} 
+                                variant="h5" 
+                                fontWeight="600"
+                                >
+                                {loginIssues.txId}
+                            </Typography>
+                            <Typography 
+                                color={colors.grey[1000]} 
+                                >
+                                {loginIssues.user}
+                            </Typography>
+                        </Box>
+                        <Box color={colors.grey[100]}>{loginIssues.date}</Box>
+                        <Box 
+                            backgroundColor={colors.greenAccent[500]}
+                            p="5px 10px"
+                            borderRadius="4px"
+                            >
+                            Resolve
+                        </Box>
+                    </Box>
+                ))}
+              </Grid>
             </Stack>
           </CardContent>
         </Card>
